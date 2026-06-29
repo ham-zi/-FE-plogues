@@ -1,0 +1,23 @@
+* [33m7a302ab[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mfeature/HeaderandFooter[m[33m, [m[1;32mmaster[m[33m, [m[1;32mdevelop[m[33m)[m feat: 헤더 푸터 작업
+*   [33m1e7b6d5[m[33m ([m[1;31morigin/develop[m[33m)[m Merge pull request #67 from ham-zi/feature/axios
+[31m|[m[32m\[m  
+[31m|[m * [33m1c4e55a[m axios 추가했어여
+* [32m|[m   [33m4a7b851[m Merge pull request #66 from ham-zi/feature/componentMypage
+[32m|[m[34m\[m [32m\[m  
+[32m|[m [34m|[m[32m/[m  
+[32m|[m[32m/[m[34m|[m   
+[32m|[m *   [33m48fcd5a[m Merge branch 'develop' into feature/componentMypage
+[32m|[m [35m|[m[32m\[m  
+[32m|[m [35m|[m[32m/[m  
+[32m|[m[32m/[m[35m|[m   
+* [35m|[m   [33m1ddcae7[m Merge pull request #65 from ham-zi/board/join
+[1;31m|[m[1;32m\[m [35m\[m  
+[1;31m|[m * [35m|[m [33m66dfdaf[m 보드랑조인만들었어여
+[1;31m|[m [1;32m|[m * [33m695d4eb[m feat:마이페이지 목록 컴포넌트
+[1;31m|[m [1;32m|[m[1;31m/[m  
+[1;31m|[m[1;31m/[m[1;32m|[m   
+* [1;32m|[m [33m4e83fd4[m Merge pull request #64 from ham-zi/board/ex
+[1;33m|[m[1;32m\[m[1;32m|[m 
+[1;33m|[m * [33m8a918ba[m 예시로 만들어봣어여
+[1;33m|[m[1;33m/[m  
+* [33mf1f1056[m feat: 작업 시작
