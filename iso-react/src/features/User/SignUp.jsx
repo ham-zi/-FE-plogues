@@ -37,27 +37,57 @@ const SignUp = () => {
   };
 
   const onSubmit = () => {
-    if (!userId || !userPwd || !userPwdConfirm || !userName) {
+    if (
+      !userId ||
+      !userPwd ||
+      !userPwdConfirm ||
+      !userName ||
+      !email ||
+      !phone ||
+      !address
+    ) {
       setStatus("모든 항목을 입력해주세요.");
       return;
     }
 
-    const reg = /^[a-zA-Z0-9]{5,20}$/;
+    const reg = /^[a-zA-Z0-9]{4,20}$/;
 
     if (!reg.test(userId)) {
       setStatus(
-        "아이디는 영어 또는 숫자로 이루어진 5글자 이상 20자 이하여야 합니다.",
+        "아이디는 영어 또는 숫자로 이루어진 4글자 이상 20자 이하여야 합니다.",
+      );
+      return;
+    }
+    if (!reg.test(userPwd)) {
+      setStatus(
+        "비밀번호는 영어 또는 숫자로 이루어진 4글자 이상 20자 이하여야 합니다.",
       );
       return;
     }
 
-    const regName = /^[가-힣0-9]{2,20}$/;
+    const regName = /^[a-zA-Z가-힣0-9]{2,20}$/;
     if (!regName.test(userName)) {
       setStatus(
-        "사용자 이름은 한글로 이루어진 2글자에서 20글자 입력이 가능합니다.",
+        "이름은 영어, 한글, 숫자로 이루어진 2글자에서 20글자 입력이 가능합니다.",
       );
       return;
     }
+
+    if (email.length > 20) {
+      setStatus("이메일은 20글자까지 입력이 가능합니다.");
+      return;
+    }
+
+    if (phone.length > 11) {
+      setStatus("전화번호는 11글자까지 숫자만 입력이 가능합니다.");
+      return;
+    }
+
+    if (address.length > 100) {
+      setStatus("거주지는 100글자까지 입력이 가능합니다.");
+      return;
+    }
+
     setStatus("");
     isLoading(true);
 

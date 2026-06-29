@@ -7,14 +7,14 @@ import {
   Login,
   AuthGroup,
 } from "./Header.styles";
-import { useAuth } from "react";
+import { useAuth } from "../../../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import biomas from "../../../assets/biomas-energy.svg";
 
 const Header = () => {
   const navi = useNavigate();
-  const [isLogin] = useState();
+  const { isLogin, logout, user } = useAuth();
 
   return (
     <Bar>

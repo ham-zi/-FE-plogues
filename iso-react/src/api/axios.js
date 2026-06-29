@@ -53,8 +53,8 @@ api.interceptors.response.use(
       return api(original);
     } catch (e) {}
 
-    ["accessToken", "refreshToken", "memberId", "memberName", "role"].forEach(
-      (k) => localStorage.removeItem(k),
+    ["accessToken", "refreshToken", "userId", "userName", "role"].forEach((k) =>
+      localStorage.removeItem(k),
     );
 
     if (window.location.pathname !== "/login") {
