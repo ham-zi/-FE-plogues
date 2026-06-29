@@ -4,6 +4,7 @@ import Header from "./components/layout/Header/Header";
 import { Routes, Route } from "react-router-dom";
 import "./App.css";
 import Login from "./features/User/Login";
+import SignUp from "./features/User/SignUp";
 
 function App() {
   return (
@@ -11,6 +12,8 @@ function App() {
       <Header />
       <Routes>
         <Route path="/" element={<div>Home</div>} />
+        <Route path="/signup" element={<SignUp />} />
+        <Route path="/login" element={<Login />} />
       </Routes>
       <Footer />
     </>
