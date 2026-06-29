@@ -27,12 +27,12 @@ const Header = () => {
         {/* 게시판 메뉴만 담당 */}
         <Nav>
           <NavLink onClick={() => navi("/boards/notice")}>공지사항</NavLink>
-          <NavLink onClick={() => navi("/boards/plogging")}>
+          <NavLink onClick={() => navi("/joins")}>
             플로깅게시판
           </NavLink>
           <NavLink onClick={() => navi("/boards/planting")}>식목게시판</NavLink>
-          <NavLink onClick={() => navi("/boards/proofs")}>인증게시판</NavLink>
-          <NavLink onClick={() => navi("/boards/review")}>후기게시판</NavLink>
+          <NavLink onClick={() => navi("/proofs")}>인증게시판</NavLink>
+          <NavLink onClick={() => navi("/boards")}>후기게시판</NavLink>
         </Nav>
 
         {/* 로그인 버튼들만 따로 분리 (AuthGroup 사용) */}
