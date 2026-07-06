@@ -7,6 +7,7 @@ import BoardList from "./features/Boards/Board/BoardList";
 import ProofList from "./features/Boards/Proof/ProofList";
 
 import "./App.css";
+import QuestionList from "./features/Boards/Question/QuestionList";
 
 function App() {
   return (
@@ -18,11 +19,9 @@ function App() {
         <Route path="/boards" element={<BoardList />} />
         <Route path="/joins" element={<JoinList />} />
         <Route path="/proofs" element={<ProofList />} />
+        <Route path="/questions" element={<QuestionList />} />
       </Routes>
       <Footer />
-
-
-
     </>
   );
 }
