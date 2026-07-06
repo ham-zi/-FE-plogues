@@ -32,7 +32,6 @@ api.interceptors.response.use(
       return Promise.reject(err);
     }
     const isExpired = String(response.data).includes("토큰만료");
-
     if (!isExpired || original._retry) {
       return Promise.reject(err);
     }
@@ -41,25 +40,20 @@ api.interceptors.response.use(
 
     try {
       const refreshToken = localStorage.getItem("refreshToken");
-
-      await axios.post(`#{BASE_URL}/auth/refresh`, {
-        refreshToken,
-      });
-
-      localStorage.setItem("accessToken", data, data.accessToken);
-      localStorage.setItem("refreshToken", data.data.refreshToken);
-
-      original.headers.Authorization = `Bearer ${data.data.accessToken}`;
+      await axios
+        .post(`${BASE_URL}/auth/refresh`, {
+          refreshToken,
+        })
+        .then((result) => {
+          localStorage.setItem("accessToken", result.data.data.accessToken);
+          localStorage.setItem("refreshToken", result.data.data.refreshToken);
+          original.headers.Authorization = `Bearer ${result.data.data.accessToken}`;
+        });
       return api(original);
     } catch (e) {}
-
     ["accessToken", "refreshToken", "userId", "userName", "role"].forEach((k) =>
       localStorage.removeItem(k),
     );
-
-    if (window.location.pathname !== "/login") {
-      window.location.href = "/login";
-    }
 
     return Promise.reject(e);
   },

@@ -32,10 +32,13 @@ export function AuthProvider({ children }) {
 
   const logout = async () => {
     const refreshToken = localStorage.getItem("refreshToken");
-    await api.post("/auth/logout", { refreshToken });
-    ["accessToken", "refreshToken", "userId", "userName", "role"].forEach((k) =>
-      localStorage.removeItem(k),
-    );
+    await api.post("/auth/logout", { refreshToken }).then((result) => {
+      if (result.status === 200) {
+        ["accessToken", "refreshToken", "userId", "userName", "role"].forEach(
+          (k) => localStorage.removeItem(k),
+        );
+      }
+    });
     setUser(null);
   };
 
