@@ -2,9 +2,9 @@ import { useState } from "react";
 import Footer from "./components/layout/Footer/Footer";
 import Header from "./components/layout/Header/Header";
 import { Routes, Route } from "react-router-dom";
-import JoinList from "./components/Boards/Join/JoinList";
-import BoardList from "./components/Boards/Board/BoardList";
-import ProofList from "./components/Boards/Proof/ProofList";
+import JoinList from "./features/Boards/Join/JoinList";
+import BoardList from "./features/Boards/Board/BoardList";
+import ProofList from "./features/Boards/Proof/ProofList";
 
 import "./App.css";
 
