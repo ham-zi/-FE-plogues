@@ -48,6 +48,9 @@ api.interceptors.response.use(
           localStorage.setItem("accessToken", result.data.data.accessToken);
           localStorage.setItem("refreshToken", result.data.data.refreshToken);
           original.headers.Authorization = `Bearer ${result.data.data.accessToken}`;
+          original.data = {
+            refreshToken: result.data.data.refreshToken,
+          };
         });
       return api(original);
     } catch (e) {}
