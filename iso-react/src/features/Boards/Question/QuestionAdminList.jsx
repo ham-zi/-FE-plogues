@@ -14,7 +14,7 @@ import {
   Status,
   Pagination,
   PageButton,
-} from "./QuestionList.styles";
+} from "./QuestionAdminList.styles";
 
 const dummyInquiries = [
   {
@@ -55,7 +55,7 @@ const dummyInquiries = [
   },
 ];
 
-const QuestionList = () => {
+const QuestionAdminList = () => {
   const [category, setCategory] = useState("전체");
 
   return (
@@ -121,4 +121,4 @@ const QuestionList = () => {
   );
 };
 
-export default QuestionList;
+export default QuestionAdminList;
