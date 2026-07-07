@@ -2,7 +2,8 @@ import { useState } from "react";
 import Footer from "./components/layout/Footer/Footer";
 import Header from "./components/layout/Header/Header";
 import { Routes, Route } from "react-router-dom";
-import JoinList from "./features/Boards/Join/JoinList";
+import PlogList from "./features/Boards/Join/PlogList";
+import PlantList from "./features/Boards/Join/PlantList";
 import BoardList from "./features/Boards/Board/BoardList";
 import ProofList from "./features/Boards/Proof/ProofList";
 import Login from "./features/User/Login";
@@ -23,7 +24,8 @@ function App() {
         <Route path="/signup" element={<SignUp />} />
         <Route path="/login" element={<Login />} />
         <Route path="/boards" element={<BoardList />} />
-        <Route path="/joins" element={<JoinList />} />
+        <Route path="/joins/plogging" element={<PlogList />} />
+        <Route path="/joins/plant" element={<PlantList />} />
         <Route path="/proofs" element={<ProofList />} />
         <Route path="/questions/page" element={<QuestionPage />} />
         <Route path="/questions/admin" element={<QuestionAdminList />} />
