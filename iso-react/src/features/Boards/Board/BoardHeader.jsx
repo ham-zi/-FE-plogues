@@ -1,15 +1,13 @@
-import { BoardTop, BoardInfo } from "./BoardStyle";
+import { BoardTop } from './BoardStyle';
 
 function BoardHeader() {
   return (
-    <>
-      <BoardTop>
-        <h2>후기게시판</h2>
-        <button>✎ 작성하기</button>
-      </BoardTop>
-
-      <BoardInfo>페이지 1/5 총 17개의 게시물이 등록되어 있습니다.</BoardInfo>
-    </>
+    <BoardTop>
+      <h2>후기게시판</h2>
+      <button onClick={() => { /* 작성 페이지 이동 */ }}>
+        ✎ 작성하기
+      </button>
+    </BoardTop>
   );
 }
 
