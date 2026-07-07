@@ -14,14 +14,17 @@ import {
   SubmitButton,
   CancelButton,
 } from "./QuestionForm.styles";
+import { useAuth } from "../../../context/AuthContext";
+import api from "../../../api/axios";
 
 const QuestionForm = () => {
-  const navigate = useNavigate();
-
+  const navi = useNavigate();
+  const { user } = useAuth();
   const [form, setForm] = useState({
     title: "",
-    category: "문의",
+    category: "에러",
     content: "",
+    userId: user.userId,
   });
 
   const handleChange = (e) => {
@@ -46,13 +49,13 @@ const QuestionForm = () => {
       return;
     }
 
-    console.log("문의 작성 데이터:", form);
-
+    api.post(`/question`, form).then((result) => {
+      console.log(result);
+    });
     // TODO: API 연결
     // await api.post("/questions", form);
 
-    alert("문의가 작성되었습니다.");
-    navigate("/questions");
+    navi("/questions/user");
   };
 
   return (
@@ -83,7 +86,7 @@ const QuestionForm = () => {
               value={form.category}
               onChange={handleChange}
             >
-              <option value="문의">문의</option>
+              <option value="에러">에러</option>
               <option value="이벤트">이벤트</option>
             </Select>
           </FormGroup>

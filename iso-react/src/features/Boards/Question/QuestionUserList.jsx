@@ -19,7 +19,7 @@ import api from "../../../api/axios";
 import { Pagination } from "../Board/BoardStyle";
 
 const QuestionUserList = () => {
-  const navigate = useNavigate();
+  const navi = useNavigate();
   const [page, setPage] = useState(1);
   const [category, setCategory] = useState("");
   const [boards, setBoards] = useState([]);
@@ -37,7 +37,7 @@ const QuestionUserList = () => {
       <Container>
         <HeaderArea>
           <Title>문의 내역</Title>
-          <WriteButton onClick={() => navigate("/questions/write")}>
+          <WriteButton onClick={() => navi("/questions/form")}>
             ✎ 작성하기
           </WriteButton>
         </HeaderArea>

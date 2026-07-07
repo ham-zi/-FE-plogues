@@ -10,7 +10,7 @@ export function AuthProvider({ children }) {
     const accessToken = localStorage.getItem("accessToken");
     if (!accessToken) return null;
     return {
-      userId: localStorage.getItem("user"),
+      userId: localStorage.getItem("userId"),
       userName: localStorage.getItem("userName"),
       role: localStorage.getItem("role"),
     };
@@ -22,7 +22,6 @@ export function AuthProvider({ children }) {
     localStorage.setItem("userId", data.userId);
     localStorage.setItem("userName", data.userName);
     localStorage.setItem("role", data.role);
-
     setUser({
       userId: data.userId,
       userName: data.userName,
