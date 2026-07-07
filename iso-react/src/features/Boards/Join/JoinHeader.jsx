@@ -1,16 +1,32 @@
-import { JoinTop, PageInfo } from "./JoinStyle";
+import { JoinTop, PageInfo, PageButton, Pagination } from "./Join.styles";
 
-function JoinHeader() {
+const JoinHeader = ({ pageInfo, setPage, loading }) => {
+  const currentPage = Number(pageInfo.currentPage) || 1;
+  const maxPage = Number(pageInfo.maxPage) || 1;
+
   return (
-    <>
-      <JoinTop>
-        <h2>플로깅 게시판</h2>
-        <button>✎ 작성하기</button>
-      </JoinTop>
+    <PageInfo>
+      <Pagination>
+        <PageButton
+          onClick={() => setPage((p) => Math.max(1, p - 1))}
+          disabled={currentPage <= 1 || loading}
+        >
+          &lt;
+        </PageButton>
 
-      <PageInfo>&lt; 1/5 &gt;</PageInfo>
-    </>
+        <span>
+          {currentPage} / {maxPage}
+        </span>
+
+        <PageButton
+          onClick={() => setPage((p) => Math.min(maxPage, p + 1))}
+          disabled={currentPage >= maxPage || loading}
+        >
+          &gt;
+        </PageButton>
+      </Pagination>
+    </PageInfo>
   );
-}
+};
 
 export default JoinHeader;
