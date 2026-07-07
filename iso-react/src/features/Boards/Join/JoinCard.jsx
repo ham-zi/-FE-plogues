@@ -40,7 +40,7 @@ const JoinCard = ({ join, $bg }) => {
 
   return (
     <Card $bg={$bg}>
-      <Badge>모집중</Badge>
+      <Badge>{safeParticipants === safeMax ? "모집완료" : "모집중"}</Badge>
 
       <CardTitle>{join.title}</CardTitle>
       <LeaderText>모임장 : {join.userId}</LeaderText>
