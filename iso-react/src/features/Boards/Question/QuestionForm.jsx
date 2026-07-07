@@ -105,7 +105,7 @@ const QuestionForm = () => {
 
           <ButtonArea>
             <SubmitButton type="submit">작성하기</SubmitButton>
-            <CancelButton type="button" onClick={() => navigate("/questions")}>
+            <CancelButton type="button" onClick={() => navi("/questions/page")}>
               목록으로
             </CancelButton>
           </ButtonArea>
