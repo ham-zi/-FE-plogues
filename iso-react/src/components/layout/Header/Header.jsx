@@ -26,7 +26,7 @@ const Header = () => {
 
         {/* 게시판 메뉴만 담당 */}
         <Nav>
-          <NavLink onClick={() => navi("/boards/notice")}>공지사항</NavLink>
+          <NavLink onClick={() => navi("/notices")}>소식</NavLink>
           <NavLink onClick={() => navi("/joins/plogging")}>
             플로깅게시판
           </NavLink>

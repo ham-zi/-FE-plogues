@@ -1,86 +1,96 @@
 import styled from "styled-components";
 
-export const BoardWrap = styled.div`
-  width: 860px;
+export const NoticeWrap = styled.div`
+  width: 960px;
   margin: 60px auto;
   color: #222;
 `;
 
-export const BoardTop = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 10px;
+export const NoticeTop = styled.div`
+  margin-bottom: 20px;
 
   h2 {
     font-size: 28px;
-    margin: 0;
+    margin: 0 0 12px;
   }
 
   button {
+    display: flex;
+    align-items: center;
+    gap: 6px;
     background-color: #3f8f72;
     color: white;
     border: none;
     border-radius: 20px;
-    padding: 7px 14px;
+    padding: 8px 16px;
     font-size: 13px;
     cursor: pointer;
   }
 `;
 
-export const BoardInfo = styled.p`
-  font-size: 14px;
-  margin: 8px 0 30px;
-`;
-
-export const BoardTable = styled.table`
-  width: 100%;
-  border-collapse: collapse;
-  border-top: 2px solid #222;
-  border-bottom: 1px solid #777;
-
-  th {
-    height: 45px;
-    font-size: 14px;
-    font-weight: 600;
-    border-bottom: 1px solid #999;
-  }
-
-  td {
-    height: 52px;
-    font-size: 14px;
-    text-align: center;
-    border-bottom: 1px solid #ddd;
-  }
-
-  td:nth-child(2) {
-    text-align: left;
-    padding-left: 20px;
-  }
-`;
-
-export const Pagination = styled.div`
+export const NoticePageNav = styled.div`
   display: flex;
-  justify-content: center;
-  gap: 8px;
-  margin-top: 55px;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 20px;
 
   button {
-    width: 32px;
-    height: 32px;
-    border-radius: 50%;
+    background: none;
     border: none;
-    background-color: #eee;
+    font-size: 18px;
     color: #777;
     cursor: pointer;
   }
 
-  .active {
-    background-color: #555;
-    color: white;
+  .page-box {
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    padding: 4px 14px;
+    font-size: 14px;
   }
 `;
 
-/* ===== 상세보기 ===== */
+export const NoticeGrid = styled.div`
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+`;
+
+export const NoticeCard = styled.div`
+  background: white;
+  border-radius: 12px;
+  padding: 20px;
+  min-height: 150px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  .category {
+    font-size: 12px;
+    font-weight: 600;
+    color: #3f8f72;
+    margin-bottom: 10px;
+  }
+
+  .title {
+    font-size: 15px;
+    font-weight: 600;
+    line-height: 1.4;
+    margin-bottom: 20px;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .date {
+    font-size: 12px;
+    color: #999;
+  }
+`;
 
 export const DetailWrap = styled.div`
   width: 860px;
@@ -135,159 +145,6 @@ export const DetailButtons = styled.div`
     background: #e57373;
     color: white;
     border: none;
-  }
-`;
-
-/* ===== 댓글 ===== */
-
-export const CommentSection = styled.div`
-  margin-top: 40px;
-`;
-
-export const CommentTitle = styled.h3`
-  font-size: 18px;
-  margin-bottom: 15px;
-`;
-
-export const CommentBox = styled.div`
-  background: white;
-  border: 1px solid #eee;
-  border-radius: 12px;
-  padding: 16px;
-  margin-bottom: 25px;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
-
-  textarea {
-    width: 100%;
-    height: 60px;
-    border: none;
-    outline: none;
-    font-size: 14px;
-    resize: none;
-    font-family: inherit;
-  }
-
-  .btn-row {
-    display: flex;
-    justify-content: flex-end;
-    margin-top: 10px;
-  }
-
-  button {
-    padding: 8px 20px;
-    border-radius: 20px;
-    border: none;
-    background: #34908B;
-    color: white;
-    cursor: pointer;
-    font-size: 13px;
-  }
-`;
-
-export const CommentLoginNotice = styled.p`
-  background: #f5f5f0;
-  padding: 15px;
-  border-radius: 8px;
-  color: #999;
-  font-size: 13px;
-  margin-bottom: 20px;
-`;
-
-export const CommentItem = styled.div`
-  display: flex;
-  align-items: flex-start;
-  gap: 10px;
-  padding: 14px 0;
-  border-bottom: 1px solid #eee;
-
-  .profile {
-    width: 32px;
-    height: 32px;
-    border-radius: 50%;
-    background-color: ${(props) => props.color || '#ccc'};
-    flex-shrink: 0;
-  }
-
-  .body {
-    flex: 1;
-  }
-
-  .writer {
-    font-weight: 600;
-    font-size: 13px;
-    margin-right: 8px;
-  }
-
-  .date {
-    font-size: 11px;
-    color: #999;
-  }
-
-  .content {
-    font-size: 14px;
-    margin-top: 4px;
-  }
-
-  .actions {
-    display: flex;
-    gap: 6px;
-    align-items: center;
-    flex-shrink: 0;
-  }
-
-  .icon-btn {
-    background: #eee;
-    border: none;
-    border-radius: 50%;
-    width: 26px;
-    height: 26px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    font-size: 14px;
-  }
-`;
-
-export const EditBox = styled.div`
-  margin-top: 10px;
-
-  textarea {
-    width: 970px;
-    height: 60px;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    padding: 10px;
-    font-size: 14px;
-    resize: none;
-    font-family: inherit;
-  }
-
-  .btn-row {
-    display: flex;
-    justify-content: flex-end;
-    gap: 8px;
-    margin-top: 8px;
-  }
-
-  button {
-    padding: 8px 14px;
-    border-radius: 20px;
-    border: none;
-    font-size: 13px;
-    cursor: pointer;
-  }
-  
-  .save {
-    background: #34908B;
-    border: 1px solid #34908B;
-    color: white;
-  }
-
-  .cancel {
-    background: white;
-    border: 1px solid #34908B;
-    color: #34908B;
   }
 `;
 
@@ -352,7 +209,7 @@ export const FileDropBox = styled.label`
   align-items: center;
   justify-content: center;
   width: 100%;
-  height: 150px;
+  height: 200px;
   border: 1.5px dashed #ccc;
   border-radius: 12px;
   color: #999;
@@ -442,4 +299,3 @@ export const FormButtons = styled.div`
     border: none;
   }
 `;
-

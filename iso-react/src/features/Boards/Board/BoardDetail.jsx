@@ -197,8 +197,9 @@ console.log('board.updated:', board.updated);
       onChange={(e) => setEditContent(e.target.value)}
     />
     <div className="btn-row">
+        <button className="save" onClick={() => handleEditSubmit(comment.commentNo)}>수정</button>
         <button className="cancel" onClick={handleEditCancel}>취소</button>
-      <button className="save" onClick={() => handleEditSubmit(comment.commentNo)}>수정</button>
+      
       
     </div>
   </EditBox>
