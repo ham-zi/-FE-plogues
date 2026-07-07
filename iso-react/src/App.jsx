@@ -1,7 +1,8 @@
 import Footer from "./components/layout/Footer/Footer";
 import Header from "./components/layout/Header/Header";
 import { Routes, Route } from "react-router-dom";
-import JoinList from "./features/Boards/Join/JoinList";
+import PlogList from "./features/Boards/Join/PlogList";
+import PlantList from "./features/Boards/Join/PlantList";
 import BoardList from "./features/Boards/Board/BoardList";
 import ProofList from "./features/Boards/Proof/ProofList";
 import BoardDetail from "./features/Boards/Board/BoardDetail";
@@ -31,11 +32,13 @@ function App() {
         <Route path="/boards/write" element={<BoardForm />} />
         <Route path="/boards/:boardNo/edit" element={<BoardForm />} />
         <Route path="/joins" element={<JoinList />} />
+        <Route path="/joins/plogging" element={<PlogList />} />
+        <Route path="/joins/plant" element={<PlantList />} />
         <Route path="/proofs" element={<ProofList />} />
         <Route path="/questions/page" element={<QuestionPage />} />
         <Route path="/questions/admin" element={<QuestionAdminList />} />
         <Route path="/questions/user" element={<QuestionUserList />} />
-        <Route path="/questions/user/form" element={<QuestionForm />} />
+        <Route path="/questions/form" element={<QuestionForm />} />
       </Routes>
       <Footer />
     </>

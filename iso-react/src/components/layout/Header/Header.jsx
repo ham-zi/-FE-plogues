@@ -27,10 +27,10 @@ const Header = () => {
         {/* 게시판 메뉴만 담당 */}
         <Nav>
           <NavLink onClick={() => navi("/boards/notice")}>공지사항</NavLink>
-          <NavLink onClick={() => navi("/joins")}>
+          <NavLink onClick={() => navi("/joins/plogging")}>
             플로깅게시판
           </NavLink>
-          <NavLink onClick={() => navi("/boards/planting")}>식목게시판</NavLink>
+          <NavLink onClick={() => navi("/joins/plant")}>식목게시판</NavLink>
           <NavLink onClick={() => navi("/proofs")}>인증게시판</NavLink>
           <NavLink onClick={() => navi("/boards")}>후기게시판</NavLink>
         </Nav>
