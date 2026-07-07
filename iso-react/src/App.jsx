@@ -21,7 +21,7 @@ function App() {
     <>
       <ScrollToTop />
       <Header />
-
+ 
       <Routes>
         <Route path="/" element={<div>Home</div>} />
         <Route path="/signup" element={<SignUp />} />
