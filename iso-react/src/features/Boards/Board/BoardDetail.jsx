@@ -107,9 +107,7 @@ const handleEditSubmit = async (commentNo) => {
     </DetailWrap>
   );
 }
-console.log('board.userId:', board.userId);
-console.log('myUserId:', myUserId);
-
+console.log('board.updated:', board.updated);
 
   return (
     <DetailWrap>
@@ -117,8 +115,12 @@ console.log('myUserId:', myUserId);
 
       <DetailInfo>
         <span>작성자: {board.writer}</span>
-        <span>날짜: {formatDate(board.createDate)}</span>
-      </DetailInfo>
+        <span>
+            날짜: {formatDate(board.createDate)}
+            {board.updated === 'Y' && <span> (수정됨)</span>}
+  </span>
+</DetailInfo>
+
 
       <DetailContent>{board.content}</DetailContent>
 
@@ -134,7 +136,7 @@ console.log('myUserId:', myUserId);
   <button onClick={() => navigate('/boards')}>목록</button>
   {board.userId === myUserId && (
     <>
-      <button onClick={() => navigate(`/board/${boardNo}/edit`)}>수정</button>
+      <button onClick={() => navigate(`/boards/${boardNo}/edit`)}>수정</button>
       <button className="delete" onClick={handleDelete}>삭제</button>
     </>
   )}

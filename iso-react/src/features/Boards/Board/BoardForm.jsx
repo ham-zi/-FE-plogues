@@ -82,7 +82,7 @@ function BoardForm() {
           headers: { 'Content-Type': 'multipart/form-data' },
         });
         alert('게시글이 수정되었습니다.');
-        navigate(`/board/${boardNo}`); // 수정 후엔 상세페이지로
+        navigate(`/boards/${boardNo}`); // 수정 후엔 상세페이지로
       } else {
         await api.post('/boards', formData, {
           headers: { 'Content-Type': 'multipart/form-data' },
@@ -143,7 +143,7 @@ function BoardForm() {
         <button className="submit" onClick={handleSubmit}>
           {isEdit ? '수정' : '작성'}
         </button>
-        <button className="cancel" onClick={() => navigate(isEdit ? `/board/${boardNo}` : '/boards')}>
+        <button className="cancel" onClick={() => navigate(isEdit ? `/boards/${boardNo}` : '/boards')}>
           취소
         </button>
       </FormButtons>

@@ -6,7 +6,7 @@ import BoardList from "./features/Boards/Board/BoardList";
 import ProofList from "./features/Boards/Proof/ProofList";
 import BoardDetail from "./features/Boards/Board/BoardDetail";
 import BoardForm from "./features/Boards/Board/BoardForm";
-
+import ScrollToTop from './components/ScrollToTop';
 import "./App.css";
 
 import Login from "./features/User/Login";
@@ -19,6 +19,7 @@ import QuestionUserList from "./features/Boards/Question/QuestionUserList";
 function App() {
   return (
     <>
+      <ScrollToTop />
       <Header />
 
       <Routes>
