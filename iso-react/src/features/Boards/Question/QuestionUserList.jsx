@@ -69,7 +69,7 @@ const QuestionUserList = () => {
                   <Td>{board.category}</Td>
                   <Td>{board.createDate.substring(0, 10)}</Td>
                   <Td>
-                    <StatusBadge $done={board.updated === "Y"}>
+                    <StatusBadge status={board.updated}>
                       {board.updated}
                     </StatusBadge>
                   </Td>
