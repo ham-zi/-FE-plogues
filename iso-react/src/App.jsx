@@ -7,7 +7,7 @@ import BoardList from "./features/Boards/Board/BoardList";
 import ProofList from "./features/Boards/Proof/ProofList";
 import BoardDetail from "./features/Boards/Board/BoardDetail";
 import BoardForm from "./features/Boards/Board/BoardForm";
-import ScrollToTop from './components/ScrollToTop';
+import ScrollToTop from "./components/ScrollToTop";
 import "./App.css";
 
 import Login from "./features/User/Login";
@@ -16,6 +16,7 @@ import QuestionForm from "./features/Boards/Question/QuestionForm";
 import QuestionPage from "./features/Boards/Question/QuestionPage";
 import QuestionAdminList from "./features/Boards/Question/QuestionAdminList";
 import QuestionUserList from "./features/Boards/Question/QuestionUserList";
+import QuestionDetail from "./features/Boards/Question/QuestionDetail";
 
 function App() {
   return (
@@ -31,7 +32,6 @@ function App() {
         <Route path="/boards/:boardNo" element={<BoardDetail />} />
         <Route path="/boards/write" element={<BoardForm />} />
         <Route path="/boards/:boardNo/edit" element={<BoardForm />} />
-        <Route path="/joins" element={<JoinList />} />
         <Route path="/joins/plogging" element={<PlogList />} />
         <Route path="/joins/plant" element={<PlantList />} />
         <Route path="/proofs" element={<ProofList />} />
@@ -39,6 +39,7 @@ function App() {
         <Route path="/questions/admin" element={<QuestionAdminList />} />
         <Route path="/questions/user" element={<QuestionUserList />} />
         <Route path="/questions/form" element={<QuestionForm />} />
+        <Route path="/questions/:boardNo" element={<QuestionDetail />} />
       </Routes>
       <Footer />
     </>
