@@ -253,14 +253,15 @@ export const EditBox = styled.div`
   margin-top: 10px;
 
   textarea {
-    width: 970px;
-    height: 60px;
+    width: 100%;       
+    height: 90px;
     border: 1px solid #ddd;
     border-radius: 8px;
     padding: 10px;
     font-size: 14px;
     resize: none;
     font-family: inherit;
+    box-sizing: border-box;  
   }
 
   .btn-row {
