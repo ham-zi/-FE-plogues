@@ -218,6 +218,11 @@ export const StatusBadge = styled.span`
   font-size: 12px;
   font-weight: 700;
   line-height: 1;
+
+  background-color: ${({ status }) =>
+    status === "COMPLETED" ? "#a3e9b3" : "#FFF3CD"};
+
+  color: ${({ status }) => (status === "COMPLETED" ? "#41bd3d" : "#B7791F")};
 `;
 
 export const EmptyText = styled.div`
