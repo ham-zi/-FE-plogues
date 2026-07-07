@@ -13,6 +13,7 @@ function BoardList() {
   useEffect(() => {
     const fetchList = async () => {
       try {
+        
         const res = await api.get('/boards', {
           params: { category: 'review', page: page },
         });

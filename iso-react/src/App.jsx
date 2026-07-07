@@ -5,6 +5,8 @@ import { Routes, Route } from "react-router-dom";
 import JoinList from "./features/Boards/Join/JoinList";
 import BoardList from "./features/Boards/Board/BoardList";
 import ProofList from "./features/Boards/Proof/ProofList";
+import BoardDetail from "./features/Boards/Board/BoardDetail";
+import BoardForm from "./features/Boards/Board/BoardForm";
 
 import "./App.css";
 import Login from "./features/User/Login";
@@ -20,6 +22,9 @@ function App() {
         <Route path="/signup" element={<SignUp />} />
         <Route path="/login" element={<Login />} />
         <Route path="/boards" element={<BoardList />} />
+        <Route path="/boards/:boardNo" element={<BoardDetail />} />
+        <Route path="/boards/write" element={<BoardForm />} />
+        <Route path="/board/:boardNo/edit" element={<BoardForm />} />
         <Route path="/joins" element={<JoinList />} />
         <Route path="/proofs" element={<ProofList />} />
       </Routes>

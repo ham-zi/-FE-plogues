@@ -1,8 +1,17 @@
+import { Link } from 'react-router-dom';
+
 function BoardItem({ item }) {
   return (
     <tr>
       <td>{item.boardNo}</td>
-      <td>{item.title}</td>
+      <td>
+        <Link 
+            to={`/boards/${item.boardNo}`}
+            style={{ color: 'inherit', textDecoration: 'none' }}
+          >
+            {item.title}
+        </Link>
+      </td>
       <td>{item.writer}</td>
       <td>{formatDate(item.createDate)}</td>
       <td>{item.views.toLocaleString()}</td>
