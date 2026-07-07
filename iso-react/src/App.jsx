@@ -28,7 +28,7 @@ function App() {
         <Route path="/questions/page" element={<QuestionPage />} />
         <Route path="/questions/admin" element={<QuestionAdminList />} />
         <Route path="/questions/user" element={<QuestionUserList />} />
-        <Route path="/questions/user/form" element={<QuestionForm />} />
+        <Route path="/questions/form" element={<QuestionForm />} />
       </Routes>
       <Footer />
     </>
