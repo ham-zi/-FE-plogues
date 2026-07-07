@@ -10,8 +10,12 @@ import {
   Copyright,
 } from "./Footer.styles";
 import biomas from "../../../assets/biomas-energy.svg";
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "../../../context/AuthContext";
 
 const Footer = () => {
+  const navi = useNavigate();
+  const { isLogin } = useAuth();
   return (
     <Wrap>
       <Wave />
@@ -32,7 +36,14 @@ const Footer = () => {
         <NavSection>
           <LinkGroup>
             <li>공지사항</li>
-            <li>문의사항</li>
+            <li
+              onClick={() => {
+                if (!isLogin) return;
+                navi("/questions/page");
+              }}
+            >
+              문의사항
+            </li>
             <li>개인정보 처리방침</li>
           </LinkGroup>
           <LinkGroup>

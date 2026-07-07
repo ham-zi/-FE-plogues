@@ -92,7 +92,6 @@ function BoardForm() {
       }
     } catch (err) {
       console.error(err);
-      console.error('에러 응답:', err.response?.data);
       alert(isEdit ? '게시글 수정에 실패했습니다.' : '게시글 등록에 실패했습니다.');
     }
   };
