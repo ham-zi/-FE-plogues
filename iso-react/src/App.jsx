@@ -7,11 +7,11 @@ import BoardList from "./features/Boards/Board/BoardList";
 import ProofList from "./features/Boards/Proof/ProofList";
 import BoardDetail from "./features/Boards/Board/BoardDetail";
 import BoardForm from "./features/Boards/Board/BoardForm";
-import ScrollToTop from './components/ScrollToTop';
-import "./App.css";
-
+import ScrollToTop from "./components/ScrollToTop";
 import Login from "./features/User/Login";
 import SignUp from "./features/User/SignUp";
+import MyPage from "./features/User/mypage/MyPage";
+import MyJoin from "./features/User/mypage/MyJoin";
 import QuestionForm from "./features/Boards/Question/QuestionForm";
 import QuestionPage from "./features/Boards/Question/QuestionPage";
 import QuestionAdminList from "./features/Boards/Question/QuestionAdminList";
@@ -27,11 +27,12 @@ function App() {
         <Route path="/" element={<div>Home</div>} />
         <Route path="/signup" element={<SignUp />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/mypage" element={<MyPage />} />
+        <Route path="/mypage/joins" element={<MyJoin />} />
         <Route path="/boards" element={<BoardList />} />
         <Route path="/boards/:boardNo" element={<BoardDetail />} />
         <Route path="/boards/write" element={<BoardForm />} />
         <Route path="/boards/:boardNo/edit" element={<BoardForm />} />
-        <Route path="/joins" element={<JoinList />} />
         <Route path="/joins/plogging" element={<PlogList />} />
         <Route path="/joins/plant" element={<PlantList />} />
         <Route path="/proofs" element={<ProofList />} />

@@ -1,6 +1,22 @@
 import { useState } from "react";
 import api from "../../api/axios";
 import { useNavigate } from "react-router-dom";
+import {
+  Container,
+  ImageArea,
+  Inner,
+  Title,
+  Subtitle,
+  FormGrid,
+  Fieldset,
+  Label,
+  Input,
+  Button,
+  Status,
+  ErrorText,
+} from "./SignUp.styles";
+import Card from "../../assets/Card.svg";
+
 const SignUp = () => {
   const [userId, setUserId] = useState("");
   const [userPwd, setUserPwd] = useState("");
@@ -115,62 +131,80 @@ const SignUp = () => {
   };
 
   return (
-    <div>
-      <div>
-        <h3>회원가입</h3>
-        <p>서비스 이용을 위하여 계정을 생성해 주십시오.</p>
+    <Container>
+      {/* 좌측: 폼 영역 */}
+      <Inner>
+        <Title>Plogues</Title>
+        <Subtitle>서비스 이용을 위하여 계정을 생성해 주십시오.</Subtitle>
 
-        <fieldset>
-          <label>아이디</label>
-          <input onChange={onChangeId} placeholder="아이디를 입력하세요." />
-        </fieldset>
-        <fieldset>
-          <label>이름</label>
-          <input onChange={onChangeName} placeholder="이름을 입력하세요." />
-        </fieldset>
-        <fieldset>
-          <label>비밀번호</label>
-          <input
-            type="password"
-            onChange={onChangePwd}
-            placeholder="비밀번호를 입력하세요."
-          />
-        </fieldset>
-        <fieldset>
-          <label>비밀번호 확인</label>
-          <input
-            type="password"
-            onChange={onChangePwdConfirm}
-            placeholder="비밀번호를 한 번 더 입력하세요"
-          />
-          {userPwdConfirm.length > 0 && userPwd != userPwdConfirm && (
-            <p>비밀번호가 일치하지 않습니다.</p>
-          )}
-        </fieldset>
-        <fieldset>
-          <label>이메일</label>
-          <input onChange={onChangeEmail} placeholder="이메일을 입력하세요." />
-        </fieldset>
-        <fieldset>
-          <label>전화번호</label>
-          <input
-            onChange={onChangePhone}
-            placeholder="전화번호를 입력하세요."
-          />
-        </fieldset>
-        <fieldset>
-          <label>거주지</label>
-          <input
-            onChange={onChangeAddress}
-            placeholder="거주지를 입력하세요."
-          />
-        </fieldset>
-        <button onClick={onSubmit} disabled={loading}>
-          {loading ? "가입 중..." : "가입하기"}
-        </button>
-        {status.length > 0 && <span>{status}</span>}
-      </div>
-    </div>
+        {/* 2열 배치를 위한 FormGrid */}
+        <FormGrid>
+          <Fieldset>
+            <Label>이름</Label>
+            <Input onChange={onChangeName} placeholder="이름을 입력하세요." />
+          </Fieldset>
+
+          <Fieldset>
+            <Label>아이디</Label>
+            <Input onChange={onChangeId} placeholder="아이디를 입력하세요." />
+          </Fieldset>
+
+          <Fieldset>
+            <Label>이메일</Label>
+            <Input
+              onChange={onChangeEmail}
+              placeholder="이메일을 입력하세요."
+            />
+          </Fieldset>
+
+          <Fieldset>
+            <Label>전화번호</Label>
+            <Input
+              onChange={onChangePhone}
+              placeholder="전화번호를 입력하세요."
+            />
+          </Fieldset>
+
+          <Fieldset>
+            <Label>비밀번호</Label>
+            <Input
+              type="password"
+              onChange={onChangePwd}
+              placeholder="비밀번호를 입력하세요."
+            />
+          </Fieldset>
+
+          <Fieldset>
+            <Label>비밀번호 확인</Label>
+            <Input
+              type="password"
+              onChange={onChangePwdConfirm}
+              placeholder="비밀번호를 한 번 더 입력하세요"
+            />
+            {userPwdConfirm.length > 0 && userPwd !== userPwdConfirm && (
+              <ErrorText $type="error">비밀번호가 일치하지 않습니다.</ErrorText>
+            )}
+          </Fieldset>
+
+          <Fieldset>
+            <Label>거주지</Label>
+            <Input
+              onChange={onChangeAddress}
+              placeholder="거주지를 입력하세요."
+            />
+          </Fieldset>
+        </FormGrid>
+
+        <Button onClick={onSubmit} disabled={loading}>
+          {loading ? "가입 중..." : "회원 가입"}
+        </Button>
+        {status.length > 0 && <Status>{status}</Status>}
+      </Inner>
+
+      <ImageArea>
+        <img src={Card} alt="Card" />
+      </ImageArea>
+    </Container>
   );
 };
 
