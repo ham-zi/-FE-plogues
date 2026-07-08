@@ -47,6 +47,7 @@ const JoinDetail = () => {
     startDate: "",
     title: "",
     userId: "",
+    userName: "",
   });
   const [files, setFiles] = useState([]);
   const { isLogin } = useAuth();
@@ -67,6 +68,7 @@ const JoinDetail = () => {
         startDate: data.startDate,
         title: data.title,
         userId: data.userId,
+        userName: data.userName,
       });
       setFiles(data.files);
     });
@@ -102,7 +104,7 @@ const JoinDetail = () => {
 
               <Writer>
                 <FaUser />
-                {join.userId}
+                {join.userName}
               </Writer>
             </TitleContent>
           </TitleBox>
@@ -160,10 +162,8 @@ const JoinDetail = () => {
         {isLogin &&
           (localStorage.getItem("userId") === join.userId ? (
             <JoinButton>인증하기</JoinButton>
-          ) : (
-            <JoinButton disabled={progressPercent === "100%"}>
-              참여하기
-            </JoinButton>
+          ) : progressPercent === "100%" ? null : (
+            <JoinButton>참여하기</JoinButton>
           ))}
         {join.category === "PLOG" ? (
           <ListButton onClick={() => navi("/joins/plogging")}>
