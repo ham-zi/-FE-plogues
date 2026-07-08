@@ -10,8 +10,8 @@ import BoardForm from "./features/Boards/Board/BoardForm";
 import NoticeList from "./features/Boards/Notice/NoticeList";
 import NoticeDetail from "./features/Boards/Notice/NoticeDetail";
 import NoticeForm from "./features/Boards/Notice/NoticeForm";
-import "./App.css";
 import ScrollToTop from "./components/ScrollToTop";
+import "./App.css";
 import Login from "./features/User/Login";
 import SignUp from "./features/User/SignUp";
 import MyPage from "./features/User/mypage/MyPage";
@@ -29,7 +29,7 @@ function App() {
     <>
       <ScrollToTop />
       <Header />
- 
+
       <Routes>
         <Route path="/" element={<div>Home</div>} />
         <Route path="/signup" element={<SignUp />} />
