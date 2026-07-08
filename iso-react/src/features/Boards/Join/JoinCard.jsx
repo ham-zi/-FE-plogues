@@ -13,8 +13,11 @@ import {
   Avatar,
 } from "./Join.styles";
 import defaultProfile from "../../User/image/default.jpg";
+import { useNavigate } from "react-router-dom";
 
 const JoinCard = ({ join, $bg }) => {
+  const navi = useNavigate();
+
   const safeParticipants = join.currentCount;
   const safeMax = join.participants;
   const progressPercent = (safeParticipants / safeMax) * 100 + "%";
@@ -39,7 +42,7 @@ const JoinCard = ({ join, $bg }) => {
   });
 
   return (
-    <Card $bg={$bg}>
+    <Card $bg={$bg} onClick={() => navi(`/joins/${join.joinNo}`)}>
       <Badge>{safeParticipants === safeMax ? "모집완료" : "모집중"}</Badge>
 
       <CardTitle>{join.title}</CardTitle>
