@@ -3,6 +3,7 @@ import { theme } from "../../../styles/theme";
 export const ProofWrap = styled.div`
   width: 1000px;
   margin: 40px auto;
+  padding-bottom: 80px;
 `;
 
 export const ProofTitle = styled.h2`
@@ -22,6 +23,8 @@ export const ProofTitle = styled.h2`
 `;
 
 export const ProofBox = styled.div`
+  width: 100%;
+  padding-top: 50px;
   padding-bottom: 40px;
 `;
 
@@ -43,14 +46,16 @@ export const PageInfo = styled.div`
 
 export const ProofGrid = styled.div`
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 50px;
+  grid-template-columns: repeat(4, 230px);
+  justify-content: center;
+  column-gap: 24px;
+  row-gap: 36px;
 `;
 
 export const ProofCardBox = styled.div`
+  width: 230px;
   cursor: pointer;
   transition: transform 0.2s ease;
-  min-width: 0;
 
   &:hover {
     transform: translateY(-4px);
@@ -58,30 +63,33 @@ export const ProofCardBox = styled.div`
 `;
 
 export const ProofImage = styled.img`
-  width: 100%;
-  height: 170px;
+  width: 230px;
+  height: 220px;
   object-fit: cover;
-  border-radius: 12px;
+  display: block;
+  border-radius: 8px;
+  background: #eee;
 `;
-
 export const ProofMeta = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin: 10px 0 8px;
+  margin-top: 8px;
   font-size: 13px;
   color: ${theme.color.text};
 `;
 
 export const ProofDate = styled.span`
-  color: ${theme.color.text};
+  font-size: 12px;
+  color: #777;
 `;
 
-export const ProofCardTitle = styled.h3`
-  font-size: 18px;
+export const ProofCardTitle = styled.div`
+  margin-top: 8px;
+  font-size: 15px;
   font-weight: 700;
-  color: ${theme.color.text2};
-  margin: 0;
+  color: ${theme.color.text};
+  line-height: 1.4;
 
   white-space: nowrap;
   overflow: hidden;
@@ -91,18 +99,17 @@ export const ProofCardTitle = styled.h3`
 export const WriterBox = styled.div`
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 6px;
 
   .profile {
-    width: 28px;
-    height: 28px;
+    width: 22px;
+    height: 22px;
     border-radius: 50%;
     object-fit: cover;
-    background: ${theme.color.sub};
   }
 
   strong {
     font-size: 13px;
-    color: ${theme.color.text2};
+    font-weight: 600;
   }
 `;
