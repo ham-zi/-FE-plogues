@@ -16,6 +16,7 @@ import QuestionForm from "./features/Boards/Question/QuestionForm";
 import QuestionPage from "./features/Boards/Question/QuestionPage";
 import QuestionAdminList from "./features/Boards/Question/QuestionAdminList";
 import QuestionUserList from "./features/Boards/Question/QuestionUserList";
+import QuestionDetail from "./features/Boards/Question/QuestionDetail";
 
 function App() {
   return (
@@ -40,6 +41,7 @@ function App() {
         <Route path="/questions/admin" element={<QuestionAdminList />} />
         <Route path="/questions/user" element={<QuestionUserList />} />
         <Route path="/questions/form" element={<QuestionForm />} />
+        <Route path="/questions/:boardNo" element={<QuestionDetail />} />
       </Routes>
       <Footer />
     </>

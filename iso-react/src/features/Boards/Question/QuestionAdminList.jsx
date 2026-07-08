@@ -58,7 +58,7 @@ const dummyInquiries = [
 ];
 
 const QuestionAdminList = () => {
-  const navigate = useNavigate();
+  const navi = useNavigate();
   const [page, setPage] = useState(1);
   const [category, setCategory] = useState("전체");
   const [updated, setUpdated] = useState("전체");
@@ -69,7 +69,6 @@ const QuestionAdminList = () => {
     api
       .get(`/question?page=${page}&category=${category}&updated=${updated}`)
       .then((result) => {
-        console.log(result);
         const el = result.data.data;
         setBoards(el.board);
         setPageInfo(el.page);
@@ -113,7 +112,9 @@ const QuestionAdminList = () => {
                 <Td>{board.userId}</Td>
                 <Td>{board.createDate.substring(0, 10)}</Td>
                 <Td>{board.category}</Td>
-                <TitleTd>{board.title}</TitleTd>
+                <TitleTd onClick={() => navi(`/questions/${board.boardNo}`)}>
+                  {board.title}
+                </TitleTd>
                 <Td>
                   <StatusBadge status={board.updated}>
                     {board.updated}
