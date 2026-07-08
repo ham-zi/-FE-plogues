@@ -7,6 +7,11 @@ import BoardList from "./features/Boards/Board/BoardList";
 import ProofList from "./features/Boards/Proof/ProofList";
 import BoardDetail from "./features/Boards/Board/BoardDetail";
 import BoardForm from "./features/Boards/Board/BoardForm";
+import NoticeList from "./features/Boards/Notice/NoticeList";
+import NoticeDetail from "./features/Boards/Notice/NoticeDetail";
+import NoticeForm from "./features/Boards/Notice/NoticeForm";
+import ScrollToTop from './components/ScrollToTop';
+import "./App.css";
 import ScrollToTop from "./components/ScrollToTop";
 import Login from "./features/User/Login";
 import SignUp from "./features/User/SignUp";
@@ -24,7 +29,7 @@ function App() {
     <>
       <ScrollToTop />
       <Header />
-
+ 
       <Routes>
         <Route path="/" element={<div>Home</div>} />
         <Route path="/signup" element={<SignUp />} />
@@ -39,6 +44,10 @@ function App() {
         <Route path="/joins/plant" element={<PlantList />} />
         <Route path="/joins/:joinNo" element={<JoinDetail />} />
         <Route path="/proofs" element={<ProofList />} />
+        <Route path="/notices" element={<NoticeList />} />
+        <Route path="/notices/:noticeNo" element={<NoticeDetail />} />
+        <Route path="/notices/write" element={<NoticeForm />} />
+        <Route path="/notices/:noticeNo/edit" element={<NoticeForm />} />
         <Route path="/questions/page" element={<QuestionPage />} />
         <Route path="/questions/admin" element={<QuestionAdminList />} />
         <Route path="/questions/user" element={<QuestionUserList />} />
