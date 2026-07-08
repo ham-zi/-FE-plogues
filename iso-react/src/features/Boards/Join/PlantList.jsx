@@ -51,9 +51,7 @@ const PlantList = () => {
         {plant.map((join, index) => {
           const lightness = Math.min(85, 38 + index * 8);
           const pureLightColor = `hsl(177, 47%, ${lightness}%)`;
-          return (
-            <JoinCard key={plant.joinNo} join={join} $bg={pureLightColor} />
-          );
+          return <JoinCard join={join} $bg={pureLightColor} />;
         })}
       </CardGrid>
     </JoinWrap>

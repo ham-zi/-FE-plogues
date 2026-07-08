@@ -1,7 +1,8 @@
 import styled from "styled-components";
 
 export const JoinWrap = styled.div`
-  width: 1050px;
+  width: 1200px;
+  height: auto;
   margin: 50px auto;
 `;
 
@@ -28,8 +29,10 @@ export const JoinTop = styled.div`
 
 export const CardGrid = styled.div`
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 28px 24px;
+  grid-template-columns: repeat(5, 230px);
+  justify-content: center;
+  column-gap: 15px;
+  row-gap: 40px;
 `;
 
 export const CardBottom = styled.div`
@@ -43,13 +46,14 @@ export const CardBottom = styled.div`
 `;
 
 export const Card = styled.div`
+  box-sizing: border-box;
   position: relative;
-  width: 300px;
+  width: 230px;
   height: 220px;
   border-radius: 14px;
-  padding: 25px;
+  padding: 20px;
   background-color: ${(props) => props.$bg};
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.15);
   display: flex;
   flex-direction: column;
   margin: 50px;
@@ -64,29 +68,32 @@ export const Card = styled.div`
 
 export const Badge = styled.div`
   position: absolute;
-  top: -15px;
-  left: 30px;
+  top: -12px;
+  left: 20px;
   background-color: #8e44ad;
   color: white;
   border-radius: 8px;
-  padding: 6px 14px;
-  font-size: 13px;
+  padding: 5px 10px;
+  font-size: 11px;
   font-weight: bold;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 `;
 
-export const CardTitle = styled.h3`
-  margin: 40px 0 0 0;
-  font-size: 22px;
+export const CardTitle = styled.h4`
+  margin: 15px 0 0 0;
+  font-size: 16px;
   text-align: center;
   color: #2c3e50;
   font-weight: 800;
+
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 `;
 
 export const LeaderText = styled.p`
-  margin: 8px 0 0 0;
+  margin: 6px 0 0 0;
   text-align: center;
-  font-size: 14px;
+  font-size: 12px;
   color: white;
   opacity: 0.9;
 `;
@@ -94,20 +101,21 @@ export const LeaderText = styled.p`
 export const MemberRow = styled.div`
   display: flex;
   justify-content: center;
-  margin-top: 20px;
+  flex-direction: row-reverse;
+  margin-top: 14px;
 `;
 
 export const Avatar = styled.span`
-  width: 50px;
-  height: 50px;
+  width: 42px;
+  height: 42px;
   border-radius: 50%;
   overflow: hidden;
   border: 2px solid white;
-  margin-left: -12px;
+  margin-right: -10px;
   background-color: #f39c12;
 
   &:first-child {
-    margin-left: 0;
+    margin-right: 0;
   }
 
   img {
@@ -117,12 +125,27 @@ export const Avatar = styled.span`
   }
 `;
 
+export const MoreAvatar = styled.span`
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background-color: rgba(255, 255, 255, 0.8);
+  color: #555;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  font-weight: bold;
+  border: 2px solid white;
+  margin-left: -10px;
+`;
+
 export const InfoRow = styled.div`
   display: flex;
   justify-content: space-between;
-  font-size: 14px;
+  font-size: 12px;
   color: white;
-  margin-bottom: 8px;
+  margin-bottom: 6px;
   font-weight: bold;
 `;
 
@@ -142,7 +165,7 @@ export const ProgressBarFill = styled.div`
 
 export const DateBadge = styled.div`
   position: absolute;
-  bottom: 12px;
+  bottom: 10px;
   right: 12px;
   background-color: rgba(255, 255, 255, 0.25);
   color: white;
@@ -156,7 +179,7 @@ export const DateBadge = styled.div`
 
 export const BottomSection = styled.div`
   margin-top: auto;
-  padding-bottom: 30px;
+  padding-bottom: 22px;
 `;
 
 export const PageInfo = styled.div`
