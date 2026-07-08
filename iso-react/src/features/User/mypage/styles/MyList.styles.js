@@ -67,7 +67,7 @@ export const ActionButton = styled.button`
 `;
 
 export const RightSection = styled.div`
-  width: 650px;
+  width: 800px;
 `;
 
 export const Title = styled.h3`
@@ -108,19 +108,27 @@ export const StateBadge = styled.span`
   border-radius: 20px;
   color: white;
   font-size: 12px;
+  cursor: ${({ state }) => (state === "참여" ? "pointer" : "default")};
 
   background: ${({ state }) => {
     switch (state) {
-      case "모집중":
-        return "#57b957";
-      case "진행중":
-        return "#2ea5ff";
-      case "종료":
+      case "참여":
+        return theme.color.main;
+      case "참여불가":
         return "#d9534f";
       default:
         return "#888";
     }
   }};
+`;
+export const CancelBtn = styled.button`
+  padding: 5px 14px;
+  border: none;
+  border-radius: 20px;
+  color: white;
+  background-color: ${theme.color.sub};
+  font-size: 12px;
+  cursor: pointer;
 `;
 
 export const Select = styled.select`
@@ -142,7 +150,7 @@ export const TableTitle = styled.h4`
 export const CategoryWrapper = styled.div`
   display: flex;
   justify-content: flex-end;
-  margin-bottom: 20px;
+  margin-bottom: 2px;
 `;
 
 export const Dropdown = styled.div`
@@ -151,7 +159,7 @@ export const Dropdown = styled.div`
 `;
 
 export const DropdownHeader = styled.div`
-  height: 42px;
+  height: 37px;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -160,7 +168,7 @@ export const DropdownHeader = styled.div`
   border: 1px solid #ddd;
   border-radius: 8px;
   cursor: pointer;
-  font-size: 14px;
+  font-size: 15px;
   font-weight: 600;
 
   &:hover {
@@ -192,5 +200,45 @@ export const DropdownItem = styled.li`
   &:hover {
     background: ${theme.color.sub};
     color: white;
+  }
+`;
+export const Pagination = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+
+  margin-top: 30px;
+  margin-bottom: 20px;
+
+  button {
+    width: 35px;
+    height: 35px;
+
+    border: 1px solid #ddd;
+    border-radius: 50%;
+
+    background-color: white;
+    color: #333;
+
+    cursor: pointer;
+
+    font-size: 18px;
+
+    &:hover {
+      background-color: #f3f3f3;
+    }
+
+    &:disabled {
+      cursor: default;
+      color: #bbb;
+      background-color: #fafafa;
+    }
+  }
+
+  span {
+    font-size: 16px;
+    font-weight: 600;
+    color: #555;
   }
 `;
