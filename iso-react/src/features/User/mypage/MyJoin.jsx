@@ -1,6 +1,6 @@
-import React from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
+import api from "../../../api/axios";
 import {
   Container,
   LeftSection,
@@ -11,69 +11,125 @@ import {
   RightSection,
   TableWrapper,
   Table,
-  StateBadge,
-  Title,
   CategoryWrapper,
   Dropdown,
   DropdownHeader,
   DropdownList,
   DropdownItem,
+  CancelBtn,
+  StateBadge,
+  Pagination,
 } from "./styles/MyList.styles";
-
-const joinList = [
-  {
-    title: "강릉? 훌랄이",
-    status: "승인",
-    writer: "진현정",
-    date: "2026-05-26",
-    state: "모집중",
-  },
-  {
-    title: "종로구 동네 플로깅",
-    status: "승인",
-    writer: "진현정",
-    date: "2026-05-25",
-    state: "진행중",
-  },
-  {
-    title: "플라워 7만원 구매 플로깅",
-    status: "대기",
-    writer: "김성준",
-    date: "2026-05-23",
-    state: "모집중",
-  },
-];
 
 const MyJoin = () => {
   const navi = useNavigate();
 
-  const [isOpen, setIsOpen] = useState(false);
-  const [category, setCategory] = useState("참여게시판");
+  const [joinList, setJoinList] = useState([]);
+  const [myInfo, setMyInfo] = useState({});
+  const [page, setPage] = useState(1);
 
-  const categories = ["참여게시판", "후기게시판"];
+  const [pageInfo, setPageInfo] = useState({
+    currentPage: 1,
+    maxPage: 0,
+  });
+
+  const [isOpen, setIsOpen] = useState(false);
+  const [category, setCategory] = useState("참여 내역");
+
+  const categories = [
+    "참여 내역",
+    "참여 요청 내역",
+    "모집 작성 목록",
+    "후기 작성 목록",
+  ];
+
+  const getJoinList = async () => {
+    try {
+      const response = await api.get("/users/joins", {
+        params: {
+          page: page,
+          status: "ALL",
+        },
+      });
+
+      console.log("전체 응답:", response.data);
+
+      const data = response.data.data;
+
+      setJoinList(data.list);
+      setPageInfo(data.pageInfo);
+      setMyInfo(data.myInfo);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    getJoinList();
+  }, [page]);
+
+  const prevPage = () => {
+    if (pageInfo.currentPage > 1) {
+      setPage(pageInfo.currentPage - 1);
+    }
+  };
+
+  const nextPage = () => {
+    if (pageInfo.currentPage < pageInfo.maxPage) {
+      setPage(pageInfo.currentPage + 1);
+    }
+  };
+
+  const getStatusText = (status) => {
+    switch (status) {
+      case "WAITING":
+        return "대기";
+
+      case "ACCEPTED":
+        return "승인";
+
+      case "DENIED":
+        return "거절";
+
+      case "CANCELED":
+        return "참여취소";
+
+      default:
+        return "";
+    }
+  };
+
+  const cancelRequest = async (joinRequestNo) => {
+    try {
+      await api.patch(`/request/cancel/${joinRequestNo}`);
+
+      getJoinList();
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <Container>
       <LeftSection>
-        <ProfileImage />
+        <ProfileImage src={myInfo.fileUrl} />
 
-        <h3>남지호</h3>
-        <p>포동이</p>
-
+        <h3>{myInfo.userName}</h3>
+        <p>{myInfo.userId}</p>
         <StatsContainer>
           <StatItem>
-            <div>21</div>
+            <div>{myInfo.joinCount}</div>
             <p>참여 횟수</p>
           </StatItem>
 
           <StatItem>
-            <div>238</div>
-            <p>작성 글</p>
+            <div>{myInfo.treeCount ?? 0}</div>
+            <p>심은 나무 수</p>
           </StatItem>
 
           <StatItem>
-            <div>101</div>
-            <p>댓글</p>
+            <div>{myInfo.plogWeight ?? 0}kg</div>
+            <p>내가 주운 쓰레기</p>
           </StatItem>
         </StatsContainer>
 
@@ -86,33 +142,32 @@ const MyJoin = () => {
 
       <RightSection>
         <CategoryWrapper>
-          <CategoryWrapper>
-            <Dropdown>
-              <DropdownHeader onClick={() => setIsOpen(!isOpen)}>
-                {category}
-                <span>{isOpen ? "▲" : "▼"}</span>
-              </DropdownHeader>
+          <Dropdown>
+            <DropdownHeader onClick={() => setIsOpen(!isOpen)}>
+              {category}
 
-              {isOpen && (
-                <DropdownList>
-                  {categories.map((item) => (
-                    <DropdownItem
-                      key={item}
-                      onClick={() => {
-                        setCategory(item);
-                        setIsOpen(false);
-                      }}
-                    >
-                      {item}
-                    </DropdownItem>
-                  ))}
-                </DropdownList>
-              )}
-            </Dropdown>
-          </CategoryWrapper>
+              <span>{isOpen ? "▲" : "▼"}</span>
+            </DropdownHeader>
+
+            {isOpen && (
+              <DropdownList>
+                {categories.map((item) => (
+                  <DropdownItem
+                    key={item}
+                    onClick={() => {
+                      setCategory(item);
+                      setIsOpen(false);
+                    }}
+                  >
+                    {item}
+                  </DropdownItem>
+                ))}
+              </DropdownList>
+            )}
+          </Dropdown>
         </CategoryWrapper>
 
-        <Title>참여 내역</Title>
+        <h2>참여 내역</h2>
 
         <TableWrapper>
           <Table>
@@ -120,28 +175,70 @@ const MyJoin = () => {
               <tr>
                 <th>참여 게시글 제목</th>
                 <th>신청상태</th>
-                <th>모집자</th>
                 <th>신청일</th>
-                <th>진행상태</th>
+                <th>대화방</th>
+                <th>참여취소</th>
               </tr>
             </thead>
 
             <tbody>
-              {joinList.map((item, index) => (
-                <tr key={index}>
+              {joinList.map((item) => (
+                <tr key={item.joinRequestNo}>
                   <td>{item.title}</td>
-                  <td>{item.status}</td>
-                  <td>{item.writer}</td>
-                  <td>{item.date}</td>
+
+                  <td>{getStatusText(item.status)}</td>
+
+                  <td>{item.createDate}</td>
 
                   <td>
-                    <StateBadge state={item.state}>{item.state}</StateBadge>
+                    <StateBadge
+                      state={item.status === "ACCEPTED" ? "참여" : "참여불가"}
+                      onClick={() => {
+                        if (item.status === "ACCEPTED") {
+                          navi(`/chat/${item.chatNo}`);
+                        }
+                      }}
+                    >
+                      {item.status === "ACCEPTED" ? "참여" : "참여불가"}
+                    </StateBadge>
+                  </td>
+
+                  <td>
+                    {item.status === "ACCEPTED" && (
+                      <CancelBtn
+                        onClick={() => cancelRequest(item.joinRequestNo)}
+                      >
+                        취소
+                      </CancelBtn>
+                    )}
                   </td>
                 </tr>
               ))}
             </tbody>
           </Table>
         </TableWrapper>
+
+        <Pagination>
+          <button onClick={prevPage} disabled={pageInfo.currentPage === 1}>
+            &lt;
+          </button>
+
+          <span>
+            {pageInfo.maxPage === 0
+              ? "0 / 0"
+              : `${pageInfo.currentPage} / ${pageInfo.maxPage}`}
+          </span>
+
+          <button
+            onClick={nextPage}
+            disabled={
+              pageInfo.currentPage === pageInfo.maxPage ||
+              pageInfo.maxPage === 0
+            }
+          >
+            &gt;
+          </button>
+        </Pagination>
       </RightSection>
     </Container>
   );
