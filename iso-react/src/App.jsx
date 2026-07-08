@@ -12,7 +12,6 @@ import NoticeDetail from "./features/Boards/Notice/NoticeDetail";
 import NoticeForm from "./features/Boards/Notice/NoticeForm";
 import ScrollToTop from "./components/ScrollToTop";
 import "./App.css";
-import "./App.css";
 import Login from "./features/User/Login";
 import SignUp from "./features/User/SignUp";
 import MyPage from "./features/User/mypage/MyPage";
@@ -22,6 +21,7 @@ import QuestionPage from "./features/Boards/Question/QuestionPage";
 import QuestionAdminList from "./features/Boards/Question/QuestionAdminList";
 import QuestionUserList from "./features/Boards/Question/QuestionUserList";
 import QuestionDetail from "./features/Boards/Question/QuestionDetail";
+import ReportList from "./features/Boards/Report/ReportList";
 import JoinDetail from "./features/Boards/Join/JoinDetail";
 
 function App() {
@@ -53,6 +53,7 @@ function App() {
         <Route path="/questions/user" element={<QuestionUserList />} />
         <Route path="/questions/form" element={<QuestionForm />} />
         <Route path="/questions/:boardNo" element={<QuestionDetail />} />
+        <Route path="/reports" element={<ReportList />} />
       </Routes>
       <Footer />
     </>
