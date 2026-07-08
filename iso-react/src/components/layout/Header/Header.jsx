@@ -44,8 +44,10 @@ const Header = () => {
               >
                 {user.userName}님
               </div>
-              <NavLink onClick={() => navi("/password")}>비밀번호 변경</NavLink>
-              <NavLink onClick={() => navi("/delete")}>회원탈퇴</NavLink>
+              <NavLink onClick={() => navi("/questions/form")}>
+                문의하기
+              </NavLink>
+              <NavLink onClick={() => navi("/mypage")}>내정보조회</NavLink>
               <Login onClick={logout}>로그아웃</Login>
             </>
           ) : (

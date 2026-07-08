@@ -2,6 +2,19 @@ import { useState } from "react";
 import api from "../../api/axios";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
+import {
+  Wrapper,
+  ImageArea,
+  Inner,
+  Title,
+  Subtitle,
+  Fieldset,
+  Label,
+  Input,
+  Btn,
+  Status,
+} from "./Login.styles";
+import Card from "../../assets/Card.svg";
 
 const Login = () => {
   const { login } = useAuth();
@@ -70,33 +83,38 @@ const Login = () => {
   // 회원가입 시에는 필요없으니 제거
 
   return (
-    <div>
-      <div>
-        <h3>로그인</h3>
-        <p>로그인을 진행합니다</p>
+    <Wrapper>
+      <ImageArea>
+        <img src={Card} alt="Card" />
+      </ImageArea>
 
-        <fieldset>
-          <label>아이디</label>
-          <input
+      <Inner>
+        <Title>Plogues</Title>
+        <Subtitle>로그인을 진행합니다</Subtitle>
+
+        <Fieldset>
+          <Label>아이디</Label>
+          <Input
             onChange={onChangeId}
             onKeyDown={onKeyDown}
             placeholder="아이디를 입력하세요."
-          ></input>
-        </fieldset>
-        <fieldset>
-          <label>비밀번호</label>
-          <input
+          />
+        </Fieldset>
+        <Fieldset>
+          <Label>비밀번호</Label>
+          <Input
+            type="password"
             onChange={onChangePwd}
             onKeyDown={onKeyDown}
             placeholder="비밀번호를 입력하세요."
-          ></input>
-        </fieldset>
-        <button onClick={onSubmit} disabled={loading}>
+          />
+        </Fieldset>
+        <Btn onClick={onSubmit} disabled={loading}>
           {loading ? "로그인 하는 중..." : "로그인"}
-        </button>
-        {status.length > 0 && <span>{status}</span>}
-      </div>
-    </div>
+        </Btn>
+        {status.length > 0 && <Status>{status}</Status>}
+      </Inner>
+    </Wrapper>
   );
 };
 
