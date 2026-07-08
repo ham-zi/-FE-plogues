@@ -43,8 +43,8 @@ function BoardDetail() {
   };
 
   const handleEditStart = (comment) => {
-    setEditingCommentNo(comment.answerNo);
-    setEditContent(comment.answerNo); // 기존 내용 미리 채워넣기
+    setEditingCommentNo(comment.commentNo);
+    setEditContent(comment.content); // 기존 내용 미리 채워넣기
   };
 
   // 취소 버튼 눌렀을 때
@@ -168,12 +168,12 @@ function BoardDetail() {
 
         {board.commentList && board.commentList.length > 0 ? (
           board.commentList.map((comment) => (
-            <div key={comment.answerNo}>
+            <div key={comment.commentNo}>
               <CommentItem>
                 <div
                   className="profile"
                   style={{
-                    backgroundColor: getProfileColor(comment.answerNo),
+                    backgroundColor: getProfileColor(comment.commentNo),
                   }}
                 />
                 <div className="body">
@@ -199,7 +199,7 @@ function BoardDetail() {
                       </button>
                       <button
                         className="icon-btn"
-                        onClick={() => handleCommentDelete(comment.answerNo)}
+                        onClick={() => handleCommentDelete(comment.commentNo)}
                       >
                         <FaTrash />
                       </button>
@@ -211,21 +211,21 @@ function BoardDetail() {
                 </div>
               </CommentItem>
 
-              {editingCommentNo === comment.answerNo && (
+              {editingCommentNo === comment.commentNo && (
                 <EditBox>
                   <textarea
                     value={editContent}
                     onChange={(e) => setEditContent(e.target.value)}
                   />
                   <div className="btn-row">
-                    <button className="cancel" onClick={handleEditCancel}>
-                      취소
+                    <button className="save" onClick={() => handleEditSubmit(comment.commentNo)}>
+                        수정        
                     </button>
                     <button
-                      className="save"
-                      onClick={() => handleEditSubmit(comment.answerNo)}
+                      className="cancel"
+                      onClick={handleEditCancel}
                     >
-                      수정
+                      취소
                     </button>
                   </div>
                 </EditBox>

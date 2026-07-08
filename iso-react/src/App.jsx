@@ -7,35 +7,47 @@ import BoardList from "./features/Boards/Board/BoardList";
 import ProofList from "./features/Boards/Proof/ProofList";
 import BoardDetail from "./features/Boards/Board/BoardDetail";
 import BoardForm from "./features/Boards/Board/BoardForm";
-import ScrollToTop from "./components/ScrollToTop";
+import NoticeList from "./features/Boards/Notice/NoticeList";
+import NoticeDetail from "./features/Boards/Notice/NoticeDetail";
+import NoticeForm from "./features/Boards/Notice/NoticeForm";
 import "./App.css";
-
+import ScrollToTop from "./components/ScrollToTop";
 import Login from "./features/User/Login";
 import SignUp from "./features/User/SignUp";
+import MyPage from "./features/User/mypage/MyPage";
+import MyJoin from "./features/User/mypage/MyJoin";
 import QuestionForm from "./features/Boards/Question/QuestionForm";
 import QuestionPage from "./features/Boards/Question/QuestionPage";
 import QuestionAdminList from "./features/Boards/Question/QuestionAdminList";
 import QuestionUserList from "./features/Boards/Question/QuestionUserList";
 import QuestionDetail from "./features/Boards/Question/QuestionDetail";
 import ReportList from "./features/Boards/Report/ReportList";
+import JoinDetail from "./features/Boards/Join/JoinDetail";
 
 function App() {
   return (
     <>
       <ScrollToTop />
       <Header />
-
+ 
       <Routes>
         <Route path="/" element={<div>Home</div>} />
         <Route path="/signup" element={<SignUp />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/mypage" element={<MyPage />} />
+        <Route path="/mypage/joins" element={<MyJoin />} />
         <Route path="/boards" element={<BoardList />} />
         <Route path="/boards/:boardNo" element={<BoardDetail />} />
         <Route path="/boards/write" element={<BoardForm />} />
         <Route path="/boards/:boardNo/edit" element={<BoardForm />} />
         <Route path="/joins/plogging" element={<PlogList />} />
         <Route path="/joins/plant" element={<PlantList />} />
+        <Route path="/joins/:joinNo" element={<JoinDetail />} />
         <Route path="/proofs" element={<ProofList />} />
+        <Route path="/notices" element={<NoticeList />} />
+        <Route path="/notices/:noticeNo" element={<NoticeDetail />} />
+        <Route path="/notices/write" element={<NoticeForm />} />
+        <Route path="/notices/:noticeNo/edit" element={<NoticeForm />} />
         <Route path="/questions/page" element={<QuestionPage />} />
         <Route path="/questions/admin" element={<QuestionAdminList />} />
         <Route path="/questions/user" element={<QuestionUserList />} />
