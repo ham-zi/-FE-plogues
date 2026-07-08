@@ -24,6 +24,7 @@ import QuestionUserList from "./features/Boards/Question/QuestionUserList";
 import QuestionDetail from "./features/Boards/Question/QuestionDetail";
 import ReportList from "./features/Boards/Report/ReportList";
 import JoinDetail from "./features/Boards/Join/JoinDetail";
+import Report from "./features/Commons/Report";
 
 function App() {
   return (
@@ -55,6 +56,7 @@ function App() {
         <Route path="/questions/form" element={<QuestionForm />} />
         <Route path="/questions/:boardNo" element={<QuestionDetail />} />
         <Route path="/reports" element={<ReportList />} />
+        <Route path="/reports/form" element={<Report />} />
       </Routes>
       <Footer />
     </>

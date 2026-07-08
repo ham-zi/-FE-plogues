@@ -41,14 +41,15 @@ const Header = () => {
             <>
               <div
                 style={{ color: "#444", fontSize: "14px", fontWeight: "600" }}
-              >
-                {user.userName}님
-              </div>
-              <NavLink onClick={() => navi("/questions/form")}>
-                문의하기
+              ></div>
+              {user.role === "[ROLE_ADMIN]" && (
+                <NavLink onClick={() => navi("/reports")}>신고목록</NavLink>
+              )}
+              <NavLink onClick={() => navi("/questions/page")}>
+                문의사항
               </NavLink>
               <NavLink onClick={() => navi("/mypage")}>내정보조회</NavLink>
-              <Login onClick={logout}>로그아웃</Login>
+              {user.userName}님<Login onClick={logout}>로그아웃</Login>
             </>
           ) : (
             <>
