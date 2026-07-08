@@ -17,6 +17,7 @@ import QuestionPage from "./features/Boards/Question/QuestionPage";
 import QuestionAdminList from "./features/Boards/Question/QuestionAdminList";
 import QuestionUserList from "./features/Boards/Question/QuestionUserList";
 import QuestionDetail from "./features/Boards/Question/QuestionDetail";
+import JoinDetail from "./features/Boards/Join/JoinDetail";
 
 function App() {
   return (
@@ -34,6 +35,7 @@ function App() {
         <Route path="/boards/:boardNo/edit" element={<BoardForm />} />
         <Route path="/joins/plogging" element={<PlogList />} />
         <Route path="/joins/plant" element={<PlantList />} />
+        <Route path="/joins/:joinNo" element={<JoinDetail />} />
         <Route path="/proofs" element={<ProofList />} />
         <Route path="/questions/page" element={<QuestionPage />} />
         <Route path="/questions/admin" element={<QuestionAdminList />} />
