@@ -15,8 +15,8 @@ export const Container = styled.div`
 
 export const Header = styled.div`
   display: flex;
+  justify-content: space-between;
   align-items: center;
-  gap: 10px;
   padding-bottom: 14px;
   border-bottom: 2px solid #d8d8c8;
   margin-bottom: 45px;
@@ -87,17 +87,14 @@ export const ImageBox = styled.div`
   height: 170px;
   border: 1px solid #ddd;
   border-radius: 6px;
-  background: white;
-  display: flex;
-  align-items: center;
-  justify-content: center;
   overflow: hidden;
+  background: #fff;
 `;
-
 export const DetailImage = styled.img`
-  max-width: 100%;
-  max-height: 100%;
+  width: 100%;
+  height: 100%;
   object-fit: cover;
+  display: block;
 `;
 
 export const ButtonArea = styled.div`
@@ -143,5 +140,35 @@ export const ActivityLink = styled(Link)`
 
   &:hover {
     background: ${theme.color.point};
+  }
+`;
+
+export const HeaderLeft = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 10px;
+`;
+
+export const ReportButton = styled.button`
+  width: 48px;
+  height: 48px;
+  border: none;
+  border-radius: 50%;
+  background: #ffe8e8;
+  color: ${theme.color.delete};
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+
+  svg {
+    width: 24px;
+    height: 24px;
+  }
+
+  &:hover {
+    background: ${theme.color.delete};
+    color: white;
   }
 `;

@@ -18,13 +18,25 @@ import {
   ButtonArea,
   ListButton,
   ActivityLink,
+  ReportButton,
+  HeaderLeft,
 } from "./ProofDetail.styles";
-
+import { FaRegFlag } from "react-icons/fa";
 function ProofDetail() {
   const { proofNo } = useParams();
   const navigate = useNavigate();
 
   const [proof, setProof] = useState(null);
+  const handleReport = () => {
+    const report = {
+      boardType: "PROOF",
+      title: proof.title,
+      targetNo: proof.proofNo,
+    };
+    navigate("/reports/form", {
+      state: report,
+    });
+  };
 
   useEffect(() => {
     const fetchProof = async () => {
@@ -49,8 +61,14 @@ function ProofDetail() {
     <Page>
       <Container>
         <Header>
-          <HeaderIcon>▣</HeaderIcon>
-          <Title>인증 상세 보기</Title>
+          <HeaderLeft>
+            <HeaderIcon>▣</HeaderIcon>
+            <Title>인증 상세 보기</Title>
+          </HeaderLeft>
+
+          <ReportButton onClick={handleReport}>
+            <FaRegFlag size={22} />
+          </ReportButton>
         </Header>
 
         <FormArea>
