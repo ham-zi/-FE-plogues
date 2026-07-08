@@ -28,8 +28,10 @@ export const JoinTop = styled.div`
 
 export const CardGrid = styled.div`
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 28px 24px;
+  grid-template-columns: repeat(3, 330px);
+  justify-content: center;
+  column-gap: 40px;
+  row-gap: 50px;
 `;
 
 export const CardBottom = styled.div`
@@ -44,7 +46,7 @@ export const CardBottom = styled.div`
 
 export const Card = styled.div`
   position: relative;
-  width: 300px;
+  width: 280px;
   height: 220px;
   border-radius: 14px;
   padding: 25px;
@@ -52,7 +54,6 @@ export const Card = styled.div`
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
   display: flex;
   flex-direction: column;
-  margin: 50px;
   font-family:
     -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu,
     Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
@@ -142,7 +143,7 @@ export const ProgressBarFill = styled.div`
 
 export const DateBadge = styled.div`
   position: absolute;
-  bottom: 12px;
+  bottom: 7px;
   right: 12px;
   background-color: rgba(255, 255, 255, 0.25);
   color: white;

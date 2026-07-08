@@ -28,14 +28,14 @@ const PencilIcon = () => (
   </svg>
 );
 
-const JoinHeader = ({ pageInfo, setPage, loading }) => {
+const JoinHeader = ({ pageInfo, setPage, loading, category }) => {
   const currentPage = Number(pageInfo.currentPage) || 1;
   const maxPage = Number(pageInfo.maxPage) || 1;
 
   return (
     <HeaderContainer>
       <TitleSection>
-        <Title>식목 게시판</Title>
+        <Title>{category} 게시판</Title>
         <WriteButton onClick={() => console.log("작성하기 클릭")}>
           <PencilIcon />
           작성하기

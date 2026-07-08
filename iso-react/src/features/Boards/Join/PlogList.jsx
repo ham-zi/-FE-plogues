@@ -46,7 +46,12 @@ const PlogList = () => {
 
   return (
     <JoinWrap>
-      <JoinHeader pageInfo={pageInfo} setPage={setPage} loading={loading} />
+      <JoinHeader
+        pageInfo={pageInfo}
+        setPage={setPage}
+        loading={loading}
+        category={"플로깅"}
+      />
 
       <CardGrid>
         {plog.map((join, index) => {

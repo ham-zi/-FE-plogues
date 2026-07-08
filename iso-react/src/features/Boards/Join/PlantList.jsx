@@ -45,7 +45,12 @@ const PlantList = () => {
 
   return (
     <JoinWrap>
-      <JoinHeader pageInfo={pageInfo} setPage={setPage} loading={loading} />
+      <JoinHeader
+        pageInfo={pageInfo}
+        setPage={setPage}
+        loading={loading}
+        category={"식목"}
+      />
 
       <CardGrid>
         {plant.map((join, index) => {
