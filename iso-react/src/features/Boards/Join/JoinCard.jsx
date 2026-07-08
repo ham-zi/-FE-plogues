@@ -11,6 +11,7 @@ import {
   ProgressBarFill,
   DateBadge,
   Avatar,
+  MoreAvatar,
 } from "./Join.styles";
 import defaultProfile from "../../User/image/default.jpg";
 import { useNavigate } from "react-router-dom";
@@ -36,9 +37,9 @@ const JoinCard = ({ join, $bg }) => {
     .replace(/ -/g, " ");
 
   const sortedProfiles = [...join.userProfiles].sort((a, b) => {
-    if (a.userId === join.userId) return -1; // a가 작성자면 앞으로
-    if (b.userId === join.userId) return 1; // b가 작성자면 뒤로
-    return 0;
+    if (a.userId === join.userId) return 1;
+    if (b.userId === join.userId) return -1;
+    return Number(a.joinRequestNo) - Number(b.joinRequestNo);
   });
 
   return (
@@ -49,11 +50,14 @@ const JoinCard = ({ join, $bg }) => {
       <LeaderText>모임장 : {join.userId}</LeaderText>
 
       <MemberRow>
-        {sortedProfiles.map((profile, index) => (
+        {sortedProfiles.slice(0, 3).map((profile, index) => (
           <Avatar>
             <img src={profile.profile ?? defaultProfile} alt="프로필" />
           </Avatar>
         ))}
+        {sortedProfiles.length > 3 && (
+          <MoreAvatar>+{sortedProfiles.length - 3}</MoreAvatar>
+        )}
       </MemberRow>
 
       <BottomSection>
