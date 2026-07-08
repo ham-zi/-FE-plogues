@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router-dom";
 import {
   ProofCardBox,
   ProofImage,
@@ -8,17 +9,18 @@ import {
 } from "./ProofStyle";
 
 function ProofCard({ proof }) {
+  const navigate = useNavigate();
   return (
-    <ProofCardBox>
-      <ProofImage src={proof.image} alt={proof.title} />
+    <ProofCardBox onClick={() => navigate(`/proofs/${proof.proofNo}`)}>
+      <ProofImage src={proof.boardProfile} alt={proof.title} />
 
       <ProofMeta>
         <WriterBox>
-          <div className="profile"></div>
-          <strong>{proof.writer}</strong>
+          <img className="profile" src={proof.userProfile} alt={proof.userId} />
+          <strong>{proof.userId}</strong>
         </WriterBox>
 
-        <ProofDate>{proof.date}</ProofDate>
+        <ProofDate>{proof.createDate.substring(0, 10)}</ProofDate>
       </ProofMeta>
 
       <ProofCardTitle>{proof.title}</ProofCardTitle>
