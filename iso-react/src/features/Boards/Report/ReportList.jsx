@@ -22,6 +22,7 @@ import {
   CompleteButton,
 } from "../Question/QuestionAdminList.styles";
 import { Pagination } from "../Board/BoardStyle";
+import { customAlert } from "../../Commons/Alert";
 function ReportList() {
   const navigate = useNavigate();
   const [reports, setReports] = useState([]);
@@ -52,7 +53,6 @@ function ReportList() {
       console.error(err);
     }
   };
-  console.log(reports);
 
   const handleSearch = (e) => {
     if (e.key === "Enter") {
@@ -62,9 +62,8 @@ function ReportList() {
   };
 
   const handleComplete = async (reportNo) => {
-    if (!window.confirm("정말 처리 완료하시겠습니까?")) {
-      return;
-    }
+    const result = await customAlert.confirm("처리 완료 하시겠습니까?");
+    if (!result) return;
     try {
       const res = await api.patch(`report/${reportNo}`);
       fetchReports();

@@ -20,6 +20,7 @@ import {
 import { useAuth } from "../../../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 import api from "../../../api/axios"; // 커스텀 axios 인스턴스
+import { customAlert } from "../../Commons/Alert";
 
 const Mypage = () => {
   const { user } = useAuth();
@@ -91,7 +92,7 @@ const Mypage = () => {
   const handleSave = async () => {
     // 1. 데이터가 아예 없는지 확인
     if (!userInfo.userId) {
-      alert("사용자 ID를 찾을 수 없습니다.");
+      customAlert.error("사용자 ID를 찾을 수 없습니다.");
       return;
     }
 
@@ -104,12 +105,12 @@ const Mypage = () => {
       const response = await api.patch(`/users`, formData, {
         headers: { "Content-Type": "multipart/form-data" },
       });
-      alert("프로필을 성공적으로 수정하였습니다.");
+      customAlert.success("프로필을 성공적으로 수정하였습니다.");
       console.log("서버 응답:", response);
     } catch (err) {
       // 에러가 났을 때 서버가 왜 응답이 없는지 강제로 띄웁니다.
       console.error("서버 응답 없음 또는 에러:", err);
-      alert("프로필 수정에 실패했습니다.");
+      customAlert.error("프로필 수정에 실패했습니다.");
     }
   };
 

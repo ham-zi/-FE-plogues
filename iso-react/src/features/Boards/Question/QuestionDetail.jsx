@@ -18,6 +18,7 @@ import {
   EditBox,
 } from "../Board/BoardStyle";
 import { useAuth } from "../../../context/AuthContext";
+import { customAlert } from "../../Commons/Alert";
 
 function QuestionDetail() {
   const { user } = useAuth();
@@ -56,7 +57,7 @@ function QuestionDetail() {
   };
   const handleCommentSubmit = async () => {
     if (!commentContent.trim()) {
-      alert("댓글 내용을 입력해주세요.");
+      customAlert.error("댓글 내용을 입력해주세요.");
       return;
     }
     try {
@@ -66,24 +67,24 @@ function QuestionDetail() {
       setCommentContent(""); // 입력창 비우기
       fetchDetail(); // 댓글 목록 다시 불러오기
     } catch (err) {
-      console.error(err);
-      alert("댓글 등록에 실패했습니다.");
+      customAlert.error("댓글 등록에 실패했습니다.");
     }
   };
 
   const handleCommentDelete = async (commentNo) => {
-    if (!window.confirm("댓글을 삭제하시겠습니까?")) return;
+    const result = await customAlert.confirm("답변을 삭제하시겠습니까?");
+    if (!result) return;
     try {
       await api.delete(`/question/${boardNo}/comments/${commentNo}`);
       fetchDetail(); // 댓글 목록 다시 불러오기
     } catch (err) {
       console.error(err);
-      alert("댓글 삭제에 실패했습니다.");
+      customAlert.error("댓글 삭제에 실패했습니다.");
     }
   };
   const handleEditSubmit = async (commentNo) => {
     if (!editContent.trim()) {
-      alert("내용을 입력해주세요.");
+      customAlert.error("내용을 입력해주세요.");
       return;
     }
     try {
@@ -95,7 +96,7 @@ function QuestionDetail() {
       fetchDetail(); // 다시 불러오기
     } catch (err) {
       console.error(err);
-      alert("댓글 수정에 실패했습니다.");
+      customAlert.error("댓글 수정에 실패했습니다.");
     }
   };
 
@@ -226,10 +227,11 @@ function QuestionDetail() {
   );
 
   async function handleDelete() {
-    if (!window.confirm("정말 삭제하시겠습니까?")) return;
+    const result = await customAlert.confirm("정말 삭제하시겠습니까?");
+    if (!result) return;
     try {
       await api.delete(`/boards/${boardNo}`);
-      alert("삭제되었습니다.");
+      customAlert.success("게시글이 삭제되었습니다.");
       navigate("/boards");
     } catch (err) {
       console.error(err);

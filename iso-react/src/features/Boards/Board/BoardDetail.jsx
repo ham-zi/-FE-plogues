@@ -17,6 +17,7 @@ import {
   CommentItem,
   EditBox,
 } from "./BoardStyle";
+import { customAlert } from "../../Commons/Alert";
 
 function BoardDetail() {
   const { boardNo } = useParams();
@@ -54,7 +55,7 @@ function BoardDetail() {
   };
   const handleCommentSubmit = async () => {
     if (!commentContent.trim()) {
-      alert("댓글 내용을 입력해주세요.");
+      customAlert.error("댓글 내용을 입력해주세요.");
       return;
     }
     try {
@@ -65,7 +66,7 @@ function BoardDetail() {
       fetchDetail(); // 댓글 목록 다시 불러오기
     } catch (err) {
       console.error(err);
-      alert("댓글 등록에 실패했습니다.");
+      customAlert.error("댓글 작성에 실패했습니다.");
     }
   };
   const handleReport = () => {
@@ -84,19 +85,20 @@ function BoardDetail() {
 };
 
   const handleCommentDelete = async (commentNo) => {
-    if (!window.confirm("댓글을 삭제하시겠습니까?")) return;
+    const result = await customAlert.confirm("댓글을 삭제하시겠습니까?");
+    if (!result) return;
     try {
       await api.delete(`/boards/${boardNo}/comments/${commentNo}`);
       fetchDetail(); // 댓글 목록 다시 불러오기
     } catch (err) {
       console.error(err);
-      alert("댓글 삭제에 실패했습니다.");
+      customAlert.error("댓글 삭제에 실패했습니다.");
     }
   };
 
   const handleEditSubmit = async (commentNo) => {
     if (!editContent.trim()) {
-      alert("내용을 입력해주세요.");
+      customAlert.error("댓글 내용을 입력해주세요.");
       return;
     }
     try {
@@ -108,7 +110,7 @@ function BoardDetail() {
       fetchDetail(); // 다시 불러오기
     } catch (err) {
       console.error(err);
-      alert("댓글 수정에 실패했습니다.");
+      customAlert.error("댓글 수정에 실패했습니다.");
     }
   };
 
@@ -245,13 +247,13 @@ function BoardDetail() {
                     onChange={(e) => setEditContent(e.target.value)}
                   />
                   <div className="btn-row">
-                    <button className="save" onClick={() => handleEditSubmit(comment.commentNo)}>
-                        수정        
-                    </button>
                     <button
-                      className="cancel"
-                      onClick={handleEditCancel}
+                      className="save"
+                      onClick={() => handleEditSubmit(comment.commentNo)}
                     >
+                      수정
+                    </button>
+                    <button className="cancel" onClick={handleEditCancel}>
                       취소
                     </button>
                   </div>
@@ -267,10 +269,11 @@ function BoardDetail() {
   );
 
   async function handleDelete() {
-    if (!window.confirm("정말 삭제하시겠습니까?")) return;
+    const result = await customAlert.confirm("정말 삭제하시겠습니까?");
+    if (!result) return;
     try {
       await api.delete(`/boards/${boardNo}`);
-      alert("삭제되었습니다.");
+      customAlert.success("게시글이 삭제되었습니다.");
       navigate("/boards");
     } catch (err) {
       console.error(err);

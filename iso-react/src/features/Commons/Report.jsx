@@ -17,6 +17,7 @@ import {
 import { Button } from "../User/SignUp.styles";
 import { useNavigate, useLocation } from "react-router-dom";
 import api from "../../api/axios";
+import { customAlert } from "./Alert";
 
 const Report = () => {
   const { user } = useAuth();
@@ -37,7 +38,7 @@ const Report = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!reportInfo.content.trim()) {
-      alert("내용을 입력하세요.");
+      customAlert.success("내용을 입력하세요.");
       return;
     }
 
@@ -45,12 +46,13 @@ const Report = () => {
     try {
       const res = await api.post("/report", reportInfo);
       isLoading(false);
-      alert("게시글이 신고되었습니다.");
-      navigate(-1);
+      customAlert.success("게시글이 신고되었습니다.");
     } catch (err) {
-      console.log("상태코드:", err.response?.status);
-      console.log("서버 응답:", err.response?.data);
-      if (err.response?.data.code === 409) alert("이미 신고한 게시글입니다.");
+      if (err.response?.data.code === 409) {
+        customAlert.error("이미 신고한 게시글입니다.");
+      }
+    } finally {
+      navigate(-1);
     }
   };
 
