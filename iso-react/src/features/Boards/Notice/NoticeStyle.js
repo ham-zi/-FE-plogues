@@ -299,3 +299,17 @@ export const FormButtons = styled.div`
     border: none;
   }
 `;
+
+export const AlarmButton = styled.button`
+  width: 44px;
+  height: 44px;
+  border: none;
+  border-radius: 50%;
+  background: #ffdada;
+  color: #ff6b6b;
+  cursor: pointer;
+
+  svg {
+    font-size: 22px;
+  }
+`;

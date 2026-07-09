@@ -91,18 +91,29 @@ export const DetailWrap = styled.div`
 `;
 
 export const DetailTitle = styled.h2`
-  font-size: 24px;
-  margin-bottom: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  font-size: 28px;
+  margin-bottom: 20px;
 `;
 
 export const DetailInfo = styled.div`
   display: flex;
   justify-content: space-between;
+  align-items: center;
   font-size: 13px;
   color: #777;
   border-bottom: 1px solid #ddd;
   padding-bottom: 15px;
   margin-bottom: 25px;
+
+  .right-info {
+    display: flex;
+    align-items: center;
+    gap: 10px; /* 신고 버튼과 날짜 사이 간격 */
+  }
 `;
 
 export const DetailContent = styled.p`
@@ -446,3 +457,28 @@ export const FormButtons = styled.div`
   }
 `;
 
+export const AlarmButton = styled.button`
+  width: 36px;
+  height: 36px;
+  border: none;
+  border-radius: 50%;
+  background: #ffdada;
+  color: #ff6b6b;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  cursor: pointer;
+  transition: 0.2s;
+
+  &:hover {
+    background: #ffc7c7;
+    transform: scale(1.05);
+  }
+
+  svg {
+    width: 20px;
+    height: 20px;
+  }
+`;
