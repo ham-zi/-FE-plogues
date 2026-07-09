@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import api from "../../../api/axios";
 import {
   Page,
@@ -24,7 +24,6 @@ import {
 import { Pagination } from "../Board/BoardStyle";
 function ReportList() {
   const navigate = useNavigate();
-
   const [reports, setReports] = useState([]);
   const [pageInfo, setPageInfo] = useState({});
   const [page, setPage] = useState(1);
