@@ -82,7 +82,6 @@ const MyGroup = () => {
     if (now > endDate) {
       return "완료";
     }
-
     return "진행 중";
   };
 
