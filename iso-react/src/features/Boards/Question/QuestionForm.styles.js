@@ -118,3 +118,60 @@ export const CancelButton = styled.button`
     background: ${theme.color.point};
   }
 `;
+export const FileDropBox = styled.label`
+  height: 135px;
+  border: 1px dashed #ccc;
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  color: #999;
+  cursor: pointer;
+  background: #fffdf3;
+
+  svg {
+    font-size: 32px;
+  }
+
+  input {
+    display: none;
+  }
+`;
+
+export const PreviewList = styled.div`
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+  flex-wrap: wrap;
+
+  .preview-item {
+    position: relative;
+    width: 85px;
+    height: 85px;
+    border-radius: 6px;
+    overflow: hidden;
+    background: #eee;
+  }
+
+  .preview-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .remove-btn {
+    position: absolute;
+    top: -6px;
+    right: -6px;
+    border: none;
+    background: #c94b4b;
+    color: white;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+    font-weight: bold;
+  }
+`;

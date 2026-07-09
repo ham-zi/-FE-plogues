@@ -1,4 +1,6 @@
+import styled from "styled-components";
 import Footer from "./components/layout/Footer/Footer";
+import WelcomePage from "./features/Welcome/WelcomePage";
 import Header from "./components/layout/Header/Header";
 import { Routes, Route } from "react-router-dom";
 import PlogList from "./features/Boards/Join/PlogList";
@@ -26,14 +28,27 @@ import JoinDetail from "./features/Boards/Join/JoinDetail";
 import Report from "./features/Commons/Report";
 import ProofDetail from "./features/Boards/Proof/ProofDetail";
 
+const AppLayout = styled.div`
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+`;
+
+const Main = styled.main`
+  flex: 1;
+  padding: 40px 0 100px;
+`;
+
 function App() {
   return (
     <>
+    <AppLayout>
       <ScrollToTop />
       <Header />
+      <Main>
 
       <Routes>
-        <Route path="/" element={<div>Home</div>} />
+        <Route path="/" element={<WelcomePage />} />
         <Route path="/signup" element={<SignUp />} />
         <Route path="/login" element={<Login />} />
         <Route path="/mypage" element={<MyPage />} />
@@ -59,7 +74,9 @@ function App() {
         <Route path="/proofs" element={<ProofList />} />
         <Route path="/proofs/:proofNo" element={<ProofDetail />} />
       </Routes>
+      </Main>
       <Footer />
+    </AppLayout>
     </>
   );
 }
