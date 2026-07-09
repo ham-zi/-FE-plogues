@@ -19,6 +19,8 @@ import {
   CancelBtn,
   StateBadge,
   Pagination,
+  TabContainer,
+  Tab,
 } from "./styles/MyList.styles";
 
 const MyJoin = () => {
@@ -35,6 +37,7 @@ const MyJoin = () => {
 
   const [isOpen, setIsOpen] = useState(false);
   const [category, setCategory] = useState("참여 내역");
+  const [selectedCategory, setSelectedCategory] = useState("ALL");
 
   const categories = [
     "참여 내역",
@@ -42,6 +45,23 @@ const MyJoin = () => {
     "모집 작성 목록",
     "후기 작성 목록",
   ];
+  const categoryLinks = {
+    "참여 내역": "/mypage/joins",
+    "참여 요청 내역": "/mypage/requests",
+    "모집 작성 목록": "/mypage/groups",
+    "후기 작성 목록": "/mypage/reviews",
+  };
+
+  const filterCategories = [
+    { value: "ALL", label: "전체" },
+    { value: "PLOG", label: "플로깅" },
+    { value: "PLANT", label: "식목" },
+  ];
+
+  const filteredList =
+    selectedCategory === "ALL"
+      ? joinList
+      : joinList.filter((item) => item.category === selectedCategory);
 
   const getJoinList = async () => {
     try {
@@ -51,8 +71,6 @@ const MyJoin = () => {
           status: "ALL",
         },
       });
-
-      console.log("전체 응답:", response.data);
 
       const data = response.data.data;
 
@@ -157,6 +175,7 @@ const MyJoin = () => {
                     onClick={() => {
                       setCategory(item);
                       setIsOpen(false);
+                      navi(categoryLinks[item]);
                     }}
                   >
                     {item}
@@ -169,10 +188,23 @@ const MyJoin = () => {
 
         <h2>참여 내역</h2>
 
+        <TabContainer>
+          {filterCategories.map((item) => (
+            <Tab
+              key={item.value}
+              active={selectedCategory === item.value}
+              onClick={() => setSelectedCategory(item.value)}
+            >
+              {item.label}
+            </Tab>
+          ))}
+        </TabContainer>
+
         <TableWrapper>
           <Table>
             <thead>
               <tr>
+                <th>카테고리</th>
                 <th>참여 게시글 제목</th>
                 <th>신청상태</th>
                 <th>신청일</th>
@@ -182,8 +214,10 @@ const MyJoin = () => {
             </thead>
 
             <tbody>
-              {joinList.map((item) => (
+              {filteredList.map((item) => (
                 <tr key={item.joinRequestNo}>
+                  <td>{item.category}</td>
+
                   <td>{item.title}</td>
 
                   <td>{getStatusText(item.status)}</td>
