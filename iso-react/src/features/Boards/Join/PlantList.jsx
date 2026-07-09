@@ -45,13 +45,38 @@ const PlantList = () => {
 
   return (
     <JoinWrap>
-      <JoinHeader pageInfo={pageInfo} setPage={setPage} loading={loading} />
+      <JoinHeader
+        pageInfo={pageInfo}
+        setPage={setPage}
+        loading={loading}
+        category="식목"
+      />
 
       <CardGrid>
         {plant.map((join, index) => {
-          const lightness = Math.min(85, 38 + index * 8);
-          const pureLightColor = `hsl(177, 47%, ${lightness}%)`;
-          return <JoinCard join={join} $bg={pureLightColor} />;
+          const row = Math.floor(index / 5);
+
+          let pureLightColor;
+          let textColor;
+
+          if (row === 1) {
+            const lightness = 85 + (index % 5) * 3;
+            pureLightColor = `hsl(51, 92%, ${lightness}%)`;
+            textColor = "#555";
+          } else {
+            const lightness = Math.min(85, 38 + index * 8);
+            pureLightColor = `hsl(177, 47%, ${lightness}%)`;
+            textColor = "white";
+          }
+
+          return (
+            <JoinCard
+              key={join.joinNo}
+              join={join}
+              $bg={pureLightColor}
+              $textColor={textColor}
+            />
+          );
         })}
       </CardGrid>
     </JoinWrap>

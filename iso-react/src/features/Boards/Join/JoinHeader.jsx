@@ -1,3 +1,4 @@
+import { useAuth } from "../../../context/AuthContext";
 import {
   JoinTop,
   PageInfo,
@@ -28,18 +29,29 @@ const PencilIcon = () => (
   </svg>
 );
 
-const JoinHeader = ({ pageInfo, setPage, loading }) => {
+const JoinHeader = ({ pageInfo, setPage, loading, category }) => {
   const currentPage = Number(pageInfo.currentPage) || 1;
   const maxPage = Number(pageInfo.maxPage) || 1;
+  const { isLogin } = useAuth();
 
   return (
     <HeaderContainer>
       <TitleSection>
-        <Title>식목 게시판</Title>
-        <WriteButton onClick={() => console.log("작성하기 클릭")}>
-          <PencilIcon />
-          작성하기
-        </WriteButton>
+        <Title>{category} 게시판</Title>
+        {isLogin && (
+          <WriteButton
+            onClick={() =>
+              navi("/joins/write", {
+                state: {
+                  category: category === "플로깅" ? "PLOG" : "PLANT",
+                },
+              })
+            }
+          >
+            <PencilIcon />
+            작성하기
+          </WriteButton>
+        )}
       </TitleSection>
 
       <PageInfo>
