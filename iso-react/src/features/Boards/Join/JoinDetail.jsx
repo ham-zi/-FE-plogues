@@ -153,9 +153,8 @@ const JoinDetail = () => {
       </ContentBox>
 
       <ImageBox>
-        {files.map((file) => {
-          <img src={file.filePath} alt="activity" />;
-        })}
+        {files &&
+          files.map((file) => <img src={file.filePath} alt="activity" />)}
       </ImageBox>
 
       <ButtonGroup>
