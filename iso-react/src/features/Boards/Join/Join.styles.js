@@ -510,6 +510,49 @@ export const ListButton = styled.button`
   }
 `;
 
+export const ButtonGroupHeader = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 10px; // 버튼 사이 간격
+  margin-left: 20px; // 사용자 이름 옆 공간 확보
+`;
+
+export const EditButton = styled.button`
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 6px 14px;
+  border: 1px solid #c8d6a5;
+  border-radius: 20px;
+  background-color: white;
+  color: #777;
+  font-size: 13px;
+  cursor: pointer;
+  transition: 0.2s;
+
+  &:hover {
+    background-color: #f9fdf0;
+  }
+`;
+
+export const DeleteButton = styled.button`
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 6px 14px;
+  border: none;
+  border-radius: 20px;
+  background-color: #5d8a4f;
+  color: white;
+  font-size: 13px;
+  cursor: pointer;
+  transition: 0.2s;
+
+  &:hover {
+    background-color: #4a6d3f;
+  }
+`;
+
 // ======================
 // Form Page
 // ======================
