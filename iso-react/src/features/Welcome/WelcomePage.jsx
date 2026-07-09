@@ -7,8 +7,7 @@ import ClimateChart from "./components/ClimateChart";
 
 // Header/Footer는 App.jsx에서 전역으로 이미 감싸고 있어서 여기선 콘텐츠만 담당
 
-const PageWrapper = styled.div`
-`;
+const PageWrapper = styled.div``;
 
 const Content = styled.main`
   width: 1040px;
