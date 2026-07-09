@@ -1,3 +1,4 @@
+import styled from "styled-components";
 import Footer from "./components/layout/Footer/Footer";
 import WelcomePage from "./features/Welcome/WelcomePage";
 import Header from "./components/layout/Header/Header";
@@ -27,11 +28,17 @@ import JoinDetail from "./features/Boards/Join/JoinDetail";
 import Report from "./features/Commons/Report";
 import ProofDetail from "./features/Boards/Proof/ProofDetail";
 
+const Main = styled.main`
+  min-height: calc(100vh - 500px);
+  padding-bottom: 100px;
+`;
+
 function App() {
   return (
     <>
       <ScrollToTop />
       <Header />
+      <Main>
 
       <Routes>
         <Route path="/" element={<WelcomePage />} />
@@ -60,6 +67,7 @@ function App() {
         <Route path="/proofs" element={<ProofList />} />
         <Route path="/proofs/:proofNo" element={<ProofDetail />} />
       </Routes>
+      </Main>
       <Footer />
     </>
   );

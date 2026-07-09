@@ -13,16 +13,17 @@ import {
 
 function NoticeForm() {
   const navigate = useNavigate();
-  const { noticeNo } = useParams(); // 있으면 수정 모드
+  const { noticeNo } = useParams();
   const isEdit = !!noticeNo;
 
   const [category, setCategory] = useState('NOTICE');
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
-  const [files, setFiles] = useState([]);
-  const [previewUrls, setPreviewUrls] = useState([]);
+  const [files, setFiles] = useState([]); // 새로 추가한 파일
+  const [previewUrls, setPreviewUrls] = useState([]); // 새 파일 미리보기
+  const [existingFiles, setExistingFiles] = useState([]); // 기존 파일 (fileNo 포함)
+  const [deleteFileNos, setDeleteFileNos] = useState([]); // 삭제할 기존 파일 번호
 
-  // 수정 모드면 기존 데이터 불러오기
   useEffect(() => {
     if (isEdit) {
       const fetchDetail = async () => {
@@ -34,10 +35,7 @@ function NoticeForm() {
           setContent(notice.content);
 
           if (notice.fileList && notice.fileList.length > 0) {
-            const urls = notice.fileList.map(
-              (file) => `${file.filePath}${file.changeName}`
-            );
-            setPreviewUrls(urls);
+            setExistingFiles(notice.fileList);
           }
         } catch (err) {
           console.error(err);
@@ -49,10 +47,28 @@ function NoticeForm() {
 
   const handleFileChange = (e) => {
     const selectedFiles = Array.from(e.target.files);
-    setFiles((prev) => [...prev, ...selectedFiles]);
 
-    const urls = selectedFiles.map((file) => URL.createObjectURL(file));
+    const currentTotal = existingFiles.length + files.length;
+    const remainingSlots = 4 - currentTotal;
+
+    if (remainingSlots <= 0) {
+      customAlert.error('사진은 최대 4개까지 첨부할 수 있습니다.');
+      e.target.value = '';
+      return;
+    }
+
+    if (selectedFiles.length > remainingSlots) {
+      customAlert.error(`사진은 최대 4개까지 첨부할 수 있습니다. (현재 ${currentTotal}개, ${remainingSlots}개만 추가 가능)`);
+    }
+
+    const filesToAdd = selectedFiles.slice(0, remainingSlots);
+
+    setFiles((prev) => [...prev, ...filesToAdd]);
+
+    const urls = filesToAdd.map((file) => URL.createObjectURL(file));
     setPreviewUrls((prev) => [...prev, ...urls]);
+
+    e.target.value = '';
   };
 
   const handleRemoveFile = (idx) => {
@@ -60,13 +76,18 @@ function NoticeForm() {
     setPreviewUrls((prev) => prev.filter((_, i) => i !== idx));
   };
 
+  const handleRemoveExisting = (fileNo) => {
+    setExistingFiles((prev) => prev.filter((f) => f.fileNo !== fileNo));
+    setDeleteFileNos((prev) => [...prev, fileNo]);
+  };
+
   const handleSubmit = async () => {
     if (!title.trim()) {
-      alert('제목을 입력해주세요.');
+      customAlert.error('제목을 입력해주세요.');
       return;
     }
     if (!content.trim()) {
-      alert('내용을 입력해주세요.');
+      customAlert.error('내용을 입력해주세요.');
       return;
     }
 
@@ -78,23 +99,29 @@ function NoticeForm() {
       formData.append('files', file);
     });
 
+    if (isEdit) {
+      deleteFileNos.forEach((fileNo) => {
+        formData.append('deleteFileNos', fileNo);
+      });
+    }
+
     try {
       if (isEdit) {
         await api.patch(`/notices/${noticeNo}`, formData, {
           headers: { 'Content-Type': 'multipart/form-data' },
         });
-        alert('게시글이 수정되었습니다.');
+        customAlert.success('게시글이 수정되었습니다.');
         navigate(`/notices/${noticeNo}`);
       } else {
         await api.post('/notices', formData, {
           headers: { 'Content-Type': 'multipart/form-data' },
         });
-        alert('게시글이 등록되었습니다.');
+        customAlert.success('게시글이 등록되었습니다.');
         navigate('/notices');
       }
     } catch (err) {
       console.error(err);
-      alert(isEdit ? '게시글 수정에 실패했습니다.' : '게시글 등록에 실패했습니다.');
+      customAlert.error(isEdit ? '게시글 수정에 실패했습니다.' : '게시글 등록에 실패했습니다.');
     }
   };
 
@@ -155,10 +182,21 @@ function NoticeForm() {
           <input type="file" multiple accept="image/*" onChange={handleFileChange} />
         </FileDropBox>
 
-        {previewUrls.length > 0 && (
+        {(existingFiles.length > 0 || previewUrls.length > 0) && (
           <PreviewList>
+            {existingFiles.map((file) => (
+              <div className="preview-item" key={`old-${file.fileNo}`}>
+                <img src={`${file.filePath}${file.changeName}`} alt="미리보기" />
+                <button
+                  className="remove-btn"
+                  onClick={() => handleRemoveExisting(file.fileNo)}
+                >
+                  ×
+                </button>
+              </div>
+            ))}
             {previewUrls.map((url, idx) => (
-              <div className="preview-item" key={idx}>
+              <div className="preview-item" key={`new-${idx}`}>
                 <img src={url} alt="미리보기" />
                 <button className="remove-btn" onClick={() => handleRemoveFile(idx)}>×</button>
               </div>
