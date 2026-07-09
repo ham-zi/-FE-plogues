@@ -21,7 +21,7 @@ const TopSection = styled.div`
   grid-template-columns: 680px 320px;
   gap: 40px;
   align-items: start;
-  margin-bottom: 70px;
+  margin-bottom: 20px;
 `;
 
 const ChartSection = styled.div`
