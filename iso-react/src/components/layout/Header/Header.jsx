@@ -26,7 +26,7 @@ const Header = () => {
 
         {/* 게시판 메뉴만 담당 */}
         <Nav>
-          <NavLink onClick={() => navi("/boards/notice")}>공지사항</NavLink>
+          <NavLink onClick={() => navi("/notices")}>소식</NavLink>
           <NavLink onClick={() => navi("/joins/plogging")}>
             플로깅게시판
           </NavLink>
@@ -41,11 +41,12 @@ const Header = () => {
             <>
               <div
                 style={{ color: "#444", fontSize: "14px", fontWeight: "600" }}
-              >
-                {user.userName}님
-              </div>
-              <NavLink onClick={() => navi("/questions/form")}>
-                문의하기
+              ></div>
+              {user.role === "[ROLE_ADMIN]" && (
+                <NavLink onClick={() => navi("/reports")}>신고목록</NavLink>
+              )}
+              <NavLink onClick={() => navi("/questions/page")}>
+                문의사항
               </NavLink>
               <NavLink onClick={() => navi("/mypage")}>내정보조회</NavLink>
               <Login

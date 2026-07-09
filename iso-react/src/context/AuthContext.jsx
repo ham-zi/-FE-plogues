@@ -1,5 +1,7 @@
 import { useState, createContext, useContext } from "react";
 import api from "../api/axios";
+import { useNavigate } from "react-router-dom";
+import { customAlert } from "../features/Commons/Alert";
 
 // 보관함 만들기
 const AuthContext = createContext(null);
@@ -31,14 +33,20 @@ export function AuthProvider({ children }) {
 
   const logout = async () => {
     const refreshToken = localStorage.getItem("refreshToken");
-    await api.post("/auth/logout", { refreshToken }).then((result) => {
+    const res = await customAlert.confirm("정말 로그아웃 하시겠습니까?");
+    if (!res) return;
+    try {
+      const result = await api.post("/auth/logout", { refreshToken });
       if (result.status === 200) {
         ["accessToken", "refreshToken", "userId", "userName", "role"].forEach(
           (k) => localStorage.removeItem(k),
         );
       }
-    });
-    setUser(null);
+      window.location.href = "/";
+      setUser(null);
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   return (

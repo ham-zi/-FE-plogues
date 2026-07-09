@@ -1,7 +1,7 @@
-import { useState, useEffect } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
-import { FiEdit3, FiDownload } from 'react-icons/fi';
-import api from '../../../api/axios';
+import { useState, useEffect } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import { FiEdit3, FiDownload } from "react-icons/fi";
+import api from "../../../api/axios";
 import {
   FormWrap,
   FormTitle,
@@ -9,15 +9,16 @@ import {
   FileDropBox,
   PreviewList,
   FormButtons,
-} from './BoardStyle';
+} from "./BoardStyle";
+import { customAlert } from "../../Commons/Alert";
 
 function BoardForm() {
   const navigate = useNavigate();
   const { boardNo } = useParams(); // 있으면 수정 모드
   const isEdit = !!boardNo;
 
-  const [title, setTitle] = useState('');
-  const [content, setContent] = useState('');
+  const [title, setTitle] = useState("");
+  const [content, setContent] = useState("");
   const [files, setFiles] = useState([]);
   const [previewUrls, setPreviewUrls] = useState([]);
 
@@ -34,7 +35,7 @@ function BoardForm() {
           // 기존 이미지 미리보기로 보여주기 (선택사항)
           if (board.fileList && board.fileList.length > 0) {
             const urls = board.fileList.map(
-              (file) => `${file.filePath}${file.changeName}`
+              (file) => `${file.filePath}${file.changeName}`,
             );
             setPreviewUrls(urls);
           }
@@ -61,49 +62,53 @@ function BoardForm() {
 
   const handleSubmit = async () => {
     if (!title.trim()) {
-      alert('제목을 입력해주세요.');
+      customAlert.error("제목을 입력해주세요.");
       return;
     }
     if (!content.trim()) {
-      alert('내용을 입력해주세요.');
+      customAlert.error("내용을 입력해주세요.");
       return;
     }
 
     const formData = new FormData();
-    formData.append('title', title);
-    formData.append('content', content);
+    formData.append("title", title);
+    formData.append("content", content);
     files.forEach((file) => {
-      formData.append('files', file);
+      formData.append("files", file);
     });
 
     try {
       if (isEdit) {
         await api.patch(`/boards/${boardNo}`, formData, {
-          headers: { 'Content-Type': 'multipart/form-data' },
+          headers: { "Content-Type": "multipart/form-data" },
         });
-        alert('게시글이 수정되었습니다.');
+        customAlert.success("게시글이 수정되었습니다.");
         navigate(`/boards/${boardNo}`); // 수정 후엔 상세페이지로
       } else {
-        await api.post('/boards', formData, {
-          headers: { 'Content-Type': 'multipart/form-data' },
+        await api.post("/boards", formData, {
+          headers: { "Content-Type": "multipart/form-data" },
         });
-        alert('게시글이 등록되었습니다.');
-        navigate('/boards');
+        customAlert.success("게시글이 등록되었습니다.");
+        navigate("/boards");
       }
     } catch (err) {
       console.error(err);
-      alert(isEdit ? '게시글 수정에 실패했습니다.' : '게시글 등록에 실패했습니다.');
+      customAlert.error(
+        isEdit ? "게시글 수정에 실패했습니다." : "게시글 등록에 실패했습니다.",
+      );
     }
   };
 
   return (
     <FormWrap>
       <FormTitle>
-        <FiEdit3 /> 후기 게시글 {isEdit ? '수정' : '작성'}
+        <FiEdit3 /> 후기 게시글 {isEdit ? "수정" : "작성"}
       </FormTitle>
 
       <FormRow>
-        <label>제목<span className="required">*</span></label>
+        <label>
+          제목<span className="required">*</span>
+        </label>
         <input
           type="text"
           value={title}
@@ -112,7 +117,9 @@ function BoardForm() {
       </FormRow>
 
       <FormRow>
-        <label>내용<span className="required">*</span></label>
+        <label>
+          내용<span className="required">*</span>
+        </label>
         <textarea
           value={content}
           onChange={(e) => setContent(e.target.value)}
@@ -124,7 +131,12 @@ function BoardForm() {
         <FileDropBox>
           <FiDownload />
           <span>이미지 or 파일 첨부</span>
-          <input type="file" multiple accept="image/*" onChange={handleFileChange} />
+          <input
+            type="file"
+            multiple
+            accept="image/*"
+            onChange={handleFileChange}
+          />
         </FileDropBox>
 
         {previewUrls.length > 0 && (
@@ -132,7 +144,12 @@ function BoardForm() {
             {previewUrls.map((url, idx) => (
               <div className="preview-item" key={idx}>
                 <img src={url} alt="미리보기" />
-                <button className="remove-btn" onClick={() => handleRemoveFile(idx)}>×</button>
+                <button
+                  className="remove-btn"
+                  onClick={() => handleRemoveFile(idx)}
+                >
+                  ×
+                </button>
               </div>
             ))}
           </PreviewList>
@@ -141,9 +158,12 @@ function BoardForm() {
 
       <FormButtons>
         <button className="submit" onClick={handleSubmit}>
-          {isEdit ? '수정' : '작성'}
+          {isEdit ? "수정" : "작성"}
         </button>
-        <button className="cancel" onClick={() => navigate(isEdit ? `/boards/${boardNo}` : '/boards')}>
+        <button
+          className="cancel"
+          onClick={() => navigate(isEdit ? `/boards/${boardNo}` : "/boards")}
+        >
           취소
         </button>
       </FormButtons>
