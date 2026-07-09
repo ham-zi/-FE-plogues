@@ -123,11 +123,6 @@ export const DetailContent = styled.p`
   white-space: pre-wrap;
 `;
 
-export const DetailImage = styled.img`
-  width: 100%;
-  border-radius: 8px;
-  margin: 20px 0;
-`;
 
 export const DetailButtons = styled.div`
   display: flex;
@@ -482,4 +477,60 @@ export const AttachFileBox = styled.div`
     border-color: #34908b;
     color: #34908b;
   }
+`;
+
+export const ImageGrid = styled.div`
+  columns: ${(props) => Math.min(props.$count, 2)};
+  column-gap: 12px;
+  margin: 20px 0;
+`;
+
+export const DetailImage = styled.img`
+  width: 100%;
+  max-width: ${(props) => (props.$count === 1 ? "400px" : "none")};
+  height: auto;
+  border-radius: 8px;
+  margin: 0 auto 12px auto;
+  display: block;
+  break-inside: avoid;
+`;
+
+export const SearchWrapper = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+`;
+
+export const SearchInput = styled.input`
+  padding: 8px 12px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 13px;
+  width: 220px;
+
+  &:focus {
+    outline: none;
+    border-color: #3aa0a0;
+  }
+`;
+
+export const SearchButton = styled.button`
+  padding: 8px 16px;
+  border: none;
+  border-radius: 6px;
+  background-color: #3aa0a0;
+  color: #fff;
+  font-size: 13px;
+  cursor: pointer;
+
+  &:hover {
+    opacity: 0.85;
+  }
+`;
+
+export const ListTopRow = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
 `;

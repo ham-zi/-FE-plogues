@@ -149,6 +149,12 @@ export const HeaderLeft = styled.div`
   gap: 10px;
 `;
 
+export const DetailTitle = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  width: 100%;
+`;
+
 export const ReportButton = styled.button`
   width: 48px;
   height: 48px;

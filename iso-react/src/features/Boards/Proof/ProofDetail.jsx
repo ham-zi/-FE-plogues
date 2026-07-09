@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import api from "../../../api/axios";
+import { PiSirenFill } from "react-icons/pi";
 import {
   Page,
   Container,
@@ -20,8 +21,9 @@ import {
   ActivityLink,
   ReportButton,
   HeaderLeft,
+  DetailTitle,
 } from "./ProofDetail.styles";
-import { FaRegFlag } from "react-icons/fa";
+
 function ProofDetail() {
   const { proofNo } = useParams();
   const navigate = useNavigate();
@@ -65,10 +67,11 @@ function ProofDetail() {
             <HeaderIcon>▣</HeaderIcon>
             <Title>인증 상세 보기</Title>
           </HeaderLeft>
-
+        <DetailTitle>
           <ReportButton onClick={handleReport}>
-            <FaRegFlag size={22} />
+            <PiSirenFill />
           </ReportButton>
+        </DetailTitle>
         </Header>
 
         <FormArea>

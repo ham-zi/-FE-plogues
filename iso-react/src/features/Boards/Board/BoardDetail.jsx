@@ -9,6 +9,7 @@ import {
   DetailTitle,
   DetailInfo,
   DetailContent,
+  ImageGrid,
   DetailImage,
   DetailButtons,
   CommentSection,
@@ -17,9 +18,9 @@ import {
   CommentLoginNotice,
   CommentItem,
   EditBox,
-  AlarmButton,
 } from "./BoardStyle";
 import { customAlert } from "../../Commons/Alert";
+import { AlarmButton } from "../Notice/NoticeStyle";
 
 function BoardDetail() {
   const { boardNo } = useParams();
@@ -129,6 +130,7 @@ function BoardDetail() {
       <DetailTitle>
   <span>{board.title}</span>
 
+    
   <AlarmButton onClick={handleReport}>
     <PiSirenFill />
   </AlarmButton>
@@ -148,14 +150,18 @@ function BoardDetail() {
 
       <DetailContent>{board.content}</DetailContent>
 
-      {board.fileList &&
-        board.fileList.map((file) => (
-          <DetailImage
-            key={file.fileNo}
-            src={`${file.filePath}${file.changeName}`}
-            alt={file.originName}
-          />
-        ))}
+      {board.fileList && board.fileList.length > 0 && (
+  <ImageGrid $count={board.fileList.length}>
+    {board.fileList.map((file) => (
+      <DetailImage
+        key={file.fileNo}
+        $count={board.fileList.length}
+        src={`${file.filePath}${file.changeName}`}
+        alt={file.originName}
+      />
+    ))}
+  </ImageGrid>
+)}
 
       <DetailButtons>
         <button onClick={() => navigate("/boards")}>목록</button>
