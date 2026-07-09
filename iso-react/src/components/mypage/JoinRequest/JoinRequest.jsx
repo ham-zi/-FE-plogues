@@ -9,6 +9,8 @@ import {
   JoinButton,
 } from "./JoinRequest.styles";
 
+import { useAuth } from "../../../context/AuthContext";
+
 const requests = [
   {
     name: "무책임",
@@ -33,6 +35,7 @@ const requests = [
 ];
 
 function JoinRequest() {
+  const { logout } = useAuth();
   return (
     <Container>
       <Title>참여 요청</Title>
@@ -48,6 +51,7 @@ function JoinRequest() {
         </thead>
 
         <tbody>
+          <JoinButton onClick={logout}>로그아웃</JoinButton>
           {requests.map((request, index) => (
             <tr key={index}>
               <Td>{request.name}</Td>
