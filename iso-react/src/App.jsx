@@ -19,6 +19,7 @@ import QuestionForm from "./features/Boards/Question/QuestionForm";
 import QuestionPage from "./features/Boards/Question/QuestionPage";
 import QuestionAdminList from "./features/Boards/Question/QuestionAdminList";
 import QuestionUserList from "./features/Boards/Question/QuestionUserList";
+import MyChat from "./features/User/chat/MyChat";
 
 function App() {
   return (
@@ -35,6 +36,7 @@ function App() {
         <Route path="/mypage/requests" element={<MyRequest />} />
         <Route path="/mypage/groups" element={<MyGroup />} />
         <Route path="/mypage/reviews" element={<MyReview />} />
+        <Route path="/chats/:joinNo" element={<MyChat />} />
         <Route path="/boards" element={<BoardList />} />
         <Route path="/boards/:boardNo" element={<BoardDetail />} />
         <Route path="/boards/write" element={<BoardForm />} />

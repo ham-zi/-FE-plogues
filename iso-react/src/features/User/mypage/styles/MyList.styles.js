@@ -303,11 +303,11 @@ export const Tab = styled.button`
   cursor: pointer;
 
   font-size: 16px;
-  font-weight: ${({ active }) => (active ? "700" : "500")};
-  color: ${({ active }) => (active ? "#34908B" : "#777")};
+  font-weight: ${({ $active }) => ($active ? "700" : "500")};
+  color: ${({ $active }) => ($active ? "#34908B" : "#777")};
 
-  border-bottom: ${({ active }) =>
-    active ? "3px solid #34908B" : "3px solid transparent"};
+  border-bottom: ${({ $active }) =>
+    $active ? "3px solid #34908B" : "3px solid transparent"};
 
   transition: 0.2s;
 

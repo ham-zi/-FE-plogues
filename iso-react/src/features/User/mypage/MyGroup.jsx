@@ -173,7 +173,7 @@ const MyGroup = () => {
           {filterCategories.map((item) => (
             <Tab
               key={item.value}
-              active={selectedCategory === item.value}
+              $active={selectedCategory === item.value}
               onClick={() => setSelectedCategory(item.value)}
             >
               {item.label}
@@ -195,40 +195,48 @@ const MyGroup = () => {
             </thead>
 
             <tbody>
-              {filteredList.map((item) => {
-                const status = getStatus(item);
+              {filteredList.length > 0 ? (
+                filteredList.map((item) => {
+                  const status = getStatus(item);
 
-                return (
-                  <tr key={item.joinNo}>
-                    <td>{item.category}</td>
+                  return (
+                    <tr key={item.joinNo}>
+                      <td>{item.category}</td>
 
-                    <td>{item.title}</td>
+                      <td>{item.title}</td>
 
-                    <td>
-                      {item.currentCount}/{item.participants}
-                    </td>
+                      <td>
+                        {item.currentCount}/{item.participants}
+                      </td>
 
-                    <td>
-                      <StateBadge state={status}>{status}</StateBadge>
-                    </td>
+                      <td>
+                        <StateBadge state={status}>{status}</StateBadge>
+                      </td>
 
-                    <td>{item.createDate?.split("T")[0]}</td>
+                      <td>{item.createDate?.split("T")[0]}</td>
 
-                    <td>
-                      <StateBadge
-                        state={item.status === "ACCEPTED" ? "참여" : "참여불가"}
-                        onClick={() => {
-                          if (item.status === "ACCEPTED") {
-                            navi(`/chat/${item.chatNo}`);
+                      <td>
+                        <StateBadge
+                          state={
+                            item.status === "ACCEPTED" ? "참여" : "참여불가"
                           }
-                        }}
-                      >
-                        {item.status === "ACCEPTED" ? "참여" : "참여불가"}
-                      </StateBadge>
-                    </td>
-                  </tr>
-                );
-              })}
+                          onClick={() => {
+                            if (item.status === "ACCEPTED") {
+                              navi(`/chat/${item.joinNo}`);
+                            }
+                          }}
+                        >
+                          {item.status === "ACCEPTED" ? "참여" : "참여불가"}
+                        </StateBadge>
+                      </td>
+                    </tr>
+                  );
+                })
+              ) : (
+                <tr>
+                  <td colSpan="6">작성한 모집 내역이 없습니다.</td>
+                </tr>
+              )}
             </tbody>
           </Table>
         </TableWrapper>

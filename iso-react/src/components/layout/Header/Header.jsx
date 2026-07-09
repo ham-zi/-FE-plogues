@@ -48,14 +48,7 @@ const Header = () => {
                 문의하기
               </NavLink>
               <NavLink onClick={() => navi("/mypage")}>내정보조회</NavLink>
-              <Login
-                onClick={async () => {
-                  await logout();
-                  navi("/");
-                }}
-              >
-                로그아웃
-              </Login>
+              <Login onClick={logout}>로그아웃</Login>
             </>
           ) : (
             <>
