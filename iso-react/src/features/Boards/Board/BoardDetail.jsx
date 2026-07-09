@@ -69,14 +69,17 @@ function BoardDetail() {
     }
   };
   const handleReport = () => {
+    console.log(board);
   const reportInfo = {
     boardType: "REVIEW",
     title: board.title,
     targetNo: board.boardNo,
   };
 
-  navigate("/report", {
-    state: { reportInfo },
+  navigate("/reports/form", {
+    state: {
+      reportInfo,
+    },
   });
 };
 

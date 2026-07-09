@@ -95,7 +95,7 @@ const EventCard = () => {
 
   return (
     <Card>
-      <CardTitle>이달의 이벤트</CardTitle>
+      <CardTitle>이달의 이벤트 🎉</CardTitle>
       {loading ? (
         <EmptyText>불러오는 중...</EmptyText>
       ) : events.length === 0 ? (

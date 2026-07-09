@@ -15,21 +15,23 @@ import {
   CancelButton,
 } from "../Boards/Question/QuestionForm.styles";
 import { Button } from "../User/SignUp.styles";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import api from "../../api/axios";
 
-const Report = (report) => {
+const Report = () => {
   const { user } = useAuth();
   const [loading, isLoading] = useState(false);
   const navigate = useNavigate();
+  const location = useLocation();
+  const receivedReportInfo = location.state?.reportInfo;
   const [reportInfo, setReportInfo] = useState({
-    userId: user.userId,
-    reportCategory: "스팸",
-    boardType: report.boardType,
-    title: report.title,
-    targetNo: report.targetNo,
-    content: "",
-  });
+  userId: user.userId,
+  reportCategory: "SPAM",
+  boardType: receivedReportInfo?.boardType,
+  title: receivedReportInfo?.title,
+  targetNo: receivedReportInfo?.targetNo,
+  content: "",
+});
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -63,7 +65,7 @@ const Report = (report) => {
         <Form onSubmit={handleSubmit}>
           <FormGroup>
             <Label>게시판 제목</Label>
-            <Input type="text" value={reportInfo.title} disabled="true"></Input>
+            <Input type="text" value={reportInfo.title} disabled={true}></Input>
           </FormGroup>
 
           <FormGroup>
