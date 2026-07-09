@@ -44,7 +44,7 @@ const MyReview = () => {
     },
     {
       name: "모집 작성 목록",
-      path: "/mypage/",
+      path: "/mypage/groups",
     },
     {
       name: "후기 작성 목록",
