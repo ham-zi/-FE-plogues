@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { FiEdit3, FiDownload } from 'react-icons/fi';
 import api from '../../../api/axios';
+import { customAlert } from '../../Commons/Alert';
 import {
   FormWrap,
   FormTitle,

@@ -39,7 +39,7 @@ function BoardForm() {
           }
         } catch (err) {
           console.error(err);
-          customAlert.error('게시글 조회에 실패했습니다.');
+          customAlert.error('게시글 상세 조회에 실패했습니다.');
         }
       };
 
