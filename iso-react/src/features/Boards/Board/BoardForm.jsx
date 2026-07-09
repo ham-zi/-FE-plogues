@@ -54,13 +54,13 @@ function BoardForm() {
     const remainingSlots = 4 - currentTotal;
 
     if (remainingSlots <= 0) {
-      Alert.error('사진은 최대 4개까지 첨부할 수 있습니다.');
+      customAlert.error('사진은 최대 4개까지 첨부할 수 있습니다.');
       e.target.value = '';
       return;
     }
 
     if (selectedFiles.length > remainingSlots) {
-      Alert.error(`사진은 최대 4개까지 첨부할 수 있습니다. 현재 ${currentTotal}개라 ${remainingSlots}개만 추가 가능합니다.`);
+      customAlert.error(`사진은 최대 4개까지 첨부할 수 있습니다. 현재 ${currentTotal}개라 ${remainingSlots}개만 추가 가능합니다.`);
     }
 
     const filesToAdd = selectedFiles.slice(0, remainingSlots);
@@ -85,12 +85,12 @@ function BoardForm() {
 
   const handleSubmit = async () => {
     if (!title.trim()) {
-      Alert.error('제목을 입력해주세요.');
+      customAlert.error('제목을 입력해주세요.');
       return;
     }
 
     if (!content.trim()) {
-      Alert.error('내용을 입력해주세요.');
+      customAlert.error('내용을 입력해주세요.');
       return;
     }
 
@@ -114,19 +114,19 @@ function BoardForm() {
           headers: { 'Content-Type': 'multipart/form-data' },
         });
 
-        Alert.success('게시글이 수정되었습니다.');
+        customAlert.success('게시글이 수정되었습니다.');
         navigate(`/boards/${boardNo}`);
       } else {
         await api.post('/boards', formData, {
           headers: { 'Content-Type': 'multipart/form-data' },
         });
 
-        Alert.success('게시글이 등록되었습니다.');
+        customAlert.success('게시글이 등록되었습니다.');
         navigate('/boards');
       }
     } catch (err) {
       console.error(err);
-      Alert.error(isEdit ? '게시글 수정에 실패했습니다.' : '게시글 등록에 실패했습니다.');
+      customAlert.error(isEdit ? '게시글 수정에 실패했습니다.' : '게시글 등록에 실패했습니다.');
     }
   };
 
