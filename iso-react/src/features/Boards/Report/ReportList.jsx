@@ -88,7 +88,7 @@ function ReportList() {
             <option value="REVIEW">후기 게시판</option>
             <option value="PROOF">인증 게시판</option>
             <option value="JOIN">참여 게시판</option>
-            <option value="NOTICE">인증 게시판</option>
+          
           </Select>
 
           <Select
