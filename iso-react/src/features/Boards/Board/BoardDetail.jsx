@@ -68,6 +68,20 @@ function BoardDetail() {
       alert("댓글 등록에 실패했습니다.");
     }
   };
+  const handleReport = () => {
+    console.log(board);
+  const reportInfo = {
+    boardType: "REVIEW",
+    title: board.title,
+    targetNo: board.boardNo,
+  };
+
+  navigate("/reports/form", {
+    state: {
+      reportInfo,
+    },
+  });
+};
 
   const handleCommentDelete = async (commentNo) => {
     if (!window.confirm("댓글을 삭제하시겠습니까?")) return;
@@ -114,12 +128,27 @@ function BoardDetail() {
       <DetailTitle>{board.title}</DetailTitle>
 
       <DetailInfo>
-        <span>작성자: {board.writer}</span>
-        <span>
-          날짜: {formatDate(board.createDate)}
-          {board.updated === "Y" && <span> (수정됨)</span>}
-        </span>
-      </DetailInfo>
+  <span>작성자: {board.writer}</span>
+
+  <span>
+    <button
+      onClick={handleReport}
+      style={{
+        marginRight: "0px",
+        border: "none",
+        background: "transparent",
+        color: "#777",
+        cursor: "pointer",
+        fontSize: "25px",
+      }}
+    >
+      🚨
+    </button>
+
+    날짜: {formatDate(board.createDate)}
+    {board.updated === "Y" && <span> (수정됨)</span>}
+  </span>
+</DetailInfo>
 
       <DetailContent>{board.content}</DetailContent>
 
@@ -205,9 +234,7 @@ function BoardDetail() {
                       </button>
                     </div>
                   )}
-                  <button className="icon-btn">
-                    <IoMdAlert />
-                  </button>
+                 
                 </div>
               </CommentItem>
 

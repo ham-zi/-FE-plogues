@@ -1,4 +1,5 @@
 import Footer from "./components/layout/Footer/Footer";
+import WelcomePage from "./features/Welcome/WelcomePage";
 import Header from "./components/layout/Header/Header";
 import { Routes, Route } from "react-router-dom";
 import PlogList from "./features/Boards/Join/PlogList";
@@ -36,7 +37,7 @@ function App() {
       <Header />
 
       <Routes>
-        <Route path="/" element={<div>Home</div>} />
+        <Route path="/" element={<WelcomePage />} />
         <Route path="/signup" element={<SignUp />} />
         <Route path="/login" element={<Login />} />
         <Route path="/mypage" element={<MyPage />} />

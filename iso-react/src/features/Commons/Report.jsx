@@ -23,6 +23,8 @@ const Report = () => {
   const [loading, isLoading] = useState(false);
   const { state } = useLocation();
   const navigate = useNavigate();
+  const location = useLocation();
+  const receivedReportInfo = location.state?.reportInfo;
   const [reportInfo, setReportInfo] = useState({
     userId: user.userId,
     reportCategory: "스팸",
@@ -66,7 +68,7 @@ const Report = () => {
         <Form onSubmit={handleSubmit}>
           <FormGroup>
             <Label>게시판 제목</Label>
-            <Input type="text" value={reportInfo.title} disabled="true"></Input>
+            <Input type="text" value={reportInfo.title} disabled={true}></Input>
           </FormGroup>
 
           <FormGroup>
