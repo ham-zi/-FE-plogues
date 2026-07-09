@@ -21,13 +21,14 @@ export const LeftSection = styled.div`
   align-items: center;
 `;
 
-export const ProfileImage = styled.div`
+export const ProfileImage = styled.img`
   width: 130px;
   height: 130px;
   border-radius: 50%;
   background: #2c6e63;
   border: 3px solid #ddd;
   margin-bottom: 20px;
+  object-fit: cover;
 `;
 
 export const StatsContainer = styled.div`
@@ -240,5 +241,77 @@ export const Pagination = styled.div`
     font-size: 16px;
     font-weight: 600;
     color: #555;
+  }
+`;
+
+export const ActionButtons = styled.div`
+  display: flex;
+  gap: 8px;
+`;
+
+export const AcceptButton = styled.button`
+  width: 70px;
+  height: 34px;
+  border: none;
+  border-radius: 6px;
+  background-color: #4caf50;
+  color: white;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+
+  &:hover {
+    background-color: #43a047;
+  }
+
+  &:active {
+    transform: scale(0.95);
+  }
+`;
+
+export const DenyButton = styled.button`
+  width: 70px;
+  height: 34px;
+  border: none;
+  border-radius: 6px;
+  background-color: #f44336;
+  color: white;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+
+  &:hover {
+    background-color: #d32f2f;
+  }
+
+  &:active {
+    transform: scale(0.95);
+  }
+`;
+
+export const TabContainer = styled.div`
+  display: flex;
+  gap: 28px;
+  margin: 20px 0;
+  border-bottom: 1px solid #e5e5e5;
+`;
+
+export const Tab = styled.button`
+  padding: 12px 4px;
+  background: none;
+  border: none;
+  cursor: pointer;
+
+  font-size: 16px;
+  font-weight: ${({ active }) => (active ? "700" : "500")};
+  color: ${({ active }) => (active ? "#34908B" : "#777")};
+
+  border-bottom: ${({ active }) =>
+    active ? "3px solid #34908B" : "3px solid transparent"};
+
+  transition: 0.2s;
+
+  &:hover {
+    color: ${theme.color.main};
   }
 `;
