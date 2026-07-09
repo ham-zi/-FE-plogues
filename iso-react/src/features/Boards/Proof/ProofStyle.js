@@ -3,7 +3,6 @@ import { theme } from "../../../styles/theme";
 export const ProofWrap = styled.div`
   width: 1000px;
   margin: 40px auto;
-  padding-bottom: 80px;
 `;
 
 export const ProofTitle = styled.h2`

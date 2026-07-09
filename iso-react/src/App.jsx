@@ -28,14 +28,21 @@ import JoinDetail from "./features/Boards/Join/JoinDetail";
 import Report from "./features/Commons/Report";
 import ProofDetail from "./features/Boards/Proof/ProofDetail";
 
+const AppLayout = styled.div`
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+`;
+
 const Main = styled.main`
-  min-height: calc(100vh - 500px);
-  padding-bottom: 100px;
+  flex: 1;
+  padding: 40px 0 100px;
 `;
 
 function App() {
   return (
     <>
+    <AppLayout>
       <ScrollToTop />
       <Header />
       <Main>
@@ -69,6 +76,7 @@ function App() {
       </Routes>
       </Main>
       <Footer />
+    </AppLayout>
     </>
   );
 }
