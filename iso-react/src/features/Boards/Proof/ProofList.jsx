@@ -1,20 +1,44 @@
 import ProofHeader from "./ProofHeader";
 import ProofCard from "./ProofCard";
-import proofData from "./proofData";
 import { ProofWrap, ProofBox, PageInfo, ProofGrid } from "./ProofStyle";
+import { useEffect, useState } from "react";
+import api from "../../../api/axios";
 
 function ProofList() {
+  const [proofs, setProofs] = useState([]);
+  const [pageInfo, setPageInfo] = useState({});
+  const [page, setPage] = useState(1);
+  useEffect(() => {
+    const handleProofs = async () => {
+      try {
+        setProofs([]);
+
+        const res = await api.get("/proof", {
+          params: {
+            page,
+            category: "ALL",
+          },
+        });
+
+        setPageInfo(res.data.data.page);
+        setProofs(res.data.data.board);
+      } catch (err) {
+        console.log("상태코드:", err.response?.status);
+        console.log("서버 응답:", err.response?.data);
+      }
+    };
+
+    handleProofs();
+  }, [page]);
+  console.log(pageInfo);
+  console.log(proofs);
   return (
     <ProofWrap>
-      <ProofHeader />
+      <ProofHeader pageInfo={pageInfo} setPage={setPage} />
 
       <ProofBox>
-        <PageInfo>
-          &lt; <span>1/5</span> &gt;
-        </PageInfo>
-
         <ProofGrid>
-          {proofData.map((proof) => (
+          {proofs.map((proof) => (
             <ProofCard key={proof.proofNo} proof={proof} />
           ))}
         </ProofGrid>

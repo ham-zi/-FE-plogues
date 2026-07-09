@@ -16,6 +16,7 @@ import {
 } from "./QuestionForm.styles";
 import { useAuth } from "../../../context/AuthContext";
 import api from "../../../api/axios";
+import { customAlert } from "../../Commons/Alert";
 
 const QuestionForm = () => {
   const navi = useNavigate();
@@ -36,26 +37,24 @@ const QuestionForm = () => {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (!form.title.trim()) {
-      alert("제목을 입력해주세요.");
+      customAlert.error("제목을 입력해주세요.");
       return;
     }
 
     if (!form.content.trim()) {
-      alert("내용을 입력해주세요.");
+      customAlert.error("내용을 입력해주세요.");
       return;
     }
-
-    api.post(`/question`, form).then((result) => {
-      console.log(result);
-    });
-    // TODO: API 연결
-    // await api.post("/questions", form);
-
-    navi("/questions/user");
+    try {
+      await api.post(`/question`, form);
+      navi("/questions/user");
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   return (
@@ -105,7 +104,7 @@ const QuestionForm = () => {
 
           <ButtonArea>
             <SubmitButton type="submit">작성하기</SubmitButton>
-            <CancelButton type="button" onClick={() => navigate("/questions")}>
+            <CancelButton type="button" onClick={() => navi("/questions/page")}>
               목록으로
             </CancelButton>
           </ButtonArea>

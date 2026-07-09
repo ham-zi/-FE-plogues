@@ -4,9 +4,9 @@ import { FaEdit, FaTrash } from "react-icons/fa";
 import { IoMdAlert } from "react-icons/io";
 import api from "../../../api/axios";
 import {
+  DetailInfo,
   DetailWrap,
   DetailTitle,
-  DetailInfo,
   DetailContent,
   DetailImage,
   DetailButtons,
@@ -16,27 +16,29 @@ import {
   CommentLoginNotice,
   CommentItem,
   EditBox,
-} from "./BoardStyle";
+} from "../Board/BoardStyle";
+import { useAuth } from "../../../context/AuthContext";
 import { customAlert } from "../../Commons/Alert";
 
-function BoardDetail() {
+function QuestionDetail() {
+  const { user } = useAuth();
   const { boardNo } = useParams();
   const navigate = useNavigate();
   const [board, setBoard] = useState(null);
   const [commentContent, setCommentContent] = useState("");
   const [editingCommentNo, setEditingCommentNo] = useState(null);
   const [editContent, setEditContent] = useState("");
-  const myUserId = localStorage.getItem("userId"); // 현재 로그인한 사람 아이디
+  const myUserId = localStorage.getItem("userId");
   const profileColors = ["#e57373", "#64b5f6", "#81c784", "#ba68c8", "#ffb74d"];
   const getProfileColor = (id) => profileColors[id % profileColors.length];
-
+  const [comments, setComments] = useState([]);
   useEffect(() => {
     fetchDetail();
   }, [boardNo]);
 
   const fetchDetail = async () => {
     try {
-      const res = await api.get(`/boards/${boardNo}`);
+      const res = await api.get(`/question/${boardNo}`);
       setBoard(res.data.data);
     } catch (err) {
       console.error(err);
@@ -44,7 +46,7 @@ function BoardDetail() {
   };
 
   const handleEditStart = (comment) => {
-    setEditingCommentNo(comment.commentNo);
+    setEditingCommentNo(comment.answerNo);
     setEditContent(comment.content); // 기존 내용 미리 채워넣기
   };
 
@@ -59,50 +61,34 @@ function BoardDetail() {
       return;
     }
     try {
-      await api.post(`/boards/${boardNo}/comments`, {
+      await api.post(`/question/${boardNo}/comments`, {
         content: commentContent,
       });
       setCommentContent(""); // 입력창 비우기
       fetchDetail(); // 댓글 목록 다시 불러오기
     } catch (err) {
-      console.error(err);
-      customAlert.error("댓글 작성에 실패했습니다.");
+      customAlert.error("댓글 등록에 실패했습니다.");
     }
   };
-  const handleReport = () => {
-    console.log(board);
-  const reportInfo = {
-    boardType: "REVIEW",
-    title: board.title,
-    targetNo: board.boardNo,
-  };
-
-  navigate("/reports/form", {
-    state: {
-      reportInfo,
-    },
-  });
-};
 
   const handleCommentDelete = async (commentNo) => {
-    const result = await customAlert.confirm("댓글을 삭제하시겠습니까?");
+    const result = await customAlert.confirm("답변을 삭제하시겠습니까?");
     if (!result) return;
     try {
-      await api.delete(`/boards/${boardNo}/comments/${commentNo}`);
+      await api.delete(`/question/${boardNo}/comments/${commentNo}`);
       fetchDetail(); // 댓글 목록 다시 불러오기
     } catch (err) {
       console.error(err);
       customAlert.error("댓글 삭제에 실패했습니다.");
     }
   };
-
   const handleEditSubmit = async (commentNo) => {
     if (!editContent.trim()) {
-      customAlert.error("댓글 내용을 입력해주세요.");
+      customAlert.error("내용을 입력해주세요.");
       return;
     }
     try {
-      await api.patch(`/boards/${boardNo}/comments/${commentNo}`, {
+      await api.patch(`/question/${boardNo}/comments/${commentNo}`, {
         content: editContent,
       });
       setEditingCommentNo(null);
@@ -123,35 +109,15 @@ function BoardDetail() {
       </DetailWrap>
     );
   }
-  console.log("board.updated:", board.updated);
 
   return (
     <DetailWrap>
       <DetailTitle>{board.title}</DetailTitle>
 
       <DetailInfo>
-  <span>작성자: {board.writer}</span>
-
-  <span>
-    <button
-      onClick={handleReport}
-      style={{
-        marginRight: "0px",
-        border: "none",
-        background: "transparent",
-        color: "#777",
-        cursor: "pointer",
-        fontSize: "25px",
-      }}
-    >
-      🚨
-    </button>
-
-    날짜: {formatDate(board.createDate)}
-    {board.updated === "Y" && <span> (수정됨)</span>}
-  </span>
-</DetailInfo>
-
+        <span>작성자: {board.userId}</span>
+        <span>날짜: {formatDate(board.createDate)}</span>
+      </DetailInfo>
       <DetailContent>{board.content}</DetailContent>
 
       {board.fileList &&
@@ -164,12 +130,9 @@ function BoardDetail() {
         ))}
 
       <DetailButtons>
-        <button onClick={() => navigate("/boards")}>목록</button>
+        <button onClick={() => navigate("/questions/page")}>목록</button>
         {board.userId === myUserId && (
           <>
-            <button onClick={() => navigate(`/boards/${boardNo}/edit`)}>
-              수정
-            </button>
             <button className="delete" onClick={handleDelete}>
               삭제
             </button>
@@ -178,37 +141,33 @@ function BoardDetail() {
       </DetailButtons>
 
       <CommentSection>
-        <CommentTitle>댓글</CommentTitle>
+        <CommentTitle>문의 답변</CommentTitle>
 
-        {myUserId ? (
+        {user.role == "[ROLE_ADMIN]" && (
           <CommentBox>
             <textarea
               value={commentContent}
               onChange={(e) => setCommentContent(e.target.value)}
-              placeholder="댓글을 입력해주세요."
+              placeholder="답변을 입력해주세요."
             />
             <div className="btn-row">
               <button onClick={handleCommentSubmit}>작성</button>
             </div>
           </CommentBox>
-        ) : (
-          <CommentLoginNotice>
-            댓글 작성은 로그인 후 이용하실 수 있습니다.
-          </CommentLoginNotice>
         )}
 
-        {board.commentList && board.commentList.length > 0 ? (
-          board.commentList.map((comment) => (
-            <div key={comment.commentNo}>
+        {board.answerList && board.answerList.length > 0 ? (
+          board.answerList.map((comment) => (
+            <div key={comment.answerNo}>
               <CommentItem>
                 <div
                   className="profile"
                   style={{
-                    backgroundColor: getProfileColor(comment.commentNo),
+                    backgroundColor: getProfileColor(comment.answerNo),
                   }}
                 />
                 <div className="body">
-                  <span className="writer">{comment.writer}</span>
+                  <span className="writer">{comment.userId}</span>
                   <span className="date">{formatDate(comment.createDate)}</span>
                   {comment.updated === "Y" && (
                     <span className="date"> (수정됨)</span>
@@ -220,7 +179,7 @@ function BoardDetail() {
                 <div
                   style={{ display: "flex", gap: "10px", alignItems: "center" }}
                 >
-                  {comment.userId === myUserId && (
+                  {user.role === "[ROLE_ADMIN]" && (
                     <div className="actions">
                       <button
                         className="icon-btn"
@@ -230,31 +189,30 @@ function BoardDetail() {
                       </button>
                       <button
                         className="icon-btn"
-                        onClick={() => handleCommentDelete(comment.commentNo)}
+                        onClick={() => handleCommentDelete(comment.answerNo)}
                       >
                         <FaTrash />
                       </button>
                     </div>
                   )}
-                 
                 </div>
               </CommentItem>
 
-              {editingCommentNo === comment.commentNo && (
+              {editingCommentNo === comment.answerNo && (
                 <EditBox>
                   <textarea
                     value={editContent}
                     onChange={(e) => setEditContent(e.target.value)}
                   />
                   <div className="btn-row">
-                    <button
-                      className="save"
-                      onClick={() => handleEditSubmit(comment.commentNo)}
-                    >
-                      수정
-                    </button>
                     <button className="cancel" onClick={handleEditCancel}>
                       취소
+                    </button>
+                    <button
+                      className="save"
+                      onClick={() => handleEditSubmit(comment.answerNo)}
+                    >
+                      수정
                     </button>
                   </div>
                 </EditBox>
@@ -262,7 +220,7 @@ function BoardDetail() {
             </div>
           ))
         ) : (
-          <p>등록된 댓글이 없습니다.</p>
+          <p>등록된 답변이 없습니다.</p>
         )}
       </CommentSection>
     </DetailWrap>
@@ -289,4 +247,4 @@ function formatDate(dateString) {
   return `${yy}.${mm}.${dd}`;
 }
 
-export default BoardDetail;
+export default QuestionDetail;
