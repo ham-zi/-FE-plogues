@@ -190,7 +190,7 @@ export const CommentBox = styled.div`
     padding: 8px 20px;
     border-radius: 20px;
     border: none;
-    background: #34908B;
+    background: #34908b;
     color: white;
     cursor: pointer;
     font-size: 13px;
@@ -217,7 +217,7 @@ export const CommentItem = styled.div`
     width: 32px;
     height: 32px;
     border-radius: 50%;
-    background-color: ${(props) => props.color || '#ccc'};
+    background-color: ${(props) => props.color || "#ccc"};
     flex-shrink: 0;
   }
 
@@ -266,7 +266,7 @@ export const EditBox = styled.div`
   margin-top: 10px;
 
   textarea {
-    width: 100%;       
+    width: 100%;
     height: 90px;
     border: 1px solid #ddd;
     border-radius: 8px;
@@ -274,7 +274,7 @@ export const EditBox = styled.div`
     font-size: 14px;
     resize: none;
     font-family: inherit;
-    box-sizing: border-box;  
+    box-sizing: border-box;
   }
 
   .btn-row {
@@ -291,17 +291,17 @@ export const EditBox = styled.div`
     font-size: 13px;
     cursor: pointer;
   }
-  
+
   .save {
-    background: #34908B;
-    border: 1px solid #34908B;
+    background: #34908b;
+    border: 1px solid #34908b;
     color: white;
   }
 
   .cancel {
     background: white;
-    border: 1px solid #34908B;
-    color: #34908B;
+    border: 1px solid #34908b;
+    color: #34908b;
   }
 `;
 
@@ -456,29 +456,30 @@ export const FormButtons = styled.div`
     border: none;
   }
 `;
+export const AttachFileBox = styled.div`
+  margin: 30px 0;
 
-export const AlarmButton = styled.button`
-  width: 36px;
-  height: 36px;
-  border: none;
-  border-radius: 50%;
-  background: #ffdada;
-  color: #ff6b6b;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  cursor: pointer;
-  transition: 0.2s;
-
-  &:hover {
-    background: #ffc7c7;
-    transform: scale(1.05);
+  h4 {
+    margin-bottom: 10px;
+    font-size: 15px;
+    color: #444;
   }
 
-  svg {
-    width: 20px;
-    height: 20px;
+  a {
+    display: block;
+    padding: 10px 14px;
+    margin-bottom: 8px;
+    background: #f8f8f8;
+    border: 1px solid #e5e5e5;
+    border-radius: 8px;
+    color: #444;
+    text-decoration: none;
+    transition: 0.2s;
+  }
+
+  a:hover {
+    background: #eef8f7;
+    border-color: #34908b;
+    color: #34908b;
   }
 `;

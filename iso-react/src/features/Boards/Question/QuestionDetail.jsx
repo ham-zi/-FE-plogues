@@ -16,10 +16,11 @@ import {
   CommentLoginNotice,
   CommentItem,
   EditBox,
+  AttachFileBox,
 } from "../Board/BoardStyle";
 import { useAuth } from "../../../context/AuthContext";
 import { customAlert } from "../../Commons/Alert";
-
+import { FiPaperclip } from "react-icons/fi";
 function QuestionDetail() {
   const { user } = useAuth();
   const { boardNo } = useParams();
@@ -120,15 +121,22 @@ function QuestionDetail() {
       </DetailInfo>
       <DetailContent>{board.content}</DetailContent>
 
-      {board.fileList &&
-        board.fileList.map((file) => (
-          <DetailImage
-            key={file.fileNo}
-            src={`${file.filePath}${file.changeName}`}
-            alt={file.originName}
-          />
-        ))}
+      {board.files && board.files.length > 0 && (
+        <AttachFileBox>
+          <h4>첨부파일</h4>
 
+          {board.files.map((file) => (
+            <a
+              key={file.fileNo}
+              href={`${file.filePath}${file.changeName}`}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              📎 {file.originName}
+            </a>
+          ))}
+        </AttachFileBox>
+      )}
       <DetailButtons>
         <button onClick={() => navigate("/questions/page")}>목록</button>
         {board.userId === myUserId && (
@@ -232,7 +240,7 @@ function QuestionDetail() {
     try {
       await api.delete(`/boards/${boardNo}`);
       customAlert.success("게시글이 삭제되었습니다.");
-      navigate("/boards");
+      navigate("/Questions");
     } catch (err) {
       console.error(err);
     }

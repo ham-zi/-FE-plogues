@@ -30,8 +30,6 @@ function ProofList() {
 
     handleProofs();
   }, [page]);
-  console.log(pageInfo);
-  console.log(proofs);
   return (
     <ProofWrap>
       <ProofHeader pageInfo={pageInfo} setPage={setPage} />
