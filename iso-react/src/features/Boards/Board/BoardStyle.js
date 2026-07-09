@@ -1,8 +1,10 @@
 import styled from "styled-components";
 
 export const BoardWrap = styled.div`
-  width: 860px;
+  width: 100%;
+  max-width: 860px;
   margin: 60px auto;
+  padding: 0 20px;
   color: #222;
 `;
 
