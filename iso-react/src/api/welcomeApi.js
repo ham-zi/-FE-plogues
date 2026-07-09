@@ -12,7 +12,7 @@ const api = axios.create({
  * → List<TreeDto> [{ temperature, humidity, soilMoisture, measureTime }, ...]
  */
 export const getWeeklyClimateData = async () => {
-  const res = await api.get("/api/tree/week");
+  const res = await api.get("/api/tree/day");
   return res.data.data; // ApiResponse<T> 래핑 구조라고 가정 (result -> data 필드명 팀 컨벤션에 맞게 조정!)
 };
 
