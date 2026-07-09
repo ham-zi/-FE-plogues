@@ -25,6 +25,7 @@ import QuestionDetail from "./features/Boards/Question/QuestionDetail";
 import ReportList from "./features/Boards/Report/ReportList";
 import JoinDetail from "./features/Boards/Join/JoinDetail";
 import Report from "./features/Commons/Report";
+import ProofDetail from "./features/Boards/Proof/ProofDetail";
 
 function App() {
   return (
@@ -45,7 +46,6 @@ function App() {
         <Route path="/joins/plogging" element={<PlogList />} />
         <Route path="/joins/plant" element={<PlantList />} />
         <Route path="/joins/:joinNo" element={<JoinDetail />} />
-        <Route path="/proofs" element={<ProofList />} />
         <Route path="/notices" element={<NoticeList />} />
         <Route path="/notices/:noticeNo" element={<NoticeDetail />} />
         <Route path="/notices/write" element={<NoticeForm />} />
@@ -57,6 +57,8 @@ function App() {
         <Route path="/questions/:boardNo" element={<QuestionDetail />} />
         <Route path="/reports" element={<ReportList />} />
         <Route path="/reports/form" element={<Report />} />
+        <Route path="/proofs" element={<ProofList />} />
+        <Route path="/proofs/:proofNo" element={<ProofDetail />} />
       </Routes>
       <Footer />
     </>

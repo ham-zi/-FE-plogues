@@ -21,17 +21,18 @@ import api from "../../api/axios";
 const Report = () => {
   const { user } = useAuth();
   const [loading, isLoading] = useState(false);
+  const { state } = useLocation();
   const navigate = useNavigate();
   const location = useLocation();
   const receivedReportInfo = location.state?.reportInfo;
   const [reportInfo, setReportInfo] = useState({
-  userId: user.userId,
-  reportCategory: "SPAM",
-  boardType: receivedReportInfo?.boardType,
-  title: receivedReportInfo?.title,
-  targetNo: receivedReportInfo?.targetNo,
-  content: "",
-});
+    userId: user.userId,
+    reportCategory: "스팸",
+    boardType: state.boardType,
+    title: state.title,
+    targetNo: state.targetNo,
+    content: "",
+  });
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -43,11 +44,13 @@ const Report = () => {
     isLoading(true);
     try {
       const res = await api.post("/report", reportInfo);
+      isLoading(false);
+      alert("게시글이 신고되었습니다.");
+      navigate(-1);
     } catch (err) {
       console.log("상태코드:", err.response?.status);
       console.log("서버 응답:", err.response?.data);
-    } finally {
-      isLoading(false);
+      if (err.response?.data.code === 409) alert("이미 신고한 게시글입니다.");
     }
   };
 
