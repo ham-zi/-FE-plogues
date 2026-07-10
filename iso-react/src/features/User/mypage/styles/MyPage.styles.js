@@ -22,7 +22,10 @@ export const ProfileImage = styled.div`
   height: 130px;
   border-radius: 50%;
   background-color: #2c6e63;
-  margin-bottom: 20px;
+  background-image: ${(props) =>
+    props.$imgUrl ? `url(${props.$imgUrl})` : "none"};
+  background-size: cover;
+  background-position: center;
   border: 3px solid #e0e0e0;
 `;
 
@@ -168,13 +171,46 @@ export const FileUploadBox = styled.div`
   color: #888;
 `;
 export const DeleteButton = styled.button`
-  width: 80%;
+  width: 100%;
   padding: 12px 0;
-  margin-top: 35px;
+  margin-top: 32px;
   border-radius: 6px;
   border: none;
   background-color: #d97474;
   color: white;
   font-weight: bold;
   cursor: pointer;
+`;
+
+
+export const ProfileImageWrapper = styled.div`
+  position: relative;
+  width: 130px;
+  height: 130px;
+  border-radius: 50%;
+  cursor: pointer;
+  margin-bottom: 20px;
+  overflow: hidden;
+
+  &:hover div[data-overlay="true"] {
+    opacity: 1;
+  }
+`;
+
+export const ProfileOverlay = styled.div`
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.5);
+  color: #fff;
+  font-size: 13px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.2s ease;
 `;
