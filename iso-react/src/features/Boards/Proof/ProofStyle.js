@@ -112,3 +112,160 @@ export const WriterBox = styled.div`
     font-weight: 600;
   }
 `;
+
+export const FormWrap = styled.div`
+  width: 860px;
+  margin: 60px auto;
+  color: #222;
+`;
+
+export const FormTitle = styled.h2`
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 22px;
+  padding-bottom: 20px;
+  border-bottom: 2px solid #222;
+  margin-bottom: 30px;
+`;
+
+export const FormRow = styled.div`
+  margin-bottom: 25px;
+
+  label {
+    display: block;
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 10px;
+
+    .required {
+      color: #e57373;
+      margin-left: 2px;
+    }
+  }
+
+  input[type="text"] {
+    width: 100%;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 12px 14px;
+    font-size: 14px;
+    box-sizing: border-box;
+    outline: none;
+  }
+
+  textarea {
+    width: 100%;
+    height: 160px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 12px 14px;
+    font-size: 14px;
+    font-family: inherit;
+    resize: none;
+    box-sizing: border-box;
+    outline: none;
+  }
+`;
+
+export const SelectBox = styled.select`
+  width: 100%;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 12px 14px;
+  font-size: 14px;
+  outline: none;
+`;
+
+export const FileDropContainer = styled.div`
+  display: flex;
+  gap: 20px;
+`;
+
+export const FileDropBox = styled.label`
+  display: flex !important;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 150px;
+  border: 1.5px dashed #ccc;
+  border-radius: 12px;
+  color: #999;
+  font-size: 14px;
+  cursor: pointer;
+  gap: 10px;
+  box-sizing: border-box;
+
+  input {
+    display: none;
+  }
+
+  svg {
+    font-size: 32px;
+    color: #999;
+  }
+
+  &:hover {
+    border-color: #3f8f72;
+    color: #3f8f72;
+
+    svg {
+      color: #3f8f72;
+    }
+  }
+`;
+
+export const PreviewZone = styled.div`
+  position: relative;
+
+  img {
+    width: 180px;
+    height: 130px;
+    object-fit: cover;
+    border-radius: 8px;
+  }
+
+  .delete-btn {
+    position: absolute;
+    top: -8px;
+    right: -8px;
+
+    width: 22px;
+    height: 22px;
+
+    border-radius: 50%;
+    border: none;
+
+    background: #c74141;
+    color: white;
+
+    cursor: pointer;
+  }
+`;
+
+export const FormButtons = styled.div`
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 40px;
+
+  button {
+    padding: 10px 30px;
+    border-radius: 20px;
+    font-size: 14px;
+    cursor: pointer;
+  }
+
+  .submit-white {
+    background: white;
+    border: 1px solid #3f8f72;
+    color: #3f8f72;
+  }
+
+  .cancel-green {
+    background: #3f8f72;
+    color: white;
+    border: none;
+  }
+`;

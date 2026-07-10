@@ -1,7 +1,6 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { FaEdit, FaTrash } from "react-icons/fa";
-import { IoMdAlert } from "react-icons/io";
 import api from "../../../api/axios";
 import {
   DetailWrap,
@@ -30,18 +29,20 @@ function BoardDetail() {
   const profileColors = ["#e57373", "#64b5f6", "#81c784", "#ba68c8", "#ffb74d"];
   const getProfileColor = (id) => profileColors[id % profileColors.length];
 
-  useEffect(() => {
-    fetchDetail();
-  }, [boardNo]);
-
-  const fetchDetail = async () => {
+  const fetchDetail = useCallback(async () => {
     try {
       const res = await api.get(`/boards/${boardNo}`);
       setBoard(res.data.data);
     } catch (err) {
       console.error(err);
     }
-  };
+  }, [boardNo]);
+
+  useEffect(() => {
+    void (async () => {
+      await fetchDetail();
+    })();
+  }, [fetchDetail]);
 
   const handleEditStart = (comment) => {
     setEditingCommentNo(comment.commentNo);
@@ -71,18 +72,18 @@ function BoardDetail() {
   };
   const handleReport = () => {
     console.log(board);
-  const reportInfo = {
-    boardType: "REVIEW",
-    title: board.title,
-    targetNo: board.boardNo,
-  };
+    const reportInfo = {
+      boardType: "REVIEW",
+      title: board.title,
+      targetNo: board.boardNo,
+    };
 
-  navigate("/reports/form", {
-    state: {
-      reportInfo,
-    },
-  });
-};
+    navigate("/reports/form", {
+      state: {
+        reportInfo,
+      },
+    });
+  };
 
   const handleCommentDelete = async (commentNo) => {
     const result = await customAlert.confirm("댓글을 삭제하시겠습니까?");
@@ -130,27 +131,26 @@ function BoardDetail() {
       <DetailTitle>{board.title}</DetailTitle>
 
       <DetailInfo>
-  <span>작성자: {board.writer}</span>
+        <span>작성자: {board.writer}</span>
 
-  <span>
-    <button
-      onClick={handleReport}
-      style={{
-        marginRight: "0px",
-        border: "none",
-        background: "transparent",
-        color: "#777",
-        cursor: "pointer",
-        fontSize: "25px",
-      }}
-    >
-      🚨
-    </button>
-
-    날짜: {formatDate(board.createDate)}
-    {board.updated === "Y" && <span> (수정됨)</span>}
-  </span>
-</DetailInfo>
+        <span>
+          <button
+            onClick={handleReport}
+            style={{
+              marginRight: "0px",
+              border: "none",
+              background: "transparent",
+              color: "#777",
+              cursor: "pointer",
+              fontSize: "25px",
+            }}
+          >
+            🚨
+          </button>
+          날짜: {formatDate(board.createDate)}
+          {board.updated === "Y" && <span> (수정됨)</span>}
+        </span>
+      </DetailInfo>
 
       <DetailContent>{board.content}</DetailContent>
 
@@ -236,7 +236,6 @@ function BoardDetail() {
                       </button>
                     </div>
                   )}
-                 
                 </div>
               </CommentItem>
 

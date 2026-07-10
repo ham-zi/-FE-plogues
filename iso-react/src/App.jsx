@@ -27,6 +27,7 @@ import ReportList from "./features/Boards/Report/ReportList";
 import JoinDetail from "./features/Boards/Join/JoinDetail";
 import Report from "./features/Commons/Report";
 import ProofDetail from "./features/Boards/Proof/ProofDetail";
+import ProofForm from "./features/Boards/Proof/ProofForm";
 
 const AppLayout = styled.div`
   min-height: 100vh;
@@ -72,6 +73,8 @@ function App() {
         <Route path="/reports" element={<ReportList />} />
         <Route path="/reports/form" element={<Report />} />
         <Route path="/proofs" element={<ProofList />} />
+        <Route path="/proofs/write" element={<ProofForm />} />
+        <Route path="/proofs/:proofNo/edit" element={<ProofForm />} />
         <Route path="/proofs/:proofNo" element={<ProofDetail />} />
       </Routes>
       </Main>

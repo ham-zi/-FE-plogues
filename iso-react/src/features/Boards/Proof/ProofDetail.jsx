@@ -17,7 +17,6 @@ import {
   DetailImage,
   ButtonArea,
   ListButton,
-  ActivityLink,
   ReportButton,
   HeaderLeft,
 } from "./ProofDetail.styles";
@@ -113,9 +112,9 @@ function ProofDetail() {
             </ImageColumn>
           </ImageRow>
           <ButtonArea>
-            <ActivityLink to={`/join/${proof.joinNo}`}>
-              🔗 참여 활동 보러가기
-            </ActivityLink>
+            <ListButton onClick={() => navigate(`/proofs/${proofNo}/edit`)}>
+              수정
+            </ListButton>
             <ListButton onClick={() => navigate("/proofs")}>
               목록으로
             </ListButton>
