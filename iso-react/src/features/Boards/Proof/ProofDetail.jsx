@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import api from "../../../api/axios";
+import { PiSirenFill } from "react-icons/pi";
 import {
   Page,
   Container,
@@ -19,8 +20,9 @@ import {
   ListButton,
   ReportButton,
   HeaderLeft,
+  DetailTitle,
 } from "./ProofDetail.styles";
-import { FaRegFlag } from "react-icons/fa";
+
 function ProofDetail() {
   const { proofNo } = useParams();
   const navigate = useNavigate();
@@ -64,10 +66,11 @@ function ProofDetail() {
             <HeaderIcon>▣</HeaderIcon>
             <Title>인증 상세 보기</Title>
           </HeaderLeft>
-
-          <ReportButton onClick={handleReport}>
-            <FaRegFlag size={22} />
-          </ReportButton>
+          <DetailTitle>
+            <ReportButton onClick={handleReport}>
+              <PiSirenFill />
+            </ReportButton>
+          </DetailTitle>
         </Header>
 
         <FormArea>
@@ -94,20 +97,24 @@ function ProofDetail() {
             <ImageColumn>
               <Label>활동 사진</Label>
               <ImageBox>
-                <DetailImage
-                  src={proof.files[0].filePath + proof.files[0].changeName}
-                  alt="활동 사진"
-                />
+                {proof.files?.[0] && (
+                  <DetailImage
+                    src={`${proof.files[0].filePath}${proof.files[0].changeName}`}
+                    alt="활동 사진"
+                  />
+                )}
               </ImageBox>
             </ImageColumn>
 
             <ImageColumn>
               <Label>쓰레기 무게</Label>
               <ImageBox>
-                <DetailImage
-                  src={proof.files[1].filePath + proof.files[1].changeName}
-                  alt="쓰레기 무게 사진"
-                />
+                {proof.files?.[1] && (
+                  <DetailImage
+                    src={`${proof.files[1].filePath}${proof.files[1].changeName}`}
+                    alt="쓰레기 무게 사진"
+                  />
+                )}
               </ImageBox>
             </ImageColumn>
           </ImageRow>

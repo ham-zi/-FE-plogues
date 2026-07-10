@@ -94,7 +94,7 @@ export const LeaderText = styled.p`
   margin: 6px 0 0 0;
   text-align: center;
   font-size: 12px;
-  color: white;
+  color: ${(props) => props.$textColor || "white"};
   opacity: 0.9;
 `;
 
@@ -144,7 +144,7 @@ export const InfoRow = styled.div`
   display: flex;
   justify-content: space-between;
   font-size: 12px;
-  color: white;
+  color: ${(props) => props.$textColor || "white"};
   margin-bottom: 6px;
   font-weight: bold;
 `;
@@ -168,13 +168,10 @@ export const DateBadge = styled.div`
   bottom: 10px;
   right: 12px;
   background-color: rgba(255, 255, 255, 0.25);
-  color: white;
+  color: ${(props) => props.$textColor || "white"};
   padding: 4px 10px;
   border-radius: 20px;
   font-size: 11px;
-  display: flex;
-  align-items: center;
-  gap: 4px;
 `;
 
 export const BottomSection = styled.div`
@@ -510,5 +507,208 @@ export const ListButton = styled.button`
 
   &:hover {
     background: #f5ffff;
+  }
+`;
+
+export const ButtonGroupHeader = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 10px; // 버튼 사이 간격
+  margin-left: 20px; // 사용자 이름 옆 공간 확보
+`;
+
+export const EditButton = styled.button`
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 6px 14px;
+  border: 1px solid #c8d6a5;
+  border-radius: 20px;
+  background-color: white;
+  color: #777;
+  font-size: 13px;
+  cursor: pointer;
+  transition: 0.2s;
+
+  &:hover {
+    background-color: #f9fdf0;
+  }
+`;
+
+export const DeleteButton = styled.button`
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 6px 14px;
+  border: none;
+  border-radius: 20px;
+  background-color: #5d8a4f;
+  color: white;
+  font-size: 13px;
+  cursor: pointer;
+  transition: 0.2s;
+
+  &:hover {
+    background-color: #4a6d3f;
+  }
+`;
+
+// ======================
+// Form Page
+// ======================
+
+export const FormContainer = styled.div`
+  width: 800px;
+  margin: 50px auto;
+  padding: 40px;
+  background: #fff;
+  border-radius: 12px;
+`;
+
+export const FormHeader = styled.h2`
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 24px;
+  margin-bottom: 30px;
+  border-bottom: 2px solid #eee;
+  padding-bottom: 20px;
+`;
+
+export const InputGroup = styled.div`
+  margin-bottom: 20px;
+`;
+
+export const Label = styled.label`
+  display: block;
+  font-weight: 600;
+  margin-bottom: 8px;
+  font-size: 14px;
+  span {
+    color: #e74c3c;
+  }
+`;
+
+export const Input = styled.input`
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  box-sizing: border-box;
+`;
+
+export const TimeInputWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 10px;
+`;
+
+export const TimeInput = styled.input`
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  box-sizing: border-box;
+`;
+
+export const FormRow = styled.div`
+  display: grid;
+  grid-template-columns: 1.5fr 1fr 1.5fr 3fr;
+  gap: 15px;
+  margin-bottom: 20px;
+`;
+
+export const TextArea = styled.textarea`
+  width: 100%;
+  height: 200px;
+  padding: 15px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  resize: none;
+  box-sizing: border-box;
+`;
+
+export const FormButtonGroup = styled.div`
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin-top: 30px;
+`;
+
+export const Button = styled.button`
+  padding: 12px 40px;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+  border: ${(props) => (props.$primary ? "none" : "1px solid #3d9a95")};
+  background: ${(props) => (props.$primary ? "#3d9a95" : "white")};
+  color: ${(props) => (props.$primary ? "white" : "#3d9a95")};
+`;
+
+export const IconWrapper = styled.span`
+  display: flex;
+  align-items: center;
+  font-size: 24px;
+  color: #333;
+`;
+
+export const FileUploadContainer = styled.div`
+  margin-top: 20px;
+`;
+
+export const FileUploadRow = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 12px;
+`;
+
+export const FileLabel = styled.label`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  width: 180px;
+  height: 120px;
+
+  border: 2px dashed #ddd;
+  border-radius: 12px;
+  background-color: #fff;
+
+  cursor: pointer;
+  color: #999;
+  transition: all 0.2s;
+  flex-shrink: 0;
+
+  &:hover {
+    border-color: #3d9a95;
+    color: #3d9a95;
+  }
+`;
+
+export const FileInput = styled.input`
+  display: none;
+`;
+
+export const UploadText = styled.span`
+  margin-top: 10px;
+  font-size: 14px;
+  font-weight: 600;
+`;
+
+export const PreviewBox = styled.div`
+  width: 120px;
+  height: 120px;
+
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  overflow: hidden;
+
+  cursor: pointer;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
   }
 `;

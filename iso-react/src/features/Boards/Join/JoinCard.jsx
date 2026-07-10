@@ -16,7 +16,7 @@ import {
 import defaultProfile from "../../User/image/default.jpg";
 import { useNavigate } from "react-router-dom";
 
-const JoinCard = ({ join, $bg }) => {
+const JoinCard = ({ join, $bg, $textColor }) => {
   const navi = useNavigate();
 
   const safeParticipants = join.currentCount;
@@ -47,7 +47,7 @@ const JoinCard = ({ join, $bg }) => {
       <Badge>{safeParticipants === safeMax ? "모집완료" : "모집중"}</Badge>
 
       <CardTitle>{join.title}</CardTitle>
-      <LeaderText>모임장 : {join.userId}</LeaderText>
+      <LeaderText $textColor={$textColor}>모임장 : {join.userId}</LeaderText>
 
       <MemberRow>
         {sortedProfiles.slice(0, 3).map((profile, index) => (
@@ -61,7 +61,7 @@ const JoinCard = ({ join, $bg }) => {
       </MemberRow>
 
       <BottomSection>
-        <InfoRow>
+        <InfoRow $textColor={$textColor}>
           <span>인원 수</span>
           <span>{safeMax}명</span>
         </InfoRow>
@@ -70,7 +70,7 @@ const JoinCard = ({ join, $bg }) => {
         </ProgressBar>
       </BottomSection>
 
-      <DateBadge>
+      <DateBadge $textColor={$textColor}>
         <span>🕒</span>
         <span>{formattedDate}</span>
       </DateBadge>

@@ -23,20 +23,27 @@ function ProofForm() {
   const [category, setCategory] = useState("PLOG");
 
   // 임시 데이터 다음에 api 연결할 거심
-  const [joinList] = useState([
-    {
-      joinNo: 47,
-      title: "식목해요",
-    },
-    {
-      joinNo: 48,
-      title: "식목합시다!",
-    },
-    {
-      joinNo: 52,
-      title: "플로깅합시다!",
-    },
-  ]);
+  const [joinList, setJoinList] = useState([]);
+
+  useEffect(() => {
+    api
+      .get("/joins", {
+        params: {
+          page: 1,
+          category: "plant",
+        },
+      })
+      .then((res) => {
+        const list = res.data.data.board;
+
+        const userId = localStorage.getItem("userId");
+
+        const myJoinList = list.filter((join) => join.userId === userId);
+
+        setJoinList(myJoinList);
+      })
+      .catch((err) => console.error("참여 활동 조회 실패", err));
+  }, []);
 
   // 내가 쓴 인증글 목록을 저장
   const [myProofs, setMyProofs] = useState([]);
@@ -68,17 +75,32 @@ function ProofForm() {
           setQuantity(proof.quantity);
           setContent(proof.content);
 
-          if (proof.files && proof.files.length > 0) {
-            // 첫 번째 파일은 활동 사진 영역에 채우기
-            if (proof.files[0]) {
-              const file1 = proof.files[0];
-              setActivityPreview(`${file1.filePath}${file1.changeName}`);
-            }
-            // 두 번째 파일은 무게/증빙 사진 영역에 채우기
-            if (proof.files[1]) {
-              const file2 = proof.files[1];
-              setWeightPreview(`${file2.filePath}${file2.changeName}`);
-            }
+          if (proof.files[0]) {
+            const file1 = proof.files[0];
+            const url = `${file1.filePath}${file1.changeName}`;
+
+            setActivityPreview(url);
+
+            const blob = await fetch(url).then((res) => res.blob());
+            setActivityFile(
+              new File([blob], file1.originName, {
+                type: blob.type,
+              }),
+            );
+          }
+
+          if (proof.files[1]) {
+            const file2 = proof.files[1];
+            const url = `${file2.filePath}${file2.changeName}`;
+
+            setWeightPreview(url);
+
+            const blob = await fetch(url).then((res) => res.blob());
+            setWeightFile(
+              new File([blob], file2.originName, {
+                type: blob.type,
+              }),
+            );
           }
         } catch (err) {
           console.error("인증글 상세 조회 실패:", err);
@@ -90,21 +112,39 @@ function ProofForm() {
 
   // 컴포넌트 실행 시 본인이 쓴 인증글 가져오기
   useEffect(() => {
-    const fetchMyProofs = async () => {
+    const fetchMyJoins = async () => {
       try {
-        const res = await api.get("/proof", {
-          params: {
-            page: 1,
-            category: "ALL",
-          },
-        });
-        setMyProofs(res.data.data.board || []);
+        const [plantRes, plogRes] = await Promise.all([
+          api.get("/joins", {
+            params: {
+              page: 1,
+              category: "plant",
+            },
+          }),
+          api.get("/joins", {
+            params: {
+              page: 1,
+              category: "plogging",
+            },
+          }),
+        ]);
+
+        const plantList = plantRes.data.data.board || [];
+        const plogList = plogRes.data.data.board || [];
+
+        const myId = localStorage.getItem("userId");
+
+        const list = [...plantList, ...plogList].filter(
+          (join) => join.userId === myId,
+        );
+
+        setJoinList(list);
       } catch (err) {
-        console.error("인증글 목록 조회 실패:", err);
+        console.error("내 모집 활동 조회 실패", err);
       }
     };
 
-    fetchMyProofs();
+    fetchMyJoins();
   }, []);
 
   // 전체 활동 중에서 이미 작성한 글의 joinNo를 대조해 필터링
@@ -197,8 +237,14 @@ function ProofForm() {
         navigate("/proofs");
       }
     } catch (err) {
-      console.error(err);
-      alert(isEdit ? "수정에 실패했습니다." : "등록에 실패했습니다.");
+      console.log("status:", err.response?.status);
+      console.log("data:", err.response?.data);
+      console.log("message:", err.message);
+
+      alert(
+        err.response?.data?.message ||
+          (isEdit ? "수정에 실패했습니다." : "등록에 실패했습니다."),
+      );
     }
   };
 

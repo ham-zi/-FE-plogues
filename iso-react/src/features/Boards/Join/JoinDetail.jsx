@@ -21,10 +21,14 @@ import {
   InfoLeft,
   InfoRight,
   ProgressTitle,
+  ButtonGroupHeader,
+  EditButton,
+  DeleteButton,
 } from "./Join.styles";
 
 import { FaUser, FaBell, FaClock, FaMapMarkerAlt } from "react-icons/fa";
 import { PiSirenFill } from "react-icons/pi";
+import { IoPencilOutline, IoTrashOutline } from "react-icons/io5";
 
 import logo from "../../../assets/logo.png";
 import tiger from "../../../assets/iso_20260707110842681476.jpg";
@@ -92,6 +96,19 @@ const JoinDetail = () => {
       .replace(/ -/g, " ");
   };
 
+  const handleDelete = async () => {
+    try {
+      await api.delete(`/joins/${joinNo}`);
+      if (join.category === "PLOG") {
+        navi("/joins/plogging");
+      } else {
+        navi("/joins/plant");
+      }
+    } catch (err) {
+      customAlert.error("삭제 실패");
+    }
+  };
+
   return (
     <DetailWrap>
       <DetailHeader>
@@ -106,6 +123,22 @@ const JoinDetail = () => {
                 <FaUser />
                 {join.userName}
               </Writer>
+
+              {isLogin && localStorage.getItem("userId") === join.userId ? (
+                <ButtonGroupHeader>
+                  <EditButton
+                    onClick={() => {
+                      navi(`/joins/${joinNo}/edit`);
+                    }}
+                  >
+                    <IoPencilOutline /> 수정하기
+                  </EditButton>
+                  <DeleteButton onClick={handleDelete}>
+                    <IoTrashOutline />
+                    삭제하기
+                  </DeleteButton>
+                </ButtonGroupHeader>
+              ) : null}
             </TitleContent>
           </TitleBox>
 
@@ -153,9 +186,8 @@ const JoinDetail = () => {
       </ContentBox>
 
       <ImageBox>
-        {files.map((file) => {
-          <img src={file.filePath} alt="activity" />;
-        })}
+        {files &&
+          files.map((file) => <img src={file.filePath} alt="activity" />)}
       </ImageBox>
 
       <ButtonGroup>

@@ -120,11 +120,6 @@ export const DetailContent = styled.p`
   white-space: pre-wrap;
 `;
 
-export const DetailImage = styled.img`
-  width: 100%;
-  border-radius: 8px;
-  margin: 20px 0;
-`;
 
 export const DetailButtons = styled.div`
   display: flex;
@@ -298,4 +293,34 @@ export const FormButtons = styled.div`
     color: white;
     border: none;
   }
+`;
+
+export const AlarmButton = styled.button`
+  width: 44px;
+  height: 44px;
+  border: none;
+  border-radius: 50%;
+  background: #ffdada;
+  color: #ff6b6b;
+  cursor: pointer;
+
+  svg {
+    font-size: 22px;
+  }
+`;
+
+export const ImageGrid = styled.div`
+  columns: ${(props) => Math.min(props.$count, 2)};
+  column-gap: 12px;
+  margin: 20px 0;
+`;
+
+export const DetailImage = styled.img`
+  width: 100%;
+  max-width: ${(props) => (props.$count === 1 ? "400px" : "none")};
+  height: auto;
+  border-radius: 8px;
+  margin: 0 auto 12px auto;
+  display: block;
+  break-inside: avoid;
 `;

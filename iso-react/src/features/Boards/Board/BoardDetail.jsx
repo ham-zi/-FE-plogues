@@ -1,12 +1,15 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { FaEdit, FaTrash } from "react-icons/fa";
+import { PiSirenFill } from "react-icons/pi";
+import { IoMdAlert } from "react-icons/io";
 import api from "../../../api/axios";
 import {
   DetailWrap,
   DetailTitle,
   DetailInfo,
   DetailContent,
+  ImageGrid,
   DetailImage,
   DetailButtons,
   CommentSection,
@@ -17,6 +20,7 @@ import {
   EditBox,
 } from "./BoardStyle";
 import { customAlert } from "../../Commons/Alert";
+import { AlarmButton } from "../Notice/NoticeStyle";
 
 function BoardDetail() {
   const { boardNo } = useParams();
@@ -29,20 +33,18 @@ function BoardDetail() {
   const profileColors = ["#e57373", "#64b5f6", "#81c784", "#ba68c8", "#ffb74d"];
   const getProfileColor = (id) => profileColors[id % profileColors.length];
 
-  const fetchDetail = useCallback(async () => {
+  useEffect(() => {
+    fetchDetail();
+  }, [boardNo]);
+
+  const fetchDetail = async () => {
     try {
       const res = await api.get(`/boards/${boardNo}`);
       setBoard(res.data.data);
     } catch (err) {
       console.error(err);
     }
-  }, [boardNo]);
-
-  useEffect(() => {
-    void (async () => {
-      await fetchDetail();
-    })();
-  }, [fetchDetail]);
+  };
 
   const handleEditStart = (comment) => {
     setEditingCommentNo(comment.commentNo);
@@ -71,7 +73,6 @@ function BoardDetail() {
     }
   };
   const handleReport = () => {
-    console.log(board);
     const reportInfo = {
       boardType: "REVIEW",
       title: board.title,
@@ -79,9 +80,7 @@ function BoardDetail() {
     };
 
     navigate("/reports/form", {
-      state: {
-        reportInfo,
-      },
+      state: reportInfo,
     });
   };
 
@@ -128,40 +127,39 @@ function BoardDetail() {
 
   return (
     <DetailWrap>
-      <DetailTitle>{board.title}</DetailTitle>
+      <DetailTitle>
+        <span>{board.title}</span>
+
+        <AlarmButton onClick={handleReport}>
+          <PiSirenFill />
+        </AlarmButton>
+      </DetailTitle>
 
       <DetailInfo>
         <span>작성자: {board.writer}</span>
 
-        <span>
-          <button
-            onClick={handleReport}
-            style={{
-              marginRight: "0px",
-              border: "none",
-              background: "transparent",
-              color: "#777",
-              cursor: "pointer",
-              fontSize: "25px",
-            }}
-          >
-            🚨
-          </button>
-          날짜: {formatDate(board.createDate)}
-          {board.updated === "Y" && <span> (수정됨)</span>}
+        <span className="right-info">
+          <span>
+            날짜: {formatDate(board.createDate)}
+            {board.updated === "Y" && <span> (수정됨)</span>}
+          </span>
         </span>
       </DetailInfo>
 
       <DetailContent>{board.content}</DetailContent>
 
-      {board.fileList &&
-        board.fileList.map((file) => (
-          <DetailImage
-            key={file.fileNo}
-            src={`${file.filePath}${file.changeName}`}
-            alt={file.originName}
-          />
-        ))}
+      {board.fileList && board.fileList.length > 0 && (
+        <ImageGrid $count={board.fileList.length}>
+          {board.fileList.map((file) => (
+            <DetailImage
+              key={file.fileNo}
+              $count={board.fileList.length}
+              src={`${file.filePath}${file.changeName}`}
+              alt={file.originName}
+            />
+          ))}
+        </ImageGrid>
+      )}
 
       <DetailButtons>
         <button onClick={() => navigate("/boards")}>목록</button>
