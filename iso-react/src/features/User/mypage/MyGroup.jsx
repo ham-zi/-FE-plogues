@@ -217,16 +217,18 @@ const MyGroup = () => {
                       <td>{item.createDate?.split("T")[0]}</td>
 
                       <td>
-                        <StateBadge
-                          state={status === "진행 중" ? "참여" : "참여불가"}
-                          onClick={() => {
-                            if (status === "진행 중") {
-                              navi(`/chats/${item.joinNo}`);
-                            }
-                          }}
-                        >
-                          {status === "진행 중" ? "참여" : "참여불가"}
-                        </StateBadge>
+                        <td>
+                          <StateBadge
+                            state={status === "진행 중" ? "참여" : "참여불가"}
+                            onClick={() => {
+                              if (status === "진행 중") {
+                                navi(`/chats/${item.joinNo}`);
+                              }
+                            }}
+                          >
+                            {status === "진행 중" ? "참여" : "참여불가"}
+                          </StateBadge>
+                        </td>
                       </td>
                     </tr>
                   );

@@ -123,9 +123,9 @@ export const Table = styled.table`
     width: 90px;
   }
 
-  th:nth-child(6),
-  td:nth-child(6) {
-    width: 90px;
+  th:nth-child(5),
+  td:nth-child(5) {
+    width: 150px;
   }
 `;
 
@@ -134,14 +134,27 @@ export const StateBadge = styled.span`
   border-radius: 20px;
   color: white;
   font-size: 12px;
+  font-weight: 600;
+
   cursor: ${({ state }) => (state === "참여" ? "pointer" : "default")};
 
   background: ${({ state }) => {
     switch (state) {
+      case "ACCEPTED":
+        return theme.color.sub;
+
+      case "DENIED":
+        return theme.color.delete;
+
+      case "CANCELED":
+        return "#888888";
+
       case "참여":
         return theme.color.main;
+
       case "참여불가":
         return "#d9534f";
+
       default:
         return "#888";
     }
@@ -289,22 +302,27 @@ export const Pagination = styled.div`
 
 export const ActionButtons = styled.div`
   display: flex;
-  gap: 8px;
+  justify-content: center;
+  align-items: center;
+  gap: 6px;
 `;
 
 export const AcceptButton = styled.button`
-  width: 70px;
-  height: 34px;
+  width: 50px;
+  height: 28px;
   border: none;
   border-radius: 6px;
-  background-color: #4caf50;
+
+  background-color: ${theme.color.sub};
   color: white;
-  font-size: 14px;
+
+  font-size: 12px;
   font-weight: 600;
+
   cursor: pointer;
 
   &:hover {
-    background-color: #43a047;
+    background-color: #5da89d;
   }
 
   &:active {
@@ -313,14 +331,17 @@ export const AcceptButton = styled.button`
 `;
 
 export const DenyButton = styled.button`
-  width: 70px;
-  height: 34px;
+  width: 50px;
+  height: 28px;
   border: none;
   border-radius: 6px;
-  background-color: #f44336;
+
+  background-color: ${theme.color.delete};
   color: white;
-  font-size: 14px;
+
+  font-size: 12px;
   font-weight: 600;
+
   cursor: pointer;
 
   &:hover {
