@@ -26,10 +26,9 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { customAlert } from "../../Commons/Alert";
 
-const JoinForm = () => {
+const JoinReform = () => {
   const navi = useNavigate();
   const { joinNo } = useParams();
-  const isEdit = joinNo != null;
   const [loading, isLoading] = useState(false);
   const location = useLocation();
   const [join, setJoin] = useState({
@@ -79,23 +78,15 @@ const JoinForm = () => {
     if (file) fd.append("file", file);
 
     try {
-      if (isEdit) {
-        await api.patch(`/joins/${joinNo}`, fd, {
-          headers: { "Content-Type": "multipart/form-data" },
-        });
-        customAlert.success("게시글 수정 성공");
-        navi(`/joins/${joinNo}`);
+      await api.post("/joins/reform", fd, {
+        headers: { "Content-Type": "multipart/form-data" },
+      });
+      if (join.category === "PLOG") {
+        customAlert.success("게시글 작성 성공");
+        navi("/joins/plogging");
       } else {
-        await api.post("/joins", fd, {
-          headers: { "Content-Type": "multipart/form-data" },
-        });
-        if (join.category === "PLOG") {
-          customAlert.success("게시글 작성 성공");
-          navi("/joins/plogging");
-        } else {
-          customAlert.success("게시글 작성 성공");
-          navi("/joins/plant");
-        }
+        customAlert.success("게시글 작성 성공");
+        navi("/joins/plant");
       }
     } catch (err) {
       navi("/");
@@ -121,31 +112,21 @@ const JoinForm = () => {
   };
 
   useEffect(() => {
-    if (!isEdit && location.state?.category) {
-      setJoin((prev) => ({
-        ...prev,
-        category: location.state.category,
-      }));
-    }
-  }, [location.state, isEdit]);
-
-  useEffect(() => {
-    if (!isEdit) return;
     api.get(`/joins/${joinNo}`).then((result) => {
       const data = result.data.data;
       if (data) {
         setJoin({
           category: data.category,
           content: data.content,
-          endDate: data.endDate,
+          endDate: "",
           participants: data.participants,
           region: data.region,
-          startDate: data.startDate,
+          startDate: "",
           title: data.title,
         });
       }
     });
-  }, [joinNo, isEdit]);
+  }, [joinNo]);
 
   return (
     <>
@@ -154,7 +135,7 @@ const JoinForm = () => {
           <IconWrapper>
             <IoPencilSharp />
           </IconWrapper>
-          참여 게시판 {isEdit ? "수정" : "작성"}
+          참여 게시판 재모집
         </FormHeader>
 
         <InputGroup>
@@ -173,24 +154,11 @@ const JoinForm = () => {
             <Label>
               카테고리<span>*</span>
             </Label>
-            {isEdit ? (
-              <Input
-                value={join.category}
-                readOnly
-                style={{ backgroundColor: "#e7e7e7" }}
-              />
-            ) : (
-              <Input
-                as="select"
-                value={join.category}
-                onChange={(e) => {
-                  setJoin({ ...join, category: e.target.value });
-                }}
-              >
-                <option value="PLOG">플로깅</option>
-                <option value="PLANT">식목</option>
-              </Input>
-            )}
+            <Input
+              value={join.category}
+              readOnly
+              style={{ backgroundColor: "#e7e7e7" }}
+            />
           </InputGroup>
           <InputGroup style={{ gridColumn: "span 1" }}>
             <Label>
@@ -313,4 +281,4 @@ const JoinForm = () => {
   );
 };
 
-export default JoinForm;
+export default JoinReform;

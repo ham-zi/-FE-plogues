@@ -28,6 +28,7 @@ import JoinDetail from "./features/Boards/Join/JoinDetail";
 import Report from "./features/Commons/Report";
 import ProofDetail from "./features/Boards/Proof/ProofDetail";
 import JoinForm from "./features/Boards/Join/JoinForm";
+import JoinReform from "./features/Boards/Join/JoinReform";
 
 const AppLayout = styled.div`
   min-height: 100vh;
@@ -61,6 +62,7 @@ function App() {
             <Route path="/joins/plant" element={<PlantList />} />
             <Route path="/joins/:joinNo" element={<JoinDetail />} />
             <Route path="/joins/:joinNo/edit" element={<JoinForm />} />
+            <Route path="/joins/:joinNo/reform" element={<JoinReform />} />
             <Route path="/notices" element={<NoticeList />} />
             <Route path="/notices/:noticeNo" element={<NoticeDetail />} />
             <Route path="/notices/write" element={<NoticeForm />} />
