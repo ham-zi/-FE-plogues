@@ -36,6 +36,7 @@ import api from "../../../api/axios";
 import { useNavigate, useParams } from "react-router-dom";
 import { useContext, useEffect, useState } from "react";
 import { useAuth } from "../../../context/AuthContext";
+import RequestModal from "./RequestModal";
 
 const JoinDetail = () => {
   const { joinNo } = useParams();
@@ -56,6 +57,9 @@ const JoinDetail = () => {
   const [files, setFiles] = useState([]);
   const { isLogin } = useAuth();
   const navi = useNavigate();
+  const [isOpen, setIsOpen] = useState(false);
+  const isOver3Days =
+    new Date(join.endDate) <= new Date(Date.now() - 3 * 24 * 60 * 60 * 1000);
 
   useEffect(() => {
     api.get(`/joins/${joinNo}`).then((result) => {
@@ -209,10 +213,33 @@ const JoinDetail = () => {
       <ButtonGroup>
         {isLogin &&
           (localStorage.getItem("userId") === join.userId ? (
-            <JoinButton onClick={handleProof}>인증하기</JoinButton>
+            isOver3Days ? (
+              <JoinButton
+                onClick={() => {
+                  navi(`/joins/${joinNo}/reform`);
+                }}
+              >
+                재모집하기
+              </JoinButton>
+            ) : (
+              <JoinButton>인증하기</JoinButton>
+            )
           ) : progressPercent === "100%" ? null : (
-            <JoinButton>참여하기</JoinButton>
+            <JoinButton
+              onClick={() => {
+                setIsOpen(true);
+              }}
+            >
+              참여하기
+            </JoinButton>
           ))}
+        {isOpen && (
+          <RequestModal
+            onClose={() => setIsOpen(false)}
+            joinNo={joinNo}
+            category={join.category}
+          />
+        )}
         {join.category === "PLOG" ? (
           <ListButton onClick={() => navi("/joins/plogging")}>
             목록으로
