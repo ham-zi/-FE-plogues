@@ -37,5 +37,15 @@ export const getEventList = async (page = 1) => {
   });
   return res.data.data.board; // 웰컴페이지 카드는 리스트만 필요하니 board만 반환
 };
+/**
+ * 공지사항 목록 조회 (공지사항 API, category=NOTICE)
+ * GET /api/notices?category=NOTICE&page=1
+ */
+export const getNoticeList = async (page = 1) => {
+  const res = await api.get("/api/notices", {
+    params: { category: "NOTICE", page },
+  });
+  return res.data.data.board;
+};
 
 export default api;
