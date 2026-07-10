@@ -1,11 +1,22 @@
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
+const fadeUp = keyframes`
+  from {
+    opacity: 0;
+    transform: translateY(15px);
+  }
 
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+`;
 export const BoardWrap = styled.div`
   width: 100%;
   max-width: 860px;
   margin: 60px auto;
   padding: 0 20px;
   color: #222;
+  animation: ${fadeUp} 0.5s ease;
 `;
 
 export const BoardTop = styled.div`
@@ -122,7 +133,6 @@ export const DetailContent = styled.p`
   min-height: 150px;
   white-space: pre-wrap;
 `;
-
 
 export const DetailButtons = styled.div`
   display: flex;

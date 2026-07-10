@@ -1,5 +1,5 @@
 import React from "react";
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 import HeroBanner from "./components/HeroBanner";
 import EventCard from "./components/EventCard";
 import CarbonReductionChart from "./components/CarbonReductionChart";
@@ -7,7 +7,21 @@ import ClimateChart from "./components/ClimateChart";
 
 // Header/Footer는 App.jsx에서 전역으로 이미 감싸고 있어서 여기선 콘텐츠만 담당
 
-const PageWrapper = styled.div``;
+const fadeUp = keyframes`
+from {
+  opacity: 0;
+  transform: translateY(15px);
+  }
+  
+  to {
+    opacity: 1;
+    transform: translateY(0);
+    }
+    `;
+
+const PageWrapper = styled.div`
+  animation: ${fadeUp} 0.5s ease;
+`;
 
 const Content = styled.main`
   width: 1040px;
