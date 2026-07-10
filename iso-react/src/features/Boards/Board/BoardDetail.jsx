@@ -123,7 +123,6 @@ function BoardDetail() {
       </DetailWrap>
     );
   }
-  console.log("board.updated:", board.updated);
 
   return (
     <DetailWrap>
@@ -162,10 +161,10 @@ function BoardDetail() {
       )}
 
       <DetailButtons>
-        <button onClick={() => navigate("/boards")}>목록</button>
+        <button onClick={() => navigate("/reviews")}>목록</button>
         {board.userId === myUserId && (
           <>
-            <button onClick={() => navigate(`/boards/${boardNo}/edit`)}>
+            <button onClick={() => navigate(`/reviews/${boardNo}/edit`)}>
               수정
             </button>
             <button className="delete" onClick={handleDelete}>
@@ -271,7 +270,7 @@ function BoardDetail() {
     try {
       await api.delete(`/boards/${boardNo}`);
       customAlert.success("게시글이 삭제되었습니다.");
-      navigate("/boards");
+      navigate("/reviews");
     } catch (err) {
       console.error(err);
     }

@@ -1,8 +1,22 @@
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 import { theme } from "../../../styles/theme";
+
+const fadeUp = keyframes`
+  from {
+    opacity: 0;
+    transform: translateY(15px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+`;
+
 export const ProofWrap = styled.div`
   width: 1000px;
   margin: 40px auto;
+  animation: ${fadeUp} 0.5s ease;
 `;
 
 export const ProofTitle = styled.h2`

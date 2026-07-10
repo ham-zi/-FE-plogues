@@ -14,6 +14,7 @@ import {
   Status,
   PageButton,
   StatusBadge,
+  Container,
 } from "./QuestionAdminList.styles";
 import { useEffect, useState } from "react";
 import api from "../../../api/axios";
@@ -38,88 +39,93 @@ const QuestionAdminList = () => {
   }, [page, category, updated]);
   return (
     <Page>
-      <Title>문의 게시판</Title>
+      <Container>
+        <Title>문의 게시판</Title>
 
-      <FilterArea>
-        <Select value={category} onChange={(e) => setCategory(e.target.value)}>
-          <option>전체</option>
-          <option>에러</option>
-          <option>이벤트</option>
-        </Select>
+        <FilterArea>
+          <Select
+            value={category}
+            onChange={(e) => setCategory(e.target.value)}
+          >
+            <option>전체</option>
+            <option>에러</option>
+            <option>이벤트</option>
+          </Select>
 
-        <Select value={updated} onChange={(e) => setUpdated(e.target.value)}>
-          <option>전체</option>
-          <option>답변대기</option>
-          <option>처리완료</option>
-        </Select>
-      </FilterArea>
+          <Select value={updated} onChange={(e) => setUpdated(e.target.value)}>
+            <option>전체</option>
+            <option>답변대기</option>
+            <option>처리완료</option>
+          </Select>
+        </FilterArea>
 
-      <TableWrap>
-        <Table>
-          <Thead>
-            <tr>
-              <Th>No</Th>
-              <Th>닉네임</Th>
-              <Th>날짜</Th>
-              <Th>분류</Th>
-              <Th>제목</Th>
-              <Th>처리현황</Th>
-            </tr>
-          </Thead>
-
-          <tbody>
-            {boards.map((board) => (
-              <tr key={board.boardNo}>
-                <Td>{String(board.boardNo).padStart(2, "0")}</Td>
-                <Td>{board.userId}</Td>
-                <Td>{board.createDate.substring(0, 10)}</Td>
-                <Td>{board.category}</Td>
-                <TitleTd onClick={() => navi(`/questions/${board.boardNo}`)}>
-                  {board.title}
-                </TitleTd>
-                <Td>
-                  <StatusBadge status={board.updated}>
-                    {board.updated}
-                  </StatusBadge>
-                </Td>
+        <TableWrap>
+          <Table>
+            <Thead>
+              <tr>
+                <Th>No</Th>
+                <Th>닉네임</Th>
+                <Th>날짜</Th>
+                <Th>분류</Th>
+                <Th>제목</Th>
+                <Th>처리현황</Th>
               </tr>
-            ))}
-          </tbody>
-        </Table>
-      </TableWrap>
+            </Thead>
 
-      <Pagination>
-        <button
-          disabled={pageInfo.currentPage <= 1}
-          onClick={() => setPage(pageInfo.currentPage - 1)}
-        >
-          &lt;
-        </button>
+            <tbody>
+              {boards.map((board) => (
+                <tr key={board.boardNo}>
+                  <Td>{String(board.boardNo).padStart(2, "0")}</Td>
+                  <Td>{board.userId}</Td>
+                  <Td>{board.createDate.substring(0, 10)}</Td>
+                  <Td>{board.category}</Td>
+                  <TitleTd onClick={() => navi(`/questions/${board.boardNo}`)}>
+                    {board.title}
+                  </TitleTd>
+                  <Td>
+                    <StatusBadge status={board.updated}>
+                      {board.updated}
+                    </StatusBadge>
+                  </Td>
+                </tr>
+              ))}
+            </tbody>
+          </Table>
+        </TableWrap>
 
-        {Array.from(
-          { length: pageInfo.endPage - pageInfo.startPage + 1 },
-          (_, i) => {
-            const pageNum = pageInfo.startPage + i;
+        <Pagination>
+          <button
+            disabled={pageInfo.currentPage <= 1}
+            onClick={() => setPage(pageInfo.currentPage - 1)}
+          >
+            &lt;
+          </button>
 
-            return (
-              <button
-                key={pageNum}
-                className={pageInfo.currentPage === pageNum ? "active" : ""}
-                onClick={() => setPage(pageNum)}
-              >
-                {pageNum}
-              </button>
-            );
-          },
-        )}
+          {Array.from(
+            { length: pageInfo.endPage - pageInfo.startPage + 1 },
+            (_, i) => {
+              const pageNum = pageInfo.startPage + i;
 
-        <button
-          disabled={pageInfo.currentPage >= pageInfo.maxPage}
-          onClick={() => setPage(pageInfo.currentPage + 1)}
-        >
-          &gt;
-        </button>
-      </Pagination>
+              return (
+                <button
+                  key={pageNum}
+                  className={pageInfo.currentPage === pageNum ? "active" : ""}
+                  onClick={() => setPage(pageNum)}
+                >
+                  {pageNum}
+                </button>
+              );
+            },
+          )}
+
+          <button
+            disabled={pageInfo.currentPage >= pageInfo.maxPage}
+            onClick={() => setPage(pageInfo.currentPage + 1)}
+          >
+            &gt;
+          </button>
+        </Pagination>
+      </Container>
     </Page>
   );
 };

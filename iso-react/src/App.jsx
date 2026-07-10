@@ -18,6 +18,9 @@ import Login from "./features/User/Login";
 import SignUp from "./features/User/SignUp";
 import MyPage from "./features/User/mypage/MyPage";
 import MyJoin from "./features/User/mypage/MyJoin";
+import MyChat from "./features/User/chat/MyChat";
+import MyGroup from "./features/User/mypage/MyGroup";
+import MyReview from "./features/User/mypage/MyReview";
 import QuestionForm from "./features/Boards/Question/QuestionForm";
 import QuestionPage from "./features/Boards/Question/QuestionPage";
 import QuestionAdminList from "./features/Boards/Question/QuestionAdminList";
@@ -29,6 +32,7 @@ import Report from "./features/Commons/Report";
 import ProofDetail from "./features/Boards/Proof/ProofDetail";
 import ProofForm from "./features/Boards/Proof/ProofForm";
 import JoinForm from "./features/Boards/Join/JoinForm";
+import JoinReform from "./features/Boards/Join/JoinReform";
 
 const AppLayout = styled.div`
   display: flex;
@@ -53,14 +57,22 @@ function App() {
             <Route path="/login" element={<Login />} />
             <Route path="/mypage" element={<MyPage />} />
             <Route path="/mypage/joins" element={<MyJoin />} />
+            <Route path="/mypage/groups" element={<MyGroup />} />
+            <Route path="/mypage/reviews" element={<MyReview />} />
+            <Route path="/chats/:joinNo" element={<MyChat />} />
             <Route path="/boards" element={<BoardList />} />
             <Route path="/boards/:boardNo" element={<BoardDetail />} />
             <Route path="/boards/write" element={<BoardForm />} />
             <Route path="/boards/:boardNo/edit" element={<BoardForm />} />
+            <Route path="/reviews" element={<BoardList />} />
+            <Route path="/reviews/:boardNo" element={<BoardDetail />} />
+            <Route path="/reviews/write" element={<BoardForm />} />
+            <Route path="/reviews/:boardNo/edit" element={<BoardForm />} />
             <Route path="/joins/plogging" element={<PlogList />} />
             <Route path="/joins/plant" element={<PlantList />} />
             <Route path="/joins/:joinNo" element={<JoinDetail />} />
             <Route path="/joins/:joinNo/edit" element={<JoinForm />} />
+            <Route path="/joins/:joinNo/reform" element={<JoinReform />} />
             <Route path="/notices" element={<NoticeList />} />
             <Route path="/notices/:noticeNo" element={<NoticeDetail />} />
             <Route path="/notices/write" element={<NoticeForm />} />

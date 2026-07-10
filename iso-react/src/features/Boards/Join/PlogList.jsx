@@ -3,6 +3,12 @@ import JoinCard from "./JoinCard";
 import { JoinWrap, CardGrid } from "./Join.styles";
 import { useEffect, useState } from "react";
 import api from "../../../api/axios";
+import {
+  SearchSection,
+  SearchForm,
+  SearchInput,
+  SearchButton,
+} from "./searchForm.styles";
 
 const PlogList = () => {
   const [plog, setPlog] = useState([]);
@@ -18,10 +24,19 @@ const PlogList = () => {
     offset: "",
   });
   const [loading, isLoading] = useState(true);
+  const [keyword, setKeyword] = useState("");
+  const [searchKeyword, setSearchKeyword] = useState("");
+  const handleSearch = (e) => {
+    e.preventDefault();
+    setPage(1);
+    setSearchKeyword(keyword);
+  };
 
   useEffect(() => {
     api
-      .get("/joins", { params: { page, category: "plogging" } })
+      .get("/joins", {
+        params: { page, category: "plogging", keyword: searchKeyword },
+      })
       .then((result) => {
         const pi = result.data.data.page;
         setPlog([...result.data.data.board]);
@@ -42,7 +57,7 @@ const PlogList = () => {
       .finally(() => {
         isLoading(false);
       });
-  }, [page]);
+  }, [page, searchKeyword]);
 
   return (
     <JoinWrap>
@@ -75,6 +90,16 @@ const PlogList = () => {
           );
         })}
       </CardGrid>
+      <SearchSection>
+        <SearchForm onSubmit={handleSearch}>
+          <SearchInput
+            placeholder="지역명을 입력하세요."
+            value={keyword}
+            onChange={(e) => setKeyword(e.target.value)}
+          />
+          <SearchButton type="submit">검색</SearchButton>
+        </SearchForm>
+      </SearchSection>
     </JoinWrap>
   );
 };

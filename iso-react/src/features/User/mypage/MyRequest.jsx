@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import api from "../../../api/axios";
+
 import {
   Container,
   LeftSection,
@@ -16,19 +17,20 @@ import {
   DropdownHeader,
   DropdownList,
   DropdownItem,
-  CancelBtn,
   StateBadge,
+  ActionButtons,
+  AcceptButton,
+  DenyButton,
   Pagination,
-  TabContainer,
   Tab,
+  TabContainer,
 } from "./styles/MyList.styles";
 
-const MyJoin = () => {
-  const navi = useNavigate();
+const MyRequest = () => {
+  const navigate = useNavigate();
 
-  const [joinList, setJoinList] = useState([]);
+  const [requestList, setRequestList] = useState([]);
   const [myInfo, setMyInfo] = useState({});
-  const [page, setPage] = useState(1);
 
   const [pageInfo, setPageInfo] = useState({
     currentPage: 1,
@@ -36,107 +38,100 @@ const MyJoin = () => {
   });
 
   const [isOpen, setIsOpen] = useState(false);
-  const [category, setCategory] = useState("참여 내역");
+  const [category, setCategory] = useState("참여 요청 내역");
   const [selectedCategory, setSelectedCategory] = useState("ALL");
 
   const categories = [
-    "참여 내역",
-    "참여 요청 내역",
-    "모집 작성 목록",
-    "후기 작성 목록",
+    {
+      name: "참여 내역",
+      path: "/mypage/joins",
+    },
+    {
+      name: "참여 요청 내역",
+      path: "/mypage/requests",
+    },
+    {
+      name: "모집 작성 목록",
+      path: "/mypage/groups",
+    },
+    {
+      name: "후기 작성 목록",
+      path: "/mypage/reviews",
+    },
   ];
-  const categoryLinks = {
-    "참여 내역": "/mypage/joins",
-    "참여 요청 내역": "/mypage/requests",
-    "모집 작성 목록": "/mypage/groups",
-    "후기 작성 목록": "/mypage/reviews",
-  };
 
   const filterCategories = [
-    { value: "ALL", label: "전체" },
-    { value: "PLOG", label: "플로깅" },
-    { value: "PLANT", label: "식목" },
+    {
+      value: "ALL",
+      label: "전체",
+    },
+    {
+      value: "PLOG",
+      label: "플로깅",
+    },
+    {
+      value: "PLANT",
+      label: "식목",
+    },
   ];
 
   const filteredList =
     selectedCategory === "ALL"
-      ? joinList
-      : joinList.filter((item) => item.category === selectedCategory);
+      ? requestList
+      : requestList.filter((item) => item.category === selectedCategory);
 
-  const getJoinList = async () => {
+  const getRequestList = async (page = 1) => {
     try {
-      const response = await api.get("/users/joins", {
-        params: {
-          page: page,
-          status: "ALL",
-        },
-      });
+      const response = await api.get(`/users/requests?page=${page}`);
 
-      const data = response.data.data;
+      const { list, myInfo, pageInfo } = response.data.data;
 
-      setJoinList(data.list);
-      setPageInfo(data.pageInfo);
-      setMyInfo(data.myInfo);
+      setRequestList(list);
+      setMyInfo(myInfo);
+      setPageInfo(pageInfo);
     } catch (error) {
-      console.log(error);
+      console.error("참여 요청 목록 조회 실패:", error);
+    }
+  };
+
+  const handleAction = async (requestId, action) => {
+    try {
+      await api.patch(`/request/${action}/${requestId}`);
+
+      getRequestList(pageInfo.currentPage);
+    } catch (error) {
+      console.error("요청 처리 실패:", error);
     }
   };
 
   useEffect(() => {
-    getJoinList();
-  }, [page]);
+    getRequestList();
+  }, []);
 
   const prevPage = () => {
     if (pageInfo.currentPage > 1) {
-      setPage(pageInfo.currentPage - 1);
+      getRequestList(pageInfo.currentPage - 1);
     }
   };
 
   const nextPage = () => {
     if (pageInfo.currentPage < pageInfo.maxPage) {
-      setPage(pageInfo.currentPage + 1);
-    }
-  };
-
-  const getStatusText = (status) => {
-    switch (status) {
-      case "WAITING":
-        return "대기";
-
-      case "ACCEPTED":
-        return "승인";
-
-      case "DENIED":
-        return "거절";
-
-      case "CANCELED":
-        return "참여취소";
-
-      default:
-        return "";
-    }
-  };
-
-  const cancelRequest = async (joinRequestNo) => {
-    try {
-      await api.patch(`/request/cancel/${joinRequestNo}`);
-
-      getJoinList();
-    } catch (error) {
-      console.log(error);
+      getRequestList(pageInfo.currentPage + 1);
     }
   };
 
   return (
     <Container>
       <LeftSection>
-        <ProfileImage src={myInfo.fileUrl} />
+        <ProfileImage src={myInfo.fileUrl || "/default-profile.png"} />
 
         <h3>{myInfo.userName}</h3>
+
         <p>{myInfo.userId}</p>
+
         <StatsContainer>
           <StatItem>
-            <div>{myInfo.joinCount}</div>
+            <div>{myInfo.joinCount ?? 0}</div>
             <p>참여 횟수</p>
           </StatItem>
 
@@ -147,13 +142,15 @@ const MyJoin = () => {
 
           <StatItem>
             <div>{myInfo.plogWeight ?? 0}kg</div>
-            <p>내가 주운 쓰레기</p>
+            <p>쓰레기 무게</p>
           </StatItem>
         </StatsContainer>
 
-        <ActionButton onClick={() => navi("/mypage")}>회원정보</ActionButton>
+        <ActionButton onClick={() => navigate("/mypage")}>
+          회원정보
+        </ActionButton>
 
-        <ActionButton onClick={() => navi("/mypage/joins")}>
+        <ActionButton onClick={() => navigate("/mypage/joins")}>
           나의 활동
         </ActionButton>
       </LeftSection>
@@ -171,14 +168,14 @@ const MyJoin = () => {
               <DropdownList>
                 {categories.map((item) => (
                   <DropdownItem
-                    key={item}
+                    key={item.name}
                     onClick={() => {
-                      setCategory(item);
+                      setCategory(item.name);
                       setIsOpen(false);
-                      navi(categoryLinks[item]);
+                      navigate(item.path);
                     }}
                   >
-                    {item}
+                    {item.name}
                   </DropdownItem>
                 ))}
               </DropdownList>
@@ -186,7 +183,7 @@ const MyJoin = () => {
           </Dropdown>
         </CategoryWrapper>
 
-        <h2>참여 내역</h2>
+        <h2>참여 요청 내역</h2>
 
         <TabContainer>
           {filterCategories.map((item) => (
@@ -204,12 +201,10 @@ const MyJoin = () => {
           <Table>
             <thead>
               <tr>
-                <th>카테고리</th>
-                <th>참여 게시글 제목</th>
-                <th>신청상태</th>
-                <th>신청일</th>
-                <th>대화방</th>
-                <th>참여취소</th>
+                <th>참여자</th>
+                <th>제목</th>
+                <th>한 줄 포부</th>
+                <th>수락 여부</th>
               </tr>
             </thead>
 
@@ -217,42 +212,40 @@ const MyJoin = () => {
               {filteredList.length > 0 ? (
                 filteredList.map((item) => (
                   <tr key={item.joinRequestNo}>
-                    <td>{item.category}</td>
+                    <td>{item.joinUser}</td>
 
                     <td>{item.title}</td>
 
-                    <td>{getStatusText(item.status)}</td>
-
-                    <td>{item.createDate}</td>
+                    <td className="portfolio-cell">{item.aspiration}</td>
 
                     <td>
-                      <StateBadge
-                        state={item.status === "ACCEPTED" ? "참여" : "참여불가"}
-                        onClick={() => {
-                          if (item.status === "ACCEPTED") {
-                            navi(`/chats/${item.joinNo}`);
-                          }
-                        }}
-                      >
-                        {item.status === "ACCEPTED" ? "참여" : "참여불가"}
-                      </StateBadge>
-                    </td>
+                      {item.status === "N" ? (
+                        <ActionButtons>
+                          <AcceptButton
+                            onClick={() =>
+                              handleAction(item.joinRequestNo, "accept")
+                            }
+                          >
+                            수락
+                          </AcceptButton>
 
-                    <td>
-                      {(item.status === "ACCEPTED" ||
-                        item.status === "WAITING") && (
-                        <CancelBtn
-                          onClick={() => cancelRequest(item.joinRequestNo)}
-                        >
-                          취소
-                        </CancelBtn>
+                          <DenyButton
+                            onClick={() =>
+                              handleAction(item.joinRequestNo, "deny")
+                            }
+                          >
+                            거절
+                          </DenyButton>
+                        </ActionButtons>
+                      ) : (
+                        <StateBadge>처리 완료</StateBadge>
                       )}
                     </td>
                   </tr>
                 ))
               ) : (
                 <tr>
-                  <td colSpan="6">참여 내역이 없습니다.</td>
+                  <td colSpan="4">참여 요청 내역이 없습니다.</td>
                 </tr>
               )}
             </tbody>
@@ -285,4 +278,4 @@ const MyJoin = () => {
   );
 };
 
-export default MyJoin;
+export default MyRequest;
