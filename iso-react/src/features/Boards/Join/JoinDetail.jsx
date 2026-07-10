@@ -133,7 +133,10 @@ const JoinDetail = () => {
   };
 
   const handleProof = () => {
-    navi("/proofs/write", { state: join.category });
+    const proof = {
+      category: join.category,
+    };
+    navi("/proofs/write", { state: proof });
   };
 
   return (
