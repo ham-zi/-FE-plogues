@@ -34,6 +34,7 @@ import ProofDetail from "./features/Boards/Proof/ProofDetail";
 import ProofForm from "./features/Boards/Proof/ProofForm";
 import JoinForm from "./features/Boards/Join/JoinForm";
 import JoinReform from "./features/Boards/Join/JoinReform";
+import MyRequest from "./features/User/mypage/MyRequest";
 
 const AppLayout = styled.div`
   display: flex;
@@ -61,6 +62,7 @@ function App() {
             <Route path="/mypage/joins" element={<MyJoin />} />
             <Route path="/mypage/groups" element={<MyGroup />} />
             <Route path="/mypage/reviews" element={<MyReview />} />
+            <Route path="/mypage/requests" element={<MyRequest />} />
             <Route path="/chats/:joinNo" element={<MyChat />} />
             <Route path="/boards" element={<BoardList />} />
             <Route path="/boards/:boardNo" element={<BoardDetail />} />

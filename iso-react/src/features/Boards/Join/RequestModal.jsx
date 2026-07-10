@@ -22,9 +22,13 @@ const RequestModal = ({ joinNo, category }) => {
     location.href = `/joins/${joinNo}`;
   };
   const onSubmit = async () => {
+    if (!request.aspiration.trim()) {
+      customAlert.error("포부를 입력해주세요.");
+    }
+
     try {
       await api.post(`/request/${joinNo}`, request);
-      customAlert.success("참여요청 성공");
+      await customAlert.success("참여요청 성공");
       if (category === "PLOG") {
         navi("/joins/plogging");
       } else {
@@ -32,8 +36,8 @@ const RequestModal = ({ joinNo, category }) => {
       }
     } catch (err) {
       if (err.response.data.code === 409) {
-        customAlert.error("이미 신청하셨습니다.");
-        location.href=`/joins/${joinNo}`;
+        await customAlert.error("이미 신청하셨습니다.");
+        location.href = `/joins/${joinNo}`;
       }
     }
   };
