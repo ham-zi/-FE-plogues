@@ -16,6 +16,7 @@ import ScrollToTop from "./components/ScrollToTop";
 import "./App.css";
 import Login from "./features/User/Login";
 import SignUp from "./features/User/SignUp";
+import Delete from "./features/User/Delete";
 import MyPage from "./features/User/mypage/MyPage";
 import MyJoin from "./features/User/mypage/MyJoin";
 import MyChat from "./features/User/chat/MyChat";
@@ -55,6 +56,7 @@ function App() {
             <Route path="/" element={<WelcomePage />} />
             <Route path="/signup" element={<SignUp />} />
             <Route path="/login" element={<Login />} />
+            <Route path="/delete" element={<Delete />} />
             <Route path="/mypage" element={<MyPage />} />
             <Route path="/mypage/joins" element={<MyJoin />} />
             <Route path="/mypage/groups" element={<MyGroup />} />
