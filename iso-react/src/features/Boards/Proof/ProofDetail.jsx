@@ -29,6 +29,7 @@ function ProofDetail() {
   const navigate = useNavigate();
 
   const [proof, setProof] = useState(null);
+  const [myUserId, setMyUserId] = useState(null);
   const handleReport = () => {
     const report = {
       boardType: "PROOF",
@@ -45,7 +46,12 @@ function ProofDetail() {
       try {
         const res = await api.get(`/proof/${proofNo}`);
         setProof(res.data.data);
-        console.log(res.data.data);
+
+        // 로그인 유저 정보 가져오기
+        const user = JSON.parse(localStorage.getItem("user"));
+        if (user) {
+          setMyUserId(user.userId);
+        }
       } catch (err) {
         console.log("상태코드:", err.response?.status);
         console.log("서버 응답:", err.response?.data);
@@ -119,9 +125,11 @@ function ProofDetail() {
             </ImageColumn>
           </ImageRow>
           <ButtonArea>
-            <EditButton onClick={() => navigate(`/proofs/${proofNo}/edit`)}>
-              수정
-            </EditButton>
+            {myUserId === proof.userId && (
+              <EditButton onClick={() => navigate(`/proofs/${proofNo}/edit`)}>
+                수정
+              </EditButton>
+            )}
 
             <ListButton onClick={() => navigate("/proofs")}>목록</ListButton>
           </ButtonArea>
