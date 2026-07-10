@@ -154,6 +154,13 @@ function ProofForm() {
   const availableJoinList = joinList.filter((join) => {
     if (isEdit && Number(join.joinNo) === Number(joinNo)) return true;
 
+    const isTargetCategory =
+      category === "PLOG"
+        ? join.category === "plogging" || join.category === "PLOG"
+        : join.category === "plant" || join.category === "PLANT";
+
+    if (!isTargetCategory) return false;
+
     const isAlreadyCertified = myProofs.some(
       (proof) => Number(proof.joinNo) === Number(join.joinNo),
     );
@@ -279,12 +286,24 @@ function ProofForm() {
           카테고리<span className="required">*</span>
         </label>
 
-        <input
-          type="text"
-          value={location.state.category === "PLOG" ? "플로깅" : "식목"}
-          readOnly
-          style={{ backgroundColor: "#eeeeee" }}
-        />
+        {location.state === null ? (
+          <SelectBox
+            value={category}
+            onChange={(e) => setCategory(e.target.value)}
+          >
+            <option value="PLOG">플로깅</option>
+            <option value="PLANT">나무심기</option>
+          </SelectBox>
+        ) : (
+          <input
+            type="text"
+            value={location.state.category === "PLOG" ? "플로깅" : "식목"}
+            readOnly
+            style={{
+              backgroundColor: "#eeeeee",
+            }}
+          />
+        )}
       </FormRow>
 
       {/* 참여 활동 */}
@@ -293,15 +312,25 @@ function ProofForm() {
           참여 활동<span className="required">*</span>
         </label>
 
-        <SelectBox value={joinNo} onChange={(e) => setJoinNo(e.target.value)}>
-          <option value="">참여한 활동 선택</option>
-
-          {availableJoinList.map((join) => (
-            <option key={join.joinNo} value={join.joinNo}>
-              {join.title}
-            </option>
-          ))}
-        </SelectBox>
+        {location.state === null ? (
+          <SelectBox value={joinNo} onChange={(e) => setJoinNo(e.target.value)}>
+            <option value="">참여한 활동 선택</option>
+            {availableJoinList.map((join) => (
+              <option key={join.joinNo} value={join.joinNo}>
+                {join.title}
+              </option>
+            ))}
+          </SelectBox>
+        ) : (
+          <input
+            type="text"
+            value={location.state.title}
+            readOnly
+            style={{
+              backgroundColor: "#eeeeee",
+            }}
+          />
+        )}
       </FormRow>
 
       {/* 수량 */}

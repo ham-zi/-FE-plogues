@@ -135,6 +135,7 @@ const JoinDetail = () => {
   const handleProof = () => {
     const proof = {
       category: join.category,
+      title: join.title,
     };
     navi("/proofs/write", { state: proof });
   };
