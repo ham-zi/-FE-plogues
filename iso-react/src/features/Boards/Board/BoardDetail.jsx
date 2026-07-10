@@ -167,7 +167,7 @@ function BoardDetail() {
             <button onClick={() => navigate(`/reviews/${boardNo}/edit`)}>
               수정
             </button>
-            <button className="" onClickdelete={handleDelete}>
+            <button className="delete" onClick={handleDelete}>
               삭제
             </button>
           </>
