@@ -31,6 +31,7 @@ export const Title = styled.h2`
   font-size: 26px;
   font-weight: 700;
   color: ${theme.color.text};
+  white-space: nowrap;
 `;
 
 export const FormArea = styled.div`
@@ -176,5 +177,15 @@ export const ReportButton = styled.button`
   &:hover {
     background: ${theme.color.delete};
     color: white;
+  }
+`;
+
+export const EditButton = styled.button`
+  background: #3f8f72;
+  color: white;
+  border: none;
+
+  &:hover {
+    background: #34775f;
   }
 `;

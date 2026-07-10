@@ -21,6 +21,7 @@ import {
   ReportButton,
   HeaderLeft,
   DetailTitle,
+  EditButton,
 } from "./ProofDetail.styles";
 
 function ProofDetail() {
@@ -63,8 +64,7 @@ function ProofDetail() {
       <Container>
         <Header>
           <HeaderLeft>
-            <HeaderIcon>▣</HeaderIcon>
-            <Title>인증 상세 보기</Title>
+            <Title>인증게시판</Title>
           </HeaderLeft>
           <DetailTitle>
             <ReportButton onClick={handleReport}>
@@ -119,12 +119,11 @@ function ProofDetail() {
             </ImageColumn>
           </ImageRow>
           <ButtonArea>
-            <ListButton onClick={() => navigate(`/proofs/${proofNo}/edit`)}>
+            <EditButton onClick={() => navigate(`/proofs/${proofNo}/edit`)}>
               수정
-            </ListButton>
-            <ListButton onClick={() => navigate("/proofs")}>
-              목록으로
-            </ListButton>
+            </EditButton>
+
+            <ListButton onClick={() => navigate("/proofs")}>목록</ListButton>
           </ButtonArea>
         </FormArea>
       </Container>

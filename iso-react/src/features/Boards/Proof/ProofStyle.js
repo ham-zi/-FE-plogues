@@ -271,15 +271,32 @@ export const FormButtons = styled.div`
     cursor: pointer;
   }
 
-  .submit-white {
+  .cancel {
     background: white;
     border: 1px solid #3f8f72;
     color: #3f8f72;
   }
 
-  .cancel-green {
+  .submit {
     background: #3f8f72;
     color: white;
     border: none;
+  }
+`;
+
+export const EditButton = styled.button`
+  width: 120px;
+  height: 40px;
+  border: none;
+  border-radius: 10px;
+  background: #3d9a95;
+  color: white;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
+
+  &:hover {
+    background: #338983;
   }
 `;

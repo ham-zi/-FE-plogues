@@ -2,6 +2,7 @@ import { useState, useRef, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { FiEdit3, FiDownload } from "react-icons/fi";
 import api from "../../../api/axios";
+import { customAlert } from "../../Commons/Alert";
 
 import {
   FormWrap,
@@ -192,23 +193,23 @@ function ProofForm() {
   // 제출
   const handleSubmit = async () => {
     if (!title.trim()) {
-      return alert("제목을 입력해주세요.");
+      return customAlert.error("제목을 입력해주세요.");
     }
 
     if (!joinNo) {
-      return alert("참여 활동을 선택해주세요.");
+      return customAlert.error("참여 활동을 선택해주세요.");
     }
 
     if (!quantity) {
-      return alert("수량을 입력해주세요.");
+      return customAlert.error("수량을 입력해주세요.");
     }
 
     if (!content.trim()) {
-      return alert("내용을 입력해주세요.");
+      return customAlert.error("내용을 입력해주세요.");
     }
 
     if (!activityPreview || !weightPreview) {
-      return alert("인증 사진 2장을 등록해주세요.");
+      return customAlert.error("인증 사진 2장을 등록해주세요.");
     }
 
     const formData = new FormData();
@@ -227,13 +228,13 @@ function ProofForm() {
         await api.patch(`/proof/${proofNo}`, formData, {
           headers: { "Content-Type": "multipart/form-data" },
         });
-        alert("인증글이 수정되었습니다.");
+        customAlert.success("수정 완료", "인증글이 수정되었습니다.");
         navigate(`/proofs/${proofNo}`);
       } else {
         await api.post("/proof", formData, {
           headers: { "Content-Type": "multipart/form-data" },
         });
-        alert("인증글 등록 완료");
+        await customAlert.success("등록완료", "인증글이 등록되었습니다.");
         navigate("/proofs");
       }
     } catch (err) {
@@ -241,7 +242,8 @@ function ProofForm() {
       console.log("data:", err.response?.data);
       console.log("message:", err.message);
 
-      alert(
+      customAlert.error(
+        "오류 발생",
         err.response?.data?.message ||
           (isEdit ? "수정에 실패했습니다." : "등록에 실패했습니다."),
       );
