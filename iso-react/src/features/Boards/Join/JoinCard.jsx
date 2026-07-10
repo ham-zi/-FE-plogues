@@ -22,19 +22,37 @@ const JoinCard = ({ join, $bg, $textColor }) => {
   const safeParticipants = join.currentCount;
   const safeMax = join.participants;
   const progressPercent = (safeParticipants / safeMax) * 100 + "%";
+  const createdDate = new Date(join.createDate);
+  const today = new Date();
 
-  // 날짜 형식을 깔끔하게 변환 (예: YYYY-MM-DD HH:MM)
-  const formattedDate = new Date(join.endDate)
-    .toLocaleString("ko-KR", {
-      year: "numeric",
-      month: "2-digit",
-      day: "2-digit",
-      hour: "2-digit",
-      minute: "2-digit",
-      hour12: false,
-    })
-    .replace(/\./g, "-")
-    .replace(/ -/g, " ");
+  createdDate.setHours(0, 0, 0, 0);
+  today.setHours(0, 0, 0, 0);
+
+  const diffDays = Math.floor((today - createdDate) / (1000 * 60 * 60 * 24));
+
+  let formattedDate;
+
+  if (diffDays === 0) {
+    formattedDate = "오늘";
+  } else if (diffDays === 1) {
+    formattedDate = "어제";
+  } else if (diffDays < 7) {
+    formattedDate = `${diffDays}일 전`;
+  } else if (diffDays < 30) {
+    const weeks = Math.floor(diffDays / 7);
+    formattedDate = weeks === 1 ? "일주일 전" : `${weeks}주 전`;
+  } else if (diffDays === 30) {
+    formattedDate = "한달 전";
+  } else {
+    formattedDate = new Date(join.createDate)
+      .toLocaleString("ko-KR", {
+        year: "numeric",
+        month: "2-digit",
+        day: "2-digit",
+      })
+      .replace(/\./g, "-")
+      .replace(/ -/g, " ");
+  }
 
   const sortedProfiles = [...join.userProfiles].sort((a, b) => {
     if (a.userId === join.userId) return 1;
