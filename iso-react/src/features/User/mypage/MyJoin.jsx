@@ -22,6 +22,7 @@ import {
   TabContainer,
   Tab,
 } from "./styles/MyList.styles";
+import { customAlert } from "../../Commons/Alert";
 
 const MyJoin = () => {
   const navi = useNavigate();
@@ -118,12 +119,21 @@ const MyJoin = () => {
   };
 
   const cancelRequest = async (joinRequestNo) => {
+    const isConfirmed = await customAlert.confirm(
+    "참여를 취소하시겠습니까?",
+    "취소 후에는 다시 신청해야 합니다."
+    );
+
+    if (!isConfirmed) return;
+
     try {
       await api.patch(`/request/cancel/${joinRequestNo}`);
-
+      await customAlert.success("참여가 취소되었습니다.");
       getJoinList();
     } catch (error) {
       console.log(error);
+      const msg = error.response?.data?.message || "취소 처리 중 오류가 발생했습니다.";
+      customAlert.error(msg);
     }
   };
 
