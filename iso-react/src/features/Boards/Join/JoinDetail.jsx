@@ -109,6 +109,21 @@ const JoinDetail = () => {
     }
   };
 
+  const handleReport = () => {
+    const report = {
+      boardType: "JOIN",
+      title: join.title,
+      targetNo: join.joinNo,
+    };
+    navi("/reports/form", {
+      state: report,
+    });
+  };
+
+  const handleProof = () => {
+    navi("/proofs/write", { state: join.category });
+  };
+
   return (
     <DetailWrap>
       <DetailHeader>
@@ -124,21 +139,26 @@ const JoinDetail = () => {
                 {join.userName}
               </Writer>
 
-              {isLogin && localStorage.getItem("userId") === join.userId ? (
-                <ButtonGroupHeader>
-                  <EditButton
-                    onClick={() => {
-                      navi(`/joins/${joinNo}/edit`);
-                    }}
-                  >
-                    <IoPencilOutline /> 수정하기
-                  </EditButton>
-                  <DeleteButton onClick={handleDelete}>
-                    <IoTrashOutline />
-                    삭제하기
-                  </DeleteButton>
-                </ButtonGroupHeader>
-              ) : null}
+              {isLogin &&
+                (localStorage.getItem("userId") === join.userId ? (
+                  <ButtonGroupHeader>
+                    <EditButton
+                      onClick={() => {
+                        navi(`/joins/${joinNo}/edit`);
+                      }}
+                    >
+                      <IoPencilOutline /> 수정하기
+                    </EditButton>
+                    <DeleteButton onClick={handleDelete}>
+                      <IoTrashOutline />
+                      삭제하기
+                    </DeleteButton>
+                  </ButtonGroupHeader>
+                ) : (
+                  <AlarmButton onClick={handleReport}>
+                    <PiSirenFill />
+                  </AlarmButton>
+                ))}
             </TitleContent>
           </TitleBox>
 
@@ -175,10 +195,6 @@ const JoinDetail = () => {
             </InfoRight>
           </InfoWrapper>
         </LeftSection>
-
-        <AlarmButton onClick={() => navi("/report")}>
-          <PiSirenFill />
-        </AlarmButton>
       </DetailHeader>
 
       <ContentBox>
@@ -193,7 +209,7 @@ const JoinDetail = () => {
       <ButtonGroup>
         {isLogin &&
           (localStorage.getItem("userId") === join.userId ? (
-            <JoinButton>인증하기</JoinButton>
+            <JoinButton onClick={handleProof}>인증하기</JoinButton>
           ) : progressPercent === "100%" ? null : (
             <JoinButton>참여하기</JoinButton>
           ))}
