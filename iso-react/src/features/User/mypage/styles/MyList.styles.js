@@ -148,6 +148,7 @@ export const StateBadge = styled.span`
     }
   }};
 `;
+
 export const StateBadge2 = styled.span`
   padding: 5px 14px;
   border-radius: 20px;
