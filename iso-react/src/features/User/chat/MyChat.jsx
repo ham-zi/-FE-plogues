@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import api from "../../../api/axios";
-
 import {
   Container,
   Title,
@@ -22,9 +21,18 @@ import {
   Edited,
   EditArea,
   EditButtonArea,
+  BackIcon,
+  TitleArea,
 } from "./MyChat.styles";
 
-import { FiEdit2, FiTrash2, FiAlertCircle, FiRefreshCw } from "react-icons/fi";
+import {
+  FiEdit2,
+  FiTrash2,
+  FiAlertCircle,
+  FiRefreshCw,
+  FiArrowLeft,
+  FiCornerUpLeft,
+} from "react-icons/fi";
 
 function MyChat() {
   const { joinNo } = useParams();
@@ -35,6 +43,10 @@ function MyChat() {
   const [editMode, setEditMode] = useState(null);
   const [editContent, setEditContent] = useState("");
   const [userId, setUserId] = useState("");
+
+  const handleBack = () => {
+    navigate(-1);
+  };
 
   const colors = [
     "#34908B",
@@ -133,7 +145,19 @@ function MyChat() {
 
   return (
     <Container>
-      <Title>{messages[0]?.title || "채팅방"}</Title>
+      <TitleArea>
+        <Title>{messages[0]?.title || "채팅방"}</Title>
+
+        <BackIcon onClick={handleBack}>
+          <FiArrowLeft size={24} />
+          <span>목록으로</span>
+        </BackIcon>
+      </TitleArea>
+
+      <InputArea></InputArea>
+      <Title>
+        <span>{messages[0]?.title || "채팅방"}</span>
+      </Title>
 
       <InputArea>
         <TextArea
