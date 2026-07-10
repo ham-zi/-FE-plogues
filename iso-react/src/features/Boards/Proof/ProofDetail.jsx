@@ -28,6 +28,10 @@ function ProofDetail() {
   const { proofNo } = useParams();
   const navigate = useNavigate();
 
+  console.log("localStorage:", localStorage);
+  console.log("accessToken:", localStorage.getItem("accessToken"));
+  console.log("user:", localStorage.getItem("user"));
+
   const [proof, setProof] = useState(null);
   const [myUserId, setMyUserId] = useState(null);
   const handleReport = () => {
@@ -45,13 +49,15 @@ function ProofDetail() {
     const fetchProof = async () => {
       try {
         const res = await api.get(`/proof/${proofNo}`);
+
         setProof(res.data.data);
 
-        // 로그인 유저 정보 가져오기
-        const user = JSON.parse(localStorage.getItem("user"));
-        if (user) {
-          setMyUserId(user.userId);
-        }
+        // 현재 로그인 사용자
+        const userId = localStorage.getItem("userId");
+        setMyUserId(userId);
+
+        console.log("내 ID:", userId);
+        console.log("작성자 ID:", res.data.data.userId);
       } catch (err) {
         console.log("상태코드:", err.response?.status);
         console.log("서버 응답:", err.response?.data);
@@ -125,7 +131,7 @@ function ProofDetail() {
             </ImageColumn>
           </ImageRow>
           <ButtonArea>
-            {myUserId === proof.userId && (
+            {String(myUserId) === String(proof.userId) && (
               <EditButton onClick={() => navigate(`/proofs/${proofNo}/edit`)}>
                 수정
               </EditButton>

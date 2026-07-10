@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 
 export const Page = styled.div`
   min-height: 100vh;
-  background: #fbfae8;
+  background: #fff;
   padding: 40px 0;
 `;
 
