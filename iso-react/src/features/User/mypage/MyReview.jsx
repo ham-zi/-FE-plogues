@@ -153,7 +153,7 @@ const MyReview = () => {
             </thead>
 
             <tbody>
-              {Array.isArray(reviewList) &&
+              {Array.isArray(reviewList) && reviewList.length > 0 ? (
                 reviewList.map((item) => (
                   <tr key={item.boardNo}>
                     <td
@@ -162,9 +162,15 @@ const MyReview = () => {
                     >
                       {item.title}
                     </td>
+
                     <td>{item.createDate?.split("T")[0]}</td>
                   </tr>
-                ))}
+                ))
+              ) : (
+                <tr>
+                  <td colSpan="2">작성한 후기가 없습니다.</td>
+                </tr>
+              )}
             </tbody>
           </Table>
         </TableWrapper>

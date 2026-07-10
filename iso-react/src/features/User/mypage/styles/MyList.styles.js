@@ -92,9 +92,12 @@ export const TableWrapper = styled.div`
   border-radius: 12px;
   padding: 22px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+
+  overflow-x: auto;
 `;
 export const Table = styled.table`
   width: 100%;
+  min-width: 750px;
   border-collapse: collapse;
 
   th {
@@ -114,6 +117,16 @@ export const Table = styled.table`
   th:first-child {
     text-align: left;
   }
+
+  th:nth-child(4),
+  td:nth-child(4) {
+    width: 90px;
+  }
+
+  th:nth-child(6),
+  td:nth-child(6) {
+    width: 90px;
+  }
 `;
 
 export const StateBadge = styled.span`
@@ -129,6 +142,24 @@ export const StateBadge = styled.span`
         return theme.color.main;
       case "참여불가":
         return "#d9534f";
+      default:
+        return "#888";
+    }
+  }};
+`;
+export const StateBadge2 = styled.span`
+  padding: 5px 14px;
+  border-radius: 20px;
+  color: white;
+  font-size: 12px;
+  cursor: ${({ state }) => state === "진행 중"};
+
+  background: ${({ state }) => {
+    switch (state) {
+      case "진행 중":
+        return theme.color.sub;
+      case "완료":
+        return "#555555";
       default:
         return "#888";
     }
@@ -315,11 +346,11 @@ export const Tab = styled.button`
   cursor: pointer;
 
   font-size: 16px;
-  font-weight: ${({ active }) => (active ? "700" : "500")};
-  color: ${({ active }) => (active ? "#34908B" : "#777")};
+  font-weight: ${({ $active }) => ($active ? "700" : "500")};
+  color: ${({ $active }) => ($active ? "#34908B" : "#777")};
 
-  border-bottom: ${({ active }) =>
-    active ? "3px solid #34908B" : "3px solid transparent"};
+  border-bottom: ${({ $active }) =>
+    $active ? "3px solid #34908B" : "3px solid transparent"};
 
   transition: 0.2s;
 
