@@ -1,6 +1,17 @@
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 import { theme } from "../../../../styles/theme";
 
+const fadeUp = keyframes`
+  from {
+    opacity: 0;
+    transform: translateY(15px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+`;
 // 공통 CSS
 export const Container = styled.div`
   display: flex;
@@ -12,6 +23,7 @@ export const Container = styled.div`
   padding: 30px 20px; /* 기존보다 줄임 */
 
   gap: 55px; /* 프로필과 리스트 사이 여백 */
+  animation: ${fadeUp} 0.5s ease;
 `;
 
 export const LeftSection = styled.div`

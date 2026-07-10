@@ -1,4 +1,16 @@
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
+
+const fadeUp = keyframes`
+  from {
+    opacity: 0;
+    transform: translateY(15px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+`;
 
 export const Wrapper = styled.div`
   display: flex;
@@ -8,6 +20,7 @@ export const Wrapper = styled.div`
   min-height: 100vh;
   background-color: #fdfcf6;
   font-family: "Noto Sans KR", sans-serif;
+  animation: ${fadeUp} 0.4s ease;
 `;
 
 /* 새로 추가된 이미지 공간 확보용 컴포넌트 */
