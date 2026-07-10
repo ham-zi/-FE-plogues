@@ -123,7 +123,6 @@ function BoardDetail() {
       </DetailWrap>
     );
   }
-  console.log("board.updated:", board.updated);
 
   return (
     <DetailWrap>

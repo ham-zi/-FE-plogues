@@ -33,7 +33,6 @@ function BoardForm() {
 
           setTitle(board.title);
           setContent(board.content);
-          console.log(res);
           if (board.fileList && board.fileList.length > 0) {
             setExistingFiles(board.fileList);
           }
