@@ -230,7 +230,7 @@ const JoinDetail = () => {
                 재모집하기
               </JoinButton>
             ) : (
-              <JoinButton>인증하기</JoinButton>
+              <JoinButton onClick={handleProof}>인증하기</JoinButton>
             )
           ) : progressPercent === "100%" ? null : isEnded ? null : (
             <JoinButton
