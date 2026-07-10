@@ -23,6 +23,7 @@ import { IoPencilSharp, IoCloudUploadOutline } from "react-icons/io5";
 import { useEffect, useState } from "react";
 import api from "../../../api/axios";
 import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 import { customAlert } from "../../Commons/Alert";
 
 const JoinForm = () => {
