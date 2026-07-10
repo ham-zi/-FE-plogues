@@ -510,6 +510,49 @@ export const ListButton = styled.button`
   }
 `;
 
+export const ButtonGroupHeader = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 10px; // 버튼 사이 간격
+  margin-left: 20px; // 사용자 이름 옆 공간 확보
+`;
+
+export const EditButton = styled.button`
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 6px 14px;
+  border: 1px solid #c8d6a5;
+  border-radius: 20px;
+  background-color: white;
+  color: #777;
+  font-size: 13px;
+  cursor: pointer;
+  transition: 0.2s;
+
+  &:hover {
+    background-color: #f9fdf0;
+  }
+`;
+
+export const DeleteButton = styled.button`
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 6px 14px;
+  border: none;
+  border-radius: 20px;
+  background-color: #5d8a4f;
+  color: white;
+  font-size: 13px;
+  cursor: pointer;
+  transition: 0.2s;
+
+  &:hover {
+    background-color: #4a6d3f;
+  }
+`;
+
 // ======================
 // Form Page
 // ======================
@@ -668,4 +711,53 @@ export const PreviewBox = styled.div`
     height: 100%;
     object-fit: cover;
   }
+`;
+
+// ======================
+// Modal
+// ======================
+
+export const ModalOverlay = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.4);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
+export const ModalContainer = styled.div`
+  width: 400px;
+  background-color: #fffdf0;
+  padding: 24px;
+  border-radius: 8px;
+  position: relative;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+`;
+
+export const CloseButton = styled.button`
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  background: none;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  color: #666;
+
+  &:hover {
+    color: #000;
+  }
+`;
+
+export const ModalButtonGroup = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 20px;
+  padding-top: 20px;
+  border-top: 1px solid #eee;
 `;

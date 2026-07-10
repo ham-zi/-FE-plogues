@@ -21,10 +21,14 @@ import {
   InfoLeft,
   InfoRight,
   ProgressTitle,
+  ButtonGroupHeader,
+  EditButton,
+  DeleteButton,
 } from "./Join.styles";
 
 import { FaUser, FaBell, FaClock, FaMapMarkerAlt } from "react-icons/fa";
 import { PiSirenFill } from "react-icons/pi";
+import { IoPencilOutline, IoTrashOutline } from "react-icons/io5";
 
 import logo from "../../../assets/logo.png";
 import tiger from "../../../assets/iso_20260707110842681476.jpg";
@@ -32,6 +36,7 @@ import api from "../../../api/axios";
 import { useNavigate, useParams } from "react-router-dom";
 import { useContext, useEffect, useState } from "react";
 import { useAuth } from "../../../context/AuthContext";
+import RequestModal from "./RequestModal";
 
 const JoinDetail = () => {
   const { joinNo } = useParams();
@@ -52,6 +57,9 @@ const JoinDetail = () => {
   const [files, setFiles] = useState([]);
   const { isLogin } = useAuth();
   const navi = useNavigate();
+  const [isOpen, setIsOpen] = useState(false);
+  const isOver3Days =
+    new Date(join.endDate) <= new Date(Date.now() - 3 * 24 * 60 * 60 * 1000);
 
   useEffect(() => {
     api.get(`/joins/${joinNo}`).then((result) => {
@@ -92,6 +100,34 @@ const JoinDetail = () => {
       .replace(/ -/g, " ");
   };
 
+  const handleDelete = async () => {
+    try {
+      await api.delete(`/joins/${joinNo}`);
+      if (join.category === "PLOG") {
+        navi("/joins/plogging");
+      } else {
+        navi("/joins/plant");
+      }
+    } catch (err) {
+      customAlert.error("삭제 실패");
+    }
+  };
+
+  const handleReport = () => {
+    const report = {
+      boardType: "JOIN",
+      title: join.title,
+      targetNo: join.joinNo,
+    };
+    navi("/reports/form", {
+      state: report,
+    });
+  };
+
+  const handleProof = () => {
+    navi("/proofs/write", { state: join.category });
+  };
+
   return (
     <DetailWrap>
       <DetailHeader>
@@ -106,6 +142,27 @@ const JoinDetail = () => {
                 <FaUser />
                 {join.userName}
               </Writer>
+
+              {isLogin &&
+                (localStorage.getItem("userId") === join.userId ? (
+                  <ButtonGroupHeader>
+                    <EditButton
+                      onClick={() => {
+                        navi(`/joins/${joinNo}/edit`);
+                      }}
+                    >
+                      <IoPencilOutline /> 수정하기
+                    </EditButton>
+                    <DeleteButton onClick={handleDelete}>
+                      <IoTrashOutline />
+                      삭제하기
+                    </DeleteButton>
+                  </ButtonGroupHeader>
+                ) : (
+                  <AlarmButton onClick={handleReport}>
+                    <PiSirenFill />
+                  </AlarmButton>
+                ))}
             </TitleContent>
           </TitleBox>
 
@@ -142,10 +199,6 @@ const JoinDetail = () => {
             </InfoRight>
           </InfoWrapper>
         </LeftSection>
-
-        <AlarmButton onClick={() => navi("/report")}>
-          <PiSirenFill />
-        </AlarmButton>
       </DetailHeader>
 
       <ContentBox>
@@ -160,10 +213,33 @@ const JoinDetail = () => {
       <ButtonGroup>
         {isLogin &&
           (localStorage.getItem("userId") === join.userId ? (
-            <JoinButton>인증하기</JoinButton>
+            isOver3Days ? (
+              <JoinButton
+                onClick={() => {
+                  navi(`/joins/${joinNo}/reform`);
+                }}
+              >
+                재모집하기
+              </JoinButton>
+            ) : (
+              <JoinButton>인증하기</JoinButton>
+            )
           ) : progressPercent === "100%" ? null : (
-            <JoinButton>참여하기</JoinButton>
+            <JoinButton
+              onClick={() => {
+                setIsOpen(true);
+              }}
+            >
+              참여하기
+            </JoinButton>
           ))}
+        {isOpen && (
+          <RequestModal
+            onClose={() => setIsOpen(false)}
+            joinNo={joinNo}
+            category={join.category}
+          />
+        )}
         {join.category === "PLOG" ? (
           <ListButton onClick={() => navi("/joins/plogging")}>
             목록으로

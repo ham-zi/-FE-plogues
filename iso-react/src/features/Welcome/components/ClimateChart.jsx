@@ -70,7 +70,6 @@ const ClimateChart = () => {
     const fetchData = async () => {
       try {
         const result = await getWeeklyClimateData();
-        console.log(result);
         const formatted = filterLast24Hours(result);
 
         setData(formatted);
@@ -84,7 +83,7 @@ const ClimateChart = () => {
 
   return (
     <ChartCard>
-      <Title>최근 8시간 환경 데이터</Title>
+      <Title>식목지 환경 변화 추이</Title>
       <Subtitle>현재 기준 8시간 동안의 온도, 습도, 토양습도 변화</Subtitle>
 
       <ResponsiveContainer width="100%" height={200}>

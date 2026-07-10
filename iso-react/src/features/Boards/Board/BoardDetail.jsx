@@ -73,16 +73,16 @@ function BoardDetail() {
     }
   };
   const handleReport = () => {
-  const reportInfo = {
-    boardType: "REVIEW",
-    title: board.title,
-    targetNo: board.boardNo,
-  };
+    const reportInfo = {
+      boardType: "REVIEW",
+      title: board.title,
+      targetNo: board.boardNo,
+    };
 
-  navigate("/reports/form", {
-      state : reportInfo,
-  });
-};
+    navigate("/reports/form", {
+      state: reportInfo,
+    });
+  };
 
   const handleCommentDelete = async (commentNo) => {
     const result = await customAlert.confirm("댓글을 삭제하시겠습니까?");
@@ -123,51 +123,48 @@ function BoardDetail() {
       </DetailWrap>
     );
   }
-  console.log("board.updated:", board.updated);
 
   return (
     <DetailWrap>
       <DetailTitle>
-  <span>{board.title}</span>
+        <span>{board.title}</span>
 
-    
-  <AlarmButton onClick={handleReport}>
-    <PiSirenFill />
-  </AlarmButton>
-</DetailTitle>
+        <AlarmButton onClick={handleReport}>
+          <PiSirenFill />
+        </AlarmButton>
+      </DetailTitle>
 
       <DetailInfo>
-  <span>작성자: {board.writer}</span>
+        <span>작성자: {board.writer}</span>
 
-  <span className="right-info">
-
-    <span>
-      날짜: {formatDate(board.createDate)}
-      {board.updated === "Y" && <span> (수정됨)</span>}
-    </span>
-  </span>
-</DetailInfo>
+        <span className="right-info">
+          <span>
+            날짜: {formatDate(board.createDate)}
+            {board.updated === "Y" && <span> (수정됨)</span>}
+          </span>
+        </span>
+      </DetailInfo>
 
       <DetailContent>{board.content}</DetailContent>
 
       {board.fileList && board.fileList.length > 0 && (
-  <ImageGrid $count={board.fileList.length}>
-    {board.fileList.map((file) => (
-      <DetailImage
-        key={file.fileNo}
-        $count={board.fileList.length}
-        src={`${file.filePath}${file.changeName}`}
-        alt={file.originName}
-      />
-    ))}
-  </ImageGrid>
-)}
+        <ImageGrid $count={board.fileList.length}>
+          {board.fileList.map((file) => (
+            <DetailImage
+              key={file.fileNo}
+              $count={board.fileList.length}
+              src={`${file.filePath}${file.changeName}`}
+              alt={file.originName}
+            />
+          ))}
+        </ImageGrid>
+      )}
 
       <DetailButtons>
-        <button onClick={() => navigate("/boards")}>목록</button>
+        <button onClick={() => navigate("/reviews")}>목록</button>
         {board.userId === myUserId && (
           <>
-            <button onClick={() => navigate(`/boards/${boardNo}/edit`)}>
+            <button onClick={() => navigate(`/reviews/${boardNo}/edit`)}>
               수정
             </button>
             <button className="" onClickdelete={handleDelete}>
@@ -236,7 +233,6 @@ function BoardDetail() {
                       </button>
                     </div>
                   )}
-                 
                 </div>
               </CommentItem>
 
@@ -274,7 +270,7 @@ function BoardDetail() {
     try {
       await api.delete(`/boards/${boardNo}`);
       customAlert.success("게시글이 삭제되었습니다.");
-      navigate("/boards");
+      navigate("/reviews");
     } catch (err) {
       console.error(err);
     }
