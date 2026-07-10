@@ -220,9 +220,10 @@ export const StatusBadge = styled.span`
   line-height: 1;
 
   background-color: ${({ status }) =>
-    status === "COMPLETED" ? "#a3e9b3" : "#FFF3CD"};
+    status === "COMPLETED" || status === "Y" ? "#a3e9b3" : "#FFF3CD"};
 
-  color: ${({ status }) => (status === "COMPLETED" ? "#41bd3d" : "#B7791F")};
+  color: ${({ status }) =>
+    status === "COMPLETED" || status === "Y" ? "#41bd3d" : "#B7791F"};
 `;
 
 export const EmptyText = styled.div`
@@ -251,5 +252,37 @@ export const PageButton = styled.button`
   &:hover {
     background: ${theme.color.sub};
     color: white;
+  }
+`;
+
+export const CompleteButton = styled.button`
+  padding: 6px 14px;
+  border: none;
+  border-radius: 6px;
+  background: ${theme.color.main};
+  color: #fff;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+
+  &:hover {
+    background: ${theme.color.sub};
+    transform: translateY(-1px);
+  }
+
+  &:active {
+    transform: translateY(0);
+  }
+
+  &:disabled {
+    background: ${theme.color.main};
+    color: #fff;
+    cursor: not-allowed;
+    transform: none;
+  }
+
+  &:disabled:hover {
+    background: ${theme.color.main};
   }
 `;

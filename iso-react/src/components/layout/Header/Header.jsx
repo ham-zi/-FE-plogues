@@ -6,15 +6,18 @@ import {
   NavLink,
   Login,
   AuthGroup,
+  UserName,
+  AuthLink,
 } from "./Header.styles";
 import { useAuth } from "../../../context/AuthContext";
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
 import biomas from "../../../assets/biomas-energy.svg";
 
 const Header = () => {
   const navi = useNavigate();
   const { isLogin, logout, user } = useAuth();
+
+  const isAdmin = user?.role === "[ROLE_ADMIN]";
 
   return (
     <Bar>
@@ -24,35 +27,34 @@ const Header = () => {
           Plogues
         </Brand>
 
-        {/* 게시판 메뉴만 담당 */}
         <Nav>
-          <NavLink onClick={() => navi("/boards/notice")}>공지사항</NavLink>
-          <NavLink onClick={() => navi("/joins/plogging")}>
-            플로깅게시판
-          </NavLink>
-          <NavLink onClick={() => navi("/joins/plant")}>식목게시판</NavLink>
+          <NavLink onClick={() => navi("/notices")}>소식</NavLink>
+          <NavLink onClick={() => navi("/joins/plogging")}>플로깅모집</NavLink>
+          <NavLink onClick={() => navi("/joins/plant")}>식목모집</NavLink>
           <NavLink onClick={() => navi("/proofs")}>인증게시판</NavLink>
           <NavLink onClick={() => navi("/boards")}>후기게시판</NavLink>
         </Nav>
 
-        {/* 로그인 버튼들만 따로 분리 (AuthGroup 사용) */}
         <AuthGroup>
           {isLogin ? (
             <>
-              <div
-                style={{ color: "#444", fontSize: "14px", fontWeight: "600" }}
-              >
-                {user.userName}님
-              </div>
-              <NavLink onClick={() => navi("/questions/form")}>
-                문의하기
-              </NavLink>
-              <NavLink onClick={() => navi("/mypage")}>내정보조회</NavLink>
+              {isAdmin && (
+                <AuthLink onClick={() => navi("/reports")}>신고목록</AuthLink>
+              )}
+
+              <AuthLink onClick={() => navi("/questions/page")}>
+                문의사항
+              </AuthLink>
+
+              <AuthLink onClick={() => navi("/mypage")}>내정보</AuthLink>
+
+              <UserName>{user.userName}님</UserName>
+
               <Login onClick={logout}>로그아웃</Login>
             </>
           ) : (
             <>
-              <Login onClick={() => navi("/signup")}>회원가입</Login>
+              <AuthLink onClick={() => navi("/signup")}>회원가입</AuthLink>
               <Login onClick={() => navi("/login")}>로그인</Login>
             </>
           )}

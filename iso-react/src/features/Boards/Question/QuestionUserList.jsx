@@ -61,12 +61,10 @@ const QuestionUserList = () => {
                 <Tr key={board.boardNo}>
                   <Td>{board.boardNo}</Td>
 
-                  <TitleTd
-                    onClick={() => navigate(`/questions/${board.boardNo}`)}
-                  >
+                  <TitleTd onClick={() => navi(`/questions/${board.boardNo}`)}>
                     {board.title}
                   </TitleTd>
-                  <Td>{board.category}</Td>
+                  <Td>{board.category === "EVENT" ? "이벤트" : "에러"}</Td>
                   <Td>{board.createDate.substring(0, 10)}</Td>
                   <Td>
                     <StatusBadge status={board.updated}>
