@@ -239,7 +239,8 @@ const MyJoin = () => {
                     </td>
 
                     <td>
-                      {item.status === "ACCEPTED" && (
+                      {(item.status === "ACCEPTED" ||
+                        item.status === "WAITING") && (
                         <CancelBtn
                           onClick={() => cancelRequest(item.joinRequestNo)}
                         >

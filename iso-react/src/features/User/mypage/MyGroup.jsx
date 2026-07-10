@@ -17,6 +17,7 @@ import {
   DropdownList,
   DropdownItem,
   StateBadge,
+  StateBadge2,
   TabContainer,
   Tab,
   Pagination,
@@ -210,23 +211,21 @@ const MyGroup = () => {
                       </td>
 
                       <td>
-                        <StateBadge state={status}>{status}</StateBadge>
+                        <StateBadge2 state={status}>{status}</StateBadge2>
                       </td>
 
                       <td>{item.createDate?.split("T")[0]}</td>
 
                       <td>
                         <StateBadge
-                          state={
-                            item.status === "ACCEPTED" ? "참여" : "참여불가"
-                          }
+                          state={status === "진행 중" ? "참여" : "참여불가"}
                           onClick={() => {
-                            if (item.status === "ACCEPTED") {
-                              navi(`/chat/${item.joinNo}`);
+                            if (status === "진행 중") {
+                              navi(`/chats/${item.joinNo}`);
                             }
                           }}
                         >
-                          {item.status === "ACCEPTED" ? "참여" : "참여불가"}
+                          {status === "진행 중" ? "참여" : "참여불가"}
                         </StateBadge>
                       </td>
                     </tr>

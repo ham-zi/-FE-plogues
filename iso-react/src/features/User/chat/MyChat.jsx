@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import api from "../../../api/axios";
 
 import {
@@ -28,6 +28,7 @@ import { FiEdit2, FiTrash2, FiAlertCircle, FiRefreshCw } from "react-icons/fi";
 
 function MyChat() {
   const { joinNo } = useParams();
+  const navigate = useNavigate();
 
   const [messages, setMessages] = useState([]);
   const [content, setContent] = useState("");
