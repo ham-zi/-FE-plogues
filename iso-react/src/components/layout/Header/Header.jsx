@@ -32,7 +32,7 @@ const Header = () => {
           <NavLink onClick={() => navi("/joins/plogging")}>플로깅모집</NavLink>
           <NavLink onClick={() => navi("/joins/plant")}>식목모집</NavLink>
           <NavLink onClick={() => navi("/proofs")}>인증게시판</NavLink>
-          <NavLink onClick={() => navi("/boards")}>후기게시판</NavLink>
+          <NavLink onClick={() => navi("/reviews")}>후기게시판</NavLink>
         </Nav>
 
         <AuthGroup>
