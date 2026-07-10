@@ -17,6 +17,7 @@ import {
   StyledInput,
   SaveBtn,
   CancelBtn,
+  ProfileHint,
 } from "./styles/MyPage.styles";
 import { useAuth } from "../../../context/AuthContext";
 import { useNavigate } from "react-router-dom";
@@ -104,7 +105,7 @@ const Mypage = () => {
     <Container>
       <LeftSection>
         <ProfileImageWrapper
-  onClick={() => document.getElementById("fileInput").click()}
+          onClick={() => document.getElementById("fileInput").click()}
 >
   <ProfileImage
     $imgUrl={
@@ -125,6 +126,8 @@ const Mypage = () => {
     style={{ display: "none" }}
   />
 </ProfileImageWrapper>
+
+<ProfileHint>프로필을 클릭하면 변경 가능해요 ☺️<br/> </ProfileHint>
 
         <InputUser>
           <StyledInput type="text" value={userInfo.userId} readOnly />

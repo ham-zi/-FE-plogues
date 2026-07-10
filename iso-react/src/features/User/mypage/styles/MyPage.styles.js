@@ -227,3 +227,10 @@ export const ProfileOverlay = styled.div`
   opacity: 0;
   transition: opacity 0.2s ease;
 `;
+
+export const ProfileHint = styled.p`
+  font-size: 12px;
+  color: #8a9a96;
+  margin: -8px 0 16px;
+  text-align: center;
+`;
