@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import api from "../../../api/axios";
-
+import { customAlert } from "../../Commons/Alert";
 import {
   Container,
   LeftSection,
@@ -40,6 +40,7 @@ const MyRequest = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [category, setCategory] = useState("참여 요청 내역");
   const [selectedCategory, setSelectedCategory] = useState("ALL");
+  const [selectedStatus, setSelectedStatus] = useState("ALL");
 
   const categories = [
     {
@@ -75,32 +76,69 @@ const MyRequest = () => {
     },
   ];
 
-  const filteredList =
-    selectedCategory === "ALL"
-      ? requestList
-      : requestList.filter((item) => item.category === selectedCategory);
+  const validStatuses = ["WAITING", "ACCEPTED", "DENIED", "CANCELED"];
 
-  const getRequestList = async (page = 1) => {
+  const filteredList = requestList
+    .filter((item) => item.status && validStatuses.includes(item.status))
+    .filter(
+      (item) =>
+        selectedCategory === "ALL" || item.category === selectedCategory,
+    )
+    .filter(
+      (item) => selectedStatus === "ALL" || item.status === selectedStatus,
+    );
+
+  const getRequestList = async () => {
     try {
-      const response = await api.get(`/users/requests?page=${page}`);
+      const response = await api.get("/users/requests", {
+        params: {
+          page: 1,
+          status: "ALL",
+        },
+      });
 
-      const { list, myInfo, pageInfo } = response.data.data;
+      const data = response.data.data;
 
-      setRequestList(list);
-      setMyInfo(myInfo);
-      setPageInfo(pageInfo);
+      setRequestList(data.list);
+      setPageInfo(data.pageInfo);
+      setMyInfo(data.myInfo);
     } catch (error) {
-      console.error("참여 요청 목록 조회 실패:", error);
+      console.log(error);
     }
   };
 
   const handleAction = async (requestId, action) => {
+    const isConfirmed = await customAlert.confirm(
+      action === "accept" ? "수락하시겠습니까?" : "거절하시겠습니까?",
+      action === "accept"
+        ? "참여 요청을 수락합니다."
+        : "참여 요청을 거절합니다.",
+    );
+
+    if (!isConfirmed) return;
+
     try {
-      await api.patch(`/request/${action}/${requestId}`);
+      if (action === "accept") {
+        await api.patch(`/request/${requestId}`);
+
+        await customAlert.success(
+          "참여 수락 완료",
+          "참여 요청을 수락했습니다.",
+        );
+      } else {
+        await api.delete(`/request/${requestId}`);
+
+        await customAlert.success(
+          "참여 거절 완료",
+          "참여 요청을 거절했습니다.",
+        );
+      }
 
       getRequestList(pageInfo.currentPage);
     } catch (error) {
       console.error("요청 처리 실패:", error);
+
+      customAlert.error("처리 실패", "요청 처리 중 문제가 발생했습니다.");
     }
   };
 
@@ -190,7 +228,10 @@ const MyRequest = () => {
             <Tab
               key={item.value}
               $active={selectedCategory === item.value}
-              onClick={() => setSelectedCategory(item.value)}
+              onClick={() => {
+                setSelectedCategory(item.value);
+                getRequestList(1, item.value);
+              }}
             >
               {item.label}
             </Tab>
@@ -201,6 +242,7 @@ const MyRequest = () => {
           <Table>
             <thead>
               <tr>
+                <th>카테고리</th>
                 <th>참여자</th>
                 <th>제목</th>
                 <th>한 줄 포부</th>
@@ -212,14 +254,16 @@ const MyRequest = () => {
               {filteredList.length > 0 ? (
                 filteredList.map((item) => (
                   <tr key={item.joinRequestNo}>
-                    <td>{item.joinUser}</td>
+                    <td>{item.category}</td>
+
+                    <td>{item.userId}</td>
 
                     <td>{item.title}</td>
 
                     <td className="portfolio-cell">{item.aspiration}</td>
 
                     <td>
-                      {item.status === "N" ? (
+                      {item.status === "WAITING" ? (
                         <ActionButtons>
                           <AcceptButton
                             onClick={() =>
@@ -237,9 +281,13 @@ const MyRequest = () => {
                             거절
                           </DenyButton>
                         </ActionButtons>
-                      ) : (
-                        <StateBadge>처리 완료</StateBadge>
-                      )}
+                      ) : item.status === "ACCEPTED" ? (
+                        <StateBadge state="ACCEPTED">승인 완료</StateBadge>
+                      ) : item.status === "DENIED" ? (
+                        <StateBadge state="DENIED">거절 완료</StateBadge>
+                      ) : item.status === "CANCELED" ? (
+                        <StateBadge state="CANCELED">참여 취소</StateBadge>
+                      ) : null}
                     </td>
                   </tr>
                 ))

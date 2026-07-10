@@ -6,9 +6,10 @@ export const Container = styled.div`
   margin: 40px auto;
 `;
 
-export const Title = styled.h2`
-  font-size: 32px;
-  margin-bottom: 25px;
+export const Title = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 `;
 
 export const InputArea = styled.div`
@@ -161,4 +162,31 @@ export const EditButtonArea = styled.div`
   display: flex;
   justify-content: flex-end;
   gap: 10px;
+`;
+
+export const BackIcon = styled.div`
+  display: flex;
+  align-items: center;
+
+  cursor: pointer;
+  color: #34908b;
+
+  transition: 0.2s ease;
+
+  &:hover {
+    transform: translateX(3px);
+    opacity: 0.7;
+  }
+
+  &:active {
+    transform: scale(0.9);
+  }
+`;
+
+export const TitleArea = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  margin-bottom: 20px;
 `;
