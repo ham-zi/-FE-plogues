@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 
 export const Page = styled.div`
   min-height: 100vh;
-  background: #fbfae8;
+  background: #fff;
   padding: 40px 0;
 `;
 
@@ -101,23 +101,39 @@ export const DetailImage = styled.img`
 export const ButtonArea = styled.div`
   display: flex;
   justify-content: center;
+  gap: 12px;
   margin-top: 50px;
 `;
 
-export const ListButton = styled.button`
-  width: 170px;
-  height: 45px;
-  border-radius: 10px;
-  border: 1px solid ${theme.color.main};
-  background: white;
-  color: ${theme.color.main};
-  font-size: 17px;
+export const EditButton = styled.button`
+  width: 120px;
+  height: 40px;
+  border-radius: 20px;
+  border: none;
+  background: #3f8f72;
+  color: white;
+  font-size: 14px;
   font-weight: 700;
   cursor: pointer;
-  box-shadow: 0 3px 4px rgba(0, 0, 0, 0.18);
 
   &:hover {
-    background: ${theme.color.point};
+    background: #34775f;
+  }
+`;
+
+export const ListButton = styled.button`
+  width: 120px;
+  height: 40px;
+  border-radius: 20px;
+  border: 1px solid #3f8f72;
+  background: white;
+  color: #3f8f72;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+
+  &:hover {
+    background: #f5ffff;
   }
 `;
 
@@ -177,15 +193,5 @@ export const ReportButton = styled.button`
   &:hover {
     background: ${theme.color.delete};
     color: white;
-  }
-`;
-
-export const EditButton = styled.button`
-  background: #3f8f72;
-  color: white;
-  border: none;
-
-  &:hover {
-    background: #34775f;
   }
 `;

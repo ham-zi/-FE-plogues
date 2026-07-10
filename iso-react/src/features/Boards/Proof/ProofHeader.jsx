@@ -1,4 +1,5 @@
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../../../context/AuthContext";
 import {
   HeaderContainer,
   TitleSection,
@@ -29,6 +30,7 @@ const PencilIcon = () => (
 );
 const ProofHeader = ({ pageInfo, setPage, loading }) => {
   const navigate = useNavigate();
+  const { isLogin } = useAuth();
   const currentPage = Number(pageInfo.currentPage) || 1;
   const maxPage = Number(pageInfo.maxPage) || 1;
 
@@ -36,10 +38,12 @@ const ProofHeader = ({ pageInfo, setPage, loading }) => {
     <HeaderContainer>
       <TitleSection>
         <Title>인증게시판</Title>
-        <WriteButton onClick={() => navigate("/proofs/write")}>
-          <PencilIcon />
-          작성하기
-        </WriteButton>
+        {isLogin && (
+          <WriteButton onClick={() => navigate("/proofs/write")}>
+            <PencilIcon />
+            작성하기
+          </WriteButton>
+        )}
       </TitleSection>
 
       <PageInfo>
