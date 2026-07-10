@@ -33,6 +33,7 @@ const RequestModal = ({ joinNo, category }) => {
     } catch (err) {
       if (err.response.data.code === 409) {
         customAlert.error("이미 신청하셨습니다.");
+        location.href=`/joins/${joinNo}`;
       }
     }
   };
