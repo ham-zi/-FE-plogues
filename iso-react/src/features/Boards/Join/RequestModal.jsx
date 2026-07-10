@@ -28,15 +28,19 @@ const RequestModal = ({ joinNo, category }) => {
   const onSubmit = async () => {
     try {
       await api.post(`/request/${joinNo}`, request);
+      customAlert.success("참여요청 성공");
       if (category === "PLOG") {
-        customAlert.success("참여요청 성공");
         navi("/joins/plogging");
       } else {
-        customAlert.success("참여요청 성공");
         navi("/joins/plant");
       }
     } catch (err) {
-      navi("/");
+      customAlert.error("이미 참여요청한 게시글입니다.");
+      if (category === "PLOG") {
+        navi("/joins/plogging");
+      } else {
+        navi("/joins/plant");
+      }
     }
   };
 
