@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { FiEdit3, FiDownload } from "react-icons/fi";
 import api from "../../../api/axios";
 import { customAlert } from "../../Commons/Alert";
@@ -25,6 +25,8 @@ function ProofForm() {
 
   // 임시 데이터 다음에 api 연결할 거심
   const [joinList, setJoinList] = useState([]);
+
+  const location = useLocation();
 
   useEffect(() => {
     api
@@ -277,13 +279,12 @@ function ProofForm() {
           카테고리<span className="required">*</span>
         </label>
 
-        <SelectBox
-          value={category}
-          onChange={(e) => setCategory(e.target.value)}
-        >
-          <option value="PLOG">플로깅</option>
-          <option value="PLANT">나무심기</option>
-        </SelectBox>
+        <input
+          type="text"
+          value={location.state.category === "PLOG" ? "플로깅" : "식목"}
+          readOnly
+          style={{ backgroundColor: "#eeeeee" }}
+        />
       </FormRow>
 
       {/* 참여 활동 */}
