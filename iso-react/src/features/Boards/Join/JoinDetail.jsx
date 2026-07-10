@@ -61,6 +61,7 @@ const JoinDetail = () => {
   const [isOpen, setIsOpen] = useState(false);
   const isOver3Days =
     new Date(join.endDate) <= new Date(Date.now() - 3 * 24 * 60 * 60 * 1000);
+  const isEnded = new Date(join.endDate) < new Date();
 
   useEffect(() => {
     api.get(`/joins/${joinNo}`).then((result) => {
@@ -231,7 +232,7 @@ const JoinDetail = () => {
             ) : (
               <JoinButton>인증하기</JoinButton>
             )
-          ) : progressPercent === "100%" ? null : (
+          ) : progressPercent === "100%" ? null : isEnded ? null : (
             <JoinButton
               onClick={() => {
                 setIsOpen(true);
