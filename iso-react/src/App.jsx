@@ -63,6 +63,10 @@ function App() {
             <Route path="/boards/:boardNo" element={<BoardDetail />} />
             <Route path="/boards/write" element={<BoardForm />} />
             <Route path="/boards/:boardNo/edit" element={<BoardForm />} />
+            <Route path="/reviews" element={<BoardList />} />
+            <Route path="/reviews/:boardNo" element={<BoardDetail />} />
+            <Route path="/reviews/write" element={<BoardForm />} />
+            <Route path="/reviews/:boardNo/edit" element={<BoardForm />} />
             <Route path="/joins/plogging" element={<PlogList />} />
             <Route path="/joins/plant" element={<PlantList />} />
             <Route path="/joins/:joinNo" element={<JoinDetail />} />
