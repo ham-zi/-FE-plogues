@@ -19,11 +19,7 @@ const RequestModal = ({ joinNo, category }) => {
   });
   const navi = useNavigate();
   const cancle = () => {
-    if (category === "PLOG") {
-      navi("/joins/plogging");
-    } else {
-      navi("/joins/plant");
-    }
+    location.href = `/joins/${joinNo}`;
   };
   const onSubmit = async () => {
     try {
