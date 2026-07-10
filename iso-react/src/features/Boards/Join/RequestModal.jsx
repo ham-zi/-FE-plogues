@@ -31,11 +31,9 @@ const RequestModal = ({ joinNo, category }) => {
         navi("/joins/plant");
       }
     } catch (err) {
-      customAlert.error("이미 참여요청한 게시글입니다.");
-      if (category === "PLOG") {
-        navi("/joins/plogging");
-      } else {
-        navi("/joins/plant");
+      if (err.response.data.code === 409) {
+        customAlert.error("이미 신청하셨습니다.");
+        location.href=`/joins/${joinNo}`;
       }
     }
   };
