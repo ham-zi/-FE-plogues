@@ -45,7 +45,6 @@ const Mypage = () => {
   useEffect(() => {
     const fetchUserData = async () => {
       if (!user || !user.userId) return;
-
       try {
         isLoading(true);
         const response = await api.get(`/users`);

@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router-dom";
 import {
   HeaderContainer,
   TitleSection,
@@ -27,6 +28,7 @@ const PencilIcon = () => (
   </svg>
 );
 const ProofHeader = ({ pageInfo, setPage, loading }) => {
+  const navigate = useNavigate();
   const currentPage = Number(pageInfo.currentPage) || 1;
   const maxPage = Number(pageInfo.maxPage) || 1;
 
@@ -34,7 +36,7 @@ const ProofHeader = ({ pageInfo, setPage, loading }) => {
     <HeaderContainer>
       <TitleSection>
         <Title>인증게시판</Title>
-        <WriteButton onClick={() => console.log("작성하기 클릭")}>
+        <WriteButton onClick={() => navigate("/proofs/write")}>
           <PencilIcon />
           작성하기
         </WriteButton>
