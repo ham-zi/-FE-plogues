@@ -37,6 +37,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useContext, useEffect, useState } from "react";
 import { useAuth } from "../../../context/AuthContext";
 import RequestModal from "./RequestModal";
+import { customAlert } from "../../Commons/Alert";
 
 const JoinDetail = () => {
   const { joinNo } = useParams();
@@ -60,6 +61,7 @@ const JoinDetail = () => {
   const [isOpen, setIsOpen] = useState(false);
   const isOver3Days =
     new Date(join.endDate) <= new Date(Date.now() - 3 * 24 * 60 * 60 * 1000);
+  const isEnded = new Date(join.endDate) < new Date();
 
   useEffect(() => {
     api.get(`/joins/${joinNo}`).then((result) => {
@@ -103,13 +105,19 @@ const JoinDetail = () => {
   const handleDelete = async () => {
     try {
       await api.delete(`/joins/${joinNo}`);
+      customAlert.success("삭제 성공");
       if (join.category === "PLOG") {
         navi("/joins/plogging");
       } else {
         navi("/joins/plant");
       }
     } catch (err) {
-      customAlert.error("삭제 실패");
+      customAlert.error("잠시후에 다시 시도해주세요");
+      if (join.category === "PLOG") {
+        navi("/joins/plogging");
+      } else {
+        navi("/joins/plant");
+      }
     }
   };
 
@@ -224,7 +232,7 @@ const JoinDetail = () => {
             ) : (
               <JoinButton>인증하기</JoinButton>
             )
-          ) : progressPercent === "100%" ? null : (
+          ) : progressPercent === "100%" ? null : isEnded ? null : (
             <JoinButton
               onClick={() => {
                 setIsOpen(true);

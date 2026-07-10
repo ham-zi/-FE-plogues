@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../../context/AuthContext";
 import {
   JoinTop,
@@ -33,6 +34,7 @@ const JoinHeader = ({ pageInfo, setPage, loading, category }) => {
   const currentPage = Number(pageInfo.currentPage) || 1;
   const maxPage = Number(pageInfo.maxPage) || 1;
   const { isLogin } = useAuth();
+  const navi = useNavigate();
 
   return (
     <HeaderContainer>

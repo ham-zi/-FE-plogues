@@ -89,16 +89,20 @@ const JoinForm = () => {
         await api.post("/joins", fd, {
           headers: { "Content-Type": "multipart/form-data" },
         });
+        customAlert.success("게시글 작성 성공");
         if (join.category === "PLOG") {
-          customAlert.success("게시글 작성 성공");
           navi("/joins/plogging");
         } else {
-          customAlert.success("게시글 작성 성공");
           navi("/joins/plant");
         }
       }
     } catch (err) {
-      navi("/");
+      customAlert.error("잠시후에 다시 시도해주세요");
+      if (join.category === "PLOG") {
+        navi("/joins/plogging");
+      } else {
+        navi("/joins/plant");
+      }
     } finally {
       isLoading(false);
     }

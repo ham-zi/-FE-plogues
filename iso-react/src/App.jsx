@@ -73,6 +73,7 @@ function App() {
             <Route path="/joins/plogging" element={<PlogList />} />
             <Route path="/joins/plant" element={<PlantList />} />
             <Route path="/joins/:joinNo" element={<JoinDetail />} />
+            <Route path="/joins/write" element={<JoinForm />} />
             <Route path="/joins/:joinNo/edit" element={<JoinForm />} />
             <Route path="/joins/:joinNo/reform" element={<JoinReform />} />
             <Route path="/notices" element={<NoticeList />} />
