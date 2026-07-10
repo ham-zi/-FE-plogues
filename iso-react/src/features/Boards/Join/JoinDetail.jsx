@@ -33,12 +33,13 @@ import { IoPencilOutline, IoTrashOutline } from "react-icons/io5";
 import logo from "../../../assets/logo.png";
 import tiger from "../../../assets/iso_20260707110842681476.jpg";
 import api from "../../../api/axios";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams, useLocation } from "react-router-dom";
 import { useContext, useEffect, useState } from "react";
 import { useAuth } from "../../../context/AuthContext";
 import RequestModal from "./RequestModal";
 
 const JoinDetail = () => {
+  const { state } = useLocation();
   const { joinNo } = useParams();
   const [join, setJoin] = useState({
     category: "",

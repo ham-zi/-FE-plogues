@@ -36,7 +36,9 @@ const RequestModal = ({ joinNo, category }) => {
         navi("/joins/plant");
       }
     } catch (err) {
-      navi("/");
+      if (err.response.data.code === 409) {
+        customAlert.error("이미 신청하셨습니다.");
+      }
     }
   };
 

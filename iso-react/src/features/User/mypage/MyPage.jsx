@@ -45,7 +45,6 @@ const Mypage = () => {
     const fetchUserData = async () => {
       // 1. user 객체와 userId가 존재하는지 확인
       if (!user || !user.userId) {
-        console.log("로그: user.userId가 아직 준비되지 않음");
         return;
       }
 
@@ -53,7 +52,6 @@ const Mypage = () => {
         isLoading(true);
         // 오타 수정: useruserId -> user.userId
         const response = await api.get(`/users`);
-        console.log("서버 응답 데이터 확인:", response.data);
 
         // 서버 응답 구조에 따라 데이터 저장
 
