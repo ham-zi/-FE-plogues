@@ -209,7 +209,7 @@ function BoardForm() {
 
       <FormButtons>
         <button type="button" className="submit" onClick={handleSubmit}>
-          {isEdit ? "" : "작성"}수정
+          {isEdit ? "수정" : "작성"}
         </button>
         <button
           type="button"
