@@ -131,7 +131,7 @@ export const FormWrap = styled.div`
   width: 860px;
   margin: 60px auto;
   color: #222;
-  background: ${theme.color.main};
+  background: ${theme.color.header};
 `;
 
 export const FormTitle = styled.h2`
