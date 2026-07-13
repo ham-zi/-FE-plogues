@@ -20,11 +20,11 @@ const BadRequest = () => {
       <Breadcrumb>
         <BreadcrumbHome onClick={() => navigate("/")}>Home</BreadcrumbHome>
         <BreadcrumbDivider>/</BreadcrumbDivider>
-        <BreadcrumbCurrent>400 Error</BreadcrumbCurrent>
+        <BreadcrumbCurrent>404 Error</BreadcrumbCurrent>
       </Breadcrumb>
 
       <Content>
-        <ErrorCode>400</ErrorCode>
+        <ErrorCode>404</ErrorCode>
 
         <Title>잘못된 요청입니다.</Title>
 
