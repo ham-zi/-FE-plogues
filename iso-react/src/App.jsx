@@ -95,6 +95,7 @@ function App() {
             <Route path="/proofs/:proofNo/edit" element={<ProofForm />} />
             <Route path="/proofs/:proofNo" element={<ProofDetail />} />
             <Route path="/badRequest" element={<BadRequest />} />
+            <Route path="/*" element={<BadRequest />} />
           </Routes>
         </Main>
         <Footer />
