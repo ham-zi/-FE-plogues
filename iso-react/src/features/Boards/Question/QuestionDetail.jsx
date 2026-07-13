@@ -63,6 +63,10 @@ function QuestionDetail() {
       customAlert.error("댓글 내용을 입력해주세요.");
       return;
     }
+    if (commentContent.length > 1000) {
+      customAlert.error("댓글은 1000자까지 허용됩니다.");
+      return;
+    }
     try {
       await api.post(`/question/${boardNo}/comments`, {
         content: commentContent,
@@ -91,6 +95,12 @@ function QuestionDetail() {
       customAlert.error("내용을 입력해주세요.");
       return;
     }
+
+    if (editContent.length > 1000) {
+      customAlert.error("내용은 1000자까지 허용됩니다.");
+      return;
+    }
+
     try {
       await api.patch(`/question/${boardNo}/comments/${commentNo}`, {
         content: editContent,
