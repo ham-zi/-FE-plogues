@@ -8,7 +8,7 @@ function BoardHeader() {
     <BoardTop>
       <h2>후기게시판</h2>
       <button onClick={() => navigate('/boards/write')}>
-        ✎ 작성하기
+        ✏️ 작성하기
       </button>
     </BoardTop>
   );

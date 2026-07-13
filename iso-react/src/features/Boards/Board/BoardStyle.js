@@ -1,8 +1,10 @@
 import styled from "styled-components";
 
 export const BoardWrap = styled.div`
-  width: 860px;
+  width: 100%;
+  max-width: 860px;
   margin: 60px auto;
+  padding: 0 20px;
   color: #222;
 `;
 
@@ -89,18 +91,29 @@ export const DetailWrap = styled.div`
 `;
 
 export const DetailTitle = styled.h2`
-  font-size: 24px;
-  margin-bottom: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  font-size: 28px;
+  margin-bottom: 20px;
 `;
 
 export const DetailInfo = styled.div`
   display: flex;
   justify-content: space-between;
+  align-items: center;
   font-size: 13px;
   color: #777;
   border-bottom: 1px solid #ddd;
   padding-bottom: 15px;
   margin-bottom: 25px;
+
+  .right-info {
+    display: flex;
+    align-items: center;
+    gap: 10px; /* 신고 버튼과 날짜 사이 간격 */
+  }
 `;
 
 export const DetailContent = styled.p`
@@ -110,11 +123,6 @@ export const DetailContent = styled.p`
   white-space: pre-wrap;
 `;
 
-export const DetailImage = styled.img`
-  width: 100%;
-  border-radius: 8px;
-  margin: 20px 0;
-`;
 
 export const DetailButtons = styled.div`
   display: flex;
@@ -177,7 +185,7 @@ export const CommentBox = styled.div`
     padding: 8px 20px;
     border-radius: 20px;
     border: none;
-    background: #3f8f72;
+    background: #34908b;
     color: white;
     cursor: pointer;
     font-size: 13px;
@@ -204,7 +212,7 @@ export const CommentItem = styled.div`
     width: 32px;
     height: 32px;
     border-radius: 50%;
-    background-color: ${(props) => props.color || '#ccc'};
+    background-color: ${(props) => props.color || "#ccc"};
     flex-shrink: 0;
   }
 
@@ -253,14 +261,15 @@ export const EditBox = styled.div`
   margin-top: 10px;
 
   textarea {
-    width: 970px;
-    height: 60px;
+    width: 100%;
+    height: 90px;
     border: 1px solid #ddd;
     border-radius: 8px;
     padding: 10px;
     font-size: 14px;
     resize: none;
     font-family: inherit;
+    box-sizing: border-box;
   }
 
   .btn-row {
@@ -277,17 +286,17 @@ export const EditBox = styled.div`
     font-size: 13px;
     cursor: pointer;
   }
-  
+
   .save {
-    background: #34908B;
-    border: 1px solid #34908B;
+    background: #34908b;
+    border: 1px solid #34908b;
     color: white;
   }
 
   .cancel {
     background: white;
-    border: 1px solid #34908B;
-    color: #34908B;
+    border: 1px solid #34908b;
+    color: #34908b;
   }
 `;
 
@@ -442,4 +451,86 @@ export const FormButtons = styled.div`
     border: none;
   }
 `;
+export const AttachFileBox = styled.div`
+  margin: 30px 0;
 
+  h4 {
+    margin-bottom: 10px;
+    font-size: 15px;
+    color: #444;
+  }
+
+  a {
+    display: block;
+    padding: 10px 14px;
+    margin-bottom: 8px;
+    background: #f8f8f8;
+    border: 1px solid #e5e5e5;
+    border-radius: 8px;
+    color: #444;
+    text-decoration: none;
+    transition: 0.2s;
+  }
+
+  a:hover {
+    background: #eef8f7;
+    border-color: #34908b;
+    color: #34908b;
+  }
+`;
+
+export const ImageGrid = styled.div`
+  columns: ${(props) => Math.min(props.$count, 2)};
+  column-gap: 12px;
+  margin: 20px 0;
+`;
+
+export const DetailImage = styled.img`
+  width: 100%;
+  max-width: ${(props) => (props.$count === 1 ? "400px" : "none")};
+  height: auto;
+  border-radius: 8px;
+  margin: 0 auto 12px auto;
+  display: block;
+  break-inside: avoid;
+`;
+
+export const SearchWrapper = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+`;
+
+export const SearchInput = styled.input`
+  padding: 8px 12px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 13px;
+  width: 220px;
+
+  &:focus {
+    outline: none;
+    border-color: #3aa0a0;
+  }
+`;
+
+export const SearchButton = styled.button`
+  padding: 8px 16px;
+  border: none;
+  border-radius: 6px;
+  background-color: #3aa0a0;
+  color: #fff;
+  font-size: 13px;
+  cursor: pointer;
+
+  &:hover {
+    opacity: 0.85;
+  }
+`;
+
+export const ListTopRow = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+`;

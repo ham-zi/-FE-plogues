@@ -3,3 +3,19 @@ body {
   background-color: #fefdf4;
   min-height: 100vh;
 }
+
+.plogues-alert-popup {
+  border-radius: 22px !important;
+  padding: 28px !important;
+  box-shadow: 0 12px 35px rgba(35, 52, 67, 0.18) !important;
+}
+
+.plogues-alert-title {
+  font-size: 22px !important;
+  font-weight: 700 !important;
+}
+
+.plogues-alert-confirm {
+  border-radius: 12px !important;
+  padding: 10px 24px !important;
+}

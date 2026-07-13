@@ -35,7 +35,13 @@ const Footer = () => {
 
         <NavSection>
           <LinkGroup>
-            <li>공지사항</li>
+            <li
+              onClick={() => {
+                navi("/notices");
+              }}
+            >
+              소식
+            </li>
             <li
               onClick={() => {
                 if (!isLogin) return;

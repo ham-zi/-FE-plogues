@@ -18,47 +18,9 @@ import {
 import { useEffect, useState } from "react";
 import api from "../../../api/axios";
 import { Pagination } from "../Board/BoardStyle";
-const dummyInquiries = [
-  {
-    no: 14,
-    nickname: "아이스",
-    date: "2026.06.18",
-    category: "이벤트",
-    title: "7월 이벤트 참여 관련",
-    status: "답변 대기",
-    admin: "none",
-  },
-  {
-    no: 13,
-    nickname: "아이빌소",
-    date: "2026.06.18",
-    category: "에러",
-    title: "페이지 에러 관련",
-    status: "답변 대기",
-    admin: "none",
-  },
-  {
-    no: 12,
-    nickname: "아이스",
-    date: "2026.06.18",
-    category: "에러",
-    title: "참여 페이지 에러",
-    status: "처리완료",
-    admin: "admin1",
-  },
-  {
-    no: 11,
-    nickname: "아이스",
-    date: "2026.06.18",
-    category: "이벤트",
-    title: "6월 이벤트참여",
-    status: "처리완료",
-    admin: "admin2",
-  },
-];
 
 const QuestionAdminList = () => {
-  const navigate = useNavigate();
+  const navi = useNavigate();
   const [page, setPage] = useState(1);
   const [category, setCategory] = useState("전체");
   const [updated, setUpdated] = useState("전체");
@@ -69,7 +31,6 @@ const QuestionAdminList = () => {
     api
       .get(`/question?page=${page}&category=${category}&updated=${updated}`)
       .then((result) => {
-        console.log(result);
         const el = result.data.data;
         setBoards(el.board);
         setPageInfo(el.page);
@@ -113,7 +74,9 @@ const QuestionAdminList = () => {
                 <Td>{board.userId}</Td>
                 <Td>{board.createDate.substring(0, 10)}</Td>
                 <Td>{board.category}</Td>
-                <TitleTd>{board.title}</TitleTd>
+                <TitleTd onClick={() => navi(`/questions/${board.boardNo}`)}>
+                  {board.title}
+                </TitleTd>
                 <Td>
                   <StatusBadge status={board.updated}>
                     {board.updated}
