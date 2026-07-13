@@ -42,6 +42,7 @@ const JoinForm = () => {
     title: "",
   });
   const [file, setFile] = useState(null);
+
   const formatDateTime = (date) => {
     if (!date) return null;
 
@@ -53,6 +54,29 @@ const JoinForm = () => {
 
     return `${year}-${month}-${day} ${hour}:${minute}`;
   };
+
+  const normalizeDate = (date) => {
+    if (!date) return "";
+
+    return date.replace("T", " ").substring(0, 16);
+  };
+
+  const startDate = join.startDate
+    ? new Date(join.startDate.replace(" ", "T"))
+    : null;
+
+  const endDate = join.endDate
+    ? new Date(join.endDate.replace(" ", "T"))
+    : null;
+
+  const today = new Date();
+
+  const minTime = new Date();
+  minTime.setHours(0, 0, 0, 0);
+
+  const maxTime = new Date();
+  maxTime.setHours(23, 59, 59, 999);
+
   const onSubmit = async () => {
     if (
       !join.title.trim() ||
@@ -67,6 +91,16 @@ const JoinForm = () => {
       customAlert.error("필수 내용을 전부 입력해주세요");
       return;
     }
+    if (startDate < today) {
+      customAlert.error("시작 시간은 현재 시간 이후여야 합니다.");
+      return;
+    }
+
+    if (startDate >= endDate) {
+      customAlert.error("종료 시간은 시작 시간보다 이후여야 합니다.");
+      return;
+    }
+
     isLoading(true);
     const fd = new FormData();
     fd.append("category", join.category);
@@ -141,10 +175,10 @@ const JoinForm = () => {
         setJoin({
           category: data.category,
           content: data.content,
-          endDate: data.endDate,
+          endDate: normalizeDate(data.endDate),
           participants: data.participants,
           region: data.region,
-          startDate: data.startDate,
+          startDate: normalizeDate(data.startDate),
           title: data.title,
         });
       }
@@ -226,27 +260,30 @@ const JoinForm = () => {
             </Label>
             <TimeInputWrapper>
               <DatePicker
-                selected={
-                  join.startDate
-                    ? new Date(join.startDate.replace(" ", "T"))
-                    : null
-                }
+                selected={startDate}
                 onChange={(date) =>
                   setJoin({
                     ...join,
                     startDate: formatDateTime(date),
+                    endDate:
+                      endDate && date && endDate <= date ? "" : join.endDate,
                   })
                 }
                 showTimeSelect
                 timeFormat="HH:mm"
                 timeIntervals={5}
                 dateFormat="yyyy-MM-dd HH:mm"
+                minDate={today}
+                minTime={
+                  startDate && startDate.toDateString() === today.toDateString()
+                    ? today
+                    : minTime
+                }
+                maxTime={maxTime}
               />
               <span style={{ fontWeight: "bold" }}>~</span>
               <DatePicker
-                selected={
-                  join.endDate ? new Date(join.endDate.replace(" ", "T")) : null
-                }
+                selected={endDate}
                 onChange={(date) =>
                   setJoin({
                     ...join,
@@ -257,6 +294,16 @@ const JoinForm = () => {
                 timeFormat="HH:mm"
                 timeIntervals={5}
                 dateFormat="yyyy-MM-dd HH:mm"
+                minDate={startDate || today}
+                minTime={
+                  startDate &&
+                  endDate &&
+                  endDate.toDateString() === startDate.toDateString()
+                    ? startDate
+                    : minTime
+                }
+                maxTime={maxTime}
+                disabled={!startDate}
               />
             </TimeInputWrapper>
           </InputGroup>
