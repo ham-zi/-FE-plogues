@@ -84,12 +84,18 @@ const QuestionForm = () => {
       customAlert.error("제목을 입력해주세요.");
       return;
     }
-
     if (!form.content.trim()) {
       customAlert.error("내용을 입력해주세요.");
       return;
     }
-
+    if (form.title.length > 200) {
+      customAlert.error("제목은 최대 200자까지 가능합니다.");
+      return;
+    }
+    if (form.content.length > 1000) {
+      customAlert.error("내용은 최대 1000자까지 가능합니다.");
+      return;
+    }
     const formData = new FormData();
 
     formData.append("title", form.title);
