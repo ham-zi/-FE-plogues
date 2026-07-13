@@ -20,13 +20,13 @@ function ProofForm() {
   const { proofNo } = useParams(); // URL에 proofNo가 있으면 수정 모드
   const isEdit = !!proofNo;
 
+  const location = useLocation();
   const [title, setTitle] = useState("");
-  const [category, setCategory] = useState("PLOG");
+  const [category, setCategory] = useState(location.state?.category || "PLOG");
+  const [joinNo, setJoinNo] = useState(location.state?.joinNo || "");
 
   // 임시 데이터 다음에 api 연결할 거심
   const [joinList, setJoinList] = useState([]);
-
-  const location = useLocation();
 
   useEffect(() => {
     api
@@ -50,7 +50,6 @@ function ProofForm() {
 
   // 내가 쓴 인증글 목록을 저장
   const [myProofs, setMyProofs] = useState([]);
-  const [joinNo, setJoinNo] = useState("");
 
   const [quantity, setQuantity] = useState("");
   const [content, setContent] = useState("");
@@ -259,6 +258,9 @@ function ProofForm() {
     }
   };
 
+  const currentCategory = location.state?.category || category;
+  const currentTitle = location.state?.title || title;
+
   return (
     <FormWrap>
       <FormTitle>
@@ -288,7 +290,7 @@ function ProofForm() {
 
         {location.state === null ? (
           <SelectBox
-            value={category}
+            value={currentCategory}
             onChange={(e) => setCategory(e.target.value)}
           >
             <option value="PLOG">플로깅</option>
@@ -297,11 +299,9 @@ function ProofForm() {
         ) : (
           <input
             type="text"
-            value={location.state.category === "PLOG" ? "플로깅" : "식목"}
+            value={currentCategory === "PLOG" ? "플로깅" : "나무심기"}
             readOnly
-            style={{
-              backgroundColor: "#eeeeee",
-            }}
+            style={{ backgroundColor: "#eeeeee" }}
           />
         )}
       </FormRow>
@@ -324,7 +324,7 @@ function ProofForm() {
         ) : (
           <input
             type="text"
-            value={location.state.title}
+            value={currentTitle}
             readOnly
             style={{
               backgroundColor: "#eeeeee",
@@ -336,7 +336,7 @@ function ProofForm() {
       {/* 수량 */}
       <FormRow>
         <label>
-          {category === "PLOG" ? "수거 쓰레기 무게" : "나무 그루 수"}
+          {currentCategory === "PLOG" ? "수거 쓰레기 무게" : "나무 그루 수"}
 
           <span className="required">*</span>
         </label>

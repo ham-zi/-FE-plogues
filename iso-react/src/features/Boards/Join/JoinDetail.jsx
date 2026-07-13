@@ -134,6 +134,7 @@ const JoinDetail = () => {
 
   const handleProof = () => {
     const proof = {
+      joinNo: join.joinNo,
       category: join.category,
       title: join.title,
     };
