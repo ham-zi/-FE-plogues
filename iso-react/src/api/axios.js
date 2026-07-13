@@ -24,10 +24,13 @@ api.interceptors.request.use((config) => {
 api.interceptors.response.use(
   (res) => res,
   async (err) => {
-    // err.config => "방금 실패한 요청에 대한 설정 정보 전체"
-    // url, method, headers, params, data(body)
-    // 이정보를 가지고 있어야 우리가 실패한 요청 URL로 다시 요청을 보낼 수 있음
     const { config: original, response } = err;
+
+    // response 자체가 없으면 (네트워크 에러, 연결 끊김 등) 여기서 바로 반환
+    if (!response) {
+      return Promise.reject(err);
+    }
+
     if (response.status !== 401) {
       return Promise.reject(err);
     }

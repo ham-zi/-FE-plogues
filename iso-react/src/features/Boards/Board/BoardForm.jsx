@@ -110,27 +110,28 @@ function BoardForm() {
     }
 
     try {
-      if (isEdit) {
-        await api.patch(`/boards/${boardNo}`, formData, {
-          headers: { "Content-Type": "multipart/form-data" },
-        });
+  if (isEdit) {
+    await api.patch(`/boards/${boardNo}`, formData, {
+      headers: { "Content-Type": "multipart/form-data" },
+    });
 
-        customAlert.success("게시글이 수정되었습니다.");
-        navigate(`/reviews/${boardNo}`);
-      } else {
-        await api.post("/boards", formData, {
-          headers: { "Content-Type": "multipart/form-data" },
-        });
+    customAlert.success("게시글이 수정되었습니다.");
+    navigate(`/reviews/${boardNo}`);
+  } else {
+    await api.post("/boards", formData, {
+      headers: { "Content-Type": "multipart/form-data" },
+    });
 
-        customAlert.success("게시글이 등록되었습니다.");
-        navigate("/reviews");
-      }
-    } catch (err) {
-      console.error(err);
-      customAlert.error(
-        isEdit ? "게시글 수정에 실패했습니다." : "게시글 등록에 실패했습니다.",
-      );
-    }
+    customAlert.success("게시글이 등록되었습니다.");
+    navigate("/reviews");
+  }
+} catch (err) {
+  console.error(err);
+  const message =
+    err.response?.data?.message ||
+    (isEdit ? "게시글 수정에 실패했습니다." : "게시글 등록에 실패했습니다.");
+  customAlert.error(message);
+}
   };
 
   return (
