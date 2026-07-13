@@ -131,9 +131,6 @@ const JoinForm = () => {
         }
       }
     } catch (err) {
-      console.log("status:", err.response?.status);
-      console.log("data:", err.response?.data);
-      console.log("error:", err);
       customAlert.error("잠시후에 다시 시도해주세요");
       if (join.category === "PLOG") {
         navi("/joins/plogging");
