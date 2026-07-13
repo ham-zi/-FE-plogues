@@ -154,11 +154,6 @@ function MyChat() {
         </BackIcon>
       </TitleArea>
 
-      <InputArea></InputArea>
-      <Title>
-        <span>{messages[0]?.title || "채팅방"}</span>
-      </Title>
-
       <InputArea>
         <TextArea
           placeholder="모집된 사람들과 대화를 시작해보세요."
@@ -207,7 +202,7 @@ function MyChat() {
 
                 <EditButtonArea>
                   <Button primary onClick={() => handleUpdate(item.chatNo)}>
-                    수정완료
+                    수정
                   </Button>
 
                   <Button onClick={() => setEditMode(null)}>취소</Button>

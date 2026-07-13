@@ -20,13 +20,13 @@ function ProofForm() {
   const { proofNo } = useParams(); // URL에 proofNo가 있으면 수정 모드
   const isEdit = !!proofNo;
 
+  const location = useLocation();
   const [title, setTitle] = useState("");
-  const [category, setCategory] = useState("PLOG");
+  const [category, setCategory] = useState(location.state?.category || "PLOG");
+  const [joinNo, setJoinNo] = useState(location.state?.joinNo || "");
 
   // 임시 데이터 다음에 api 연결할 거심
   const [joinList, setJoinList] = useState([]);
-
-  const location = useLocation();
 
   useEffect(() => {
     api
@@ -50,7 +50,6 @@ function ProofForm() {
 
   // 내가 쓴 인증글 목록을 저장
   const [myProofs, setMyProofs] = useState([]);
-  const [joinNo, setJoinNo] = useState("");
 
   const [quantity, setQuantity] = useState("");
   const [content, setContent] = useState("");
@@ -154,6 +153,13 @@ function ProofForm() {
   const availableJoinList = joinList.filter((join) => {
     if (isEdit && Number(join.joinNo) === Number(joinNo)) return true;
 
+    const isTargetCategory =
+      category === "PLOG"
+        ? join.category === "plogging" || join.category === "PLOG"
+        : join.category === "plant" || join.category === "PLANT";
+
+    if (!isTargetCategory) return false;
+
     const isAlreadyCertified = myProofs.some(
       (proof) => Number(proof.joinNo) === Number(join.joinNo),
     );
@@ -252,6 +258,9 @@ function ProofForm() {
     }
   };
 
+  const currentCategory = location.state?.category || category;
+  const currentTitle = location.state?.title || title;
+
   return (
     <FormWrap>
       <FormTitle>
@@ -279,12 +288,22 @@ function ProofForm() {
           카테고리<span className="required">*</span>
         </label>
 
-        <input
-          type="text"
-          value={location.state.category === "PLOG" ? "플로깅" : "식목"}
-          readOnly
-          style={{ backgroundColor: "#eeeeee" }}
-        />
+        {location.state === null ? (
+          <SelectBox
+            value={currentCategory}
+            onChange={(e) => setCategory(e.target.value)}
+          >
+            <option value="PLOG">플로깅</option>
+            <option value="PLANT">나무심기</option>
+          </SelectBox>
+        ) : (
+          <input
+            type="text"
+            value={currentCategory === "PLOG" ? "플로깅" : "나무심기"}
+            readOnly
+            style={{ backgroundColor: "#eeeeee" }}
+          />
+        )}
       </FormRow>
 
       {/* 참여 활동 */}
@@ -293,21 +312,31 @@ function ProofForm() {
           참여 활동<span className="required">*</span>
         </label>
 
-        <SelectBox value={joinNo} onChange={(e) => setJoinNo(e.target.value)}>
-          <option value="">참여한 활동 선택</option>
-
-          {availableJoinList.map((join) => (
-            <option key={join.joinNo} value={join.joinNo}>
-              {join.title}
-            </option>
-          ))}
-        </SelectBox>
+        {location.state === null ? (
+          <SelectBox value={joinNo} onChange={(e) => setJoinNo(e.target.value)}>
+            <option value="">참여한 활동 선택</option>
+            {availableJoinList.map((join) => (
+              <option key={join.joinNo} value={join.joinNo}>
+                {join.title}
+              </option>
+            ))}
+          </SelectBox>
+        ) : (
+          <input
+            type="text"
+            value={currentTitle}
+            readOnly
+            style={{
+              backgroundColor: "#eeeeee",
+            }}
+          />
+        )}
       </FormRow>
 
       {/* 수량 */}
       <FormRow>
         <label>
-          {category === "PLOG" ? "수거 쓰레기 무게" : "나무 그루 수"}
+          {currentCategory === "PLOG" ? "수거 쓰레기 무게" : "나무 그루 수"}
 
           <span className="required">*</span>
         </label>

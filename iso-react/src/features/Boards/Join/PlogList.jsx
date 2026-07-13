@@ -86,7 +86,12 @@ const PlogList = () => {
           }
 
           return (
-            <JoinCard key={join.joinNo} join={join} $bg={pureLightColor} />
+            <JoinCard
+              key={join.joinNo}
+              join={join}
+              $bg={pureLightColor}
+              $textColor={textColor}
+            />
           );
         })}
       </CardGrid>
