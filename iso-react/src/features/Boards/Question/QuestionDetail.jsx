@@ -42,7 +42,7 @@ function QuestionDetail() {
       const res = await api.get(`/question/${boardNo}`);
       setBoard(res.data.data);
     } catch (err) {
-      if (err.response?.data.code === 400) {
+      if (err.response?.data.code === 401) {
         navigate("/badRequest");
       }
     }
@@ -142,13 +142,10 @@ function QuestionDetail() {
       )}
       <DetailButtons>
         <button onClick={() => navigate("/questions/page")}>목록</button>
-        {board.userId === myUserId && (
-          <>
-            <button className="delete" onClick={handleDelete}>
-              삭제
-            </button>
-          </>
-        )}
+
+        <button className="delete" onClick={handleDelete}>
+          삭제
+        </button>
       </DetailButtons>
 
       <CommentSection>
@@ -240,12 +237,22 @@ function QuestionDetail() {
   async function handleDelete() {
     const result = await customAlert.confirm("정말 삭제하시겠습니까?");
     if (!result) return;
-    try {
-      await api.delete(`/question/${boardNo}/user`);
-      customAlert.success("게시글이 삭제되었습니다.");
-      navigate("/questions/page");
-    } catch (err) {
-      console.error(err.response?.data);
+    if (user.role === "[ROLE_ADMIN]") {
+      try {
+        await api.delete(`/question/${boardNo}/admin`);
+        customAlert.success("게시글이 삭제되었습니다.");
+        navigate("/questions/page");
+      } catch (err) {
+        console.error(err.response?.data);
+      }
+    } else {
+      try {
+        await api.delete(`/question/${boardNo}/user`);
+        customAlert.success("게시글이 삭제되었습니다.");
+        navigate("/questions/page");
+      } catch (err) {
+        console.error(err.response?.data);
+      }
     }
   }
 }
