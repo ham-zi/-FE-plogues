@@ -82,6 +82,7 @@ function QuestionDetail() {
       fetchDetail(); // 댓글 목록 다시 불러오기
     } catch (err) {
       console.error(err);
+
       customAlert.error("댓글 삭제에 실패했습니다.");
     }
   };
@@ -240,11 +241,11 @@ function QuestionDetail() {
     const result = await customAlert.confirm("정말 삭제하시겠습니까?");
     if (!result) return;
     try {
-      await api.delete(`/boards/${boardNo}`);
+      await api.delete(`/question/${boardNo}/user`);
       customAlert.success("게시글이 삭제되었습니다.");
-      navigate("/Questions");
+      navigate("/questions/page");
     } catch (err) {
-      console.error(err);
+      console.error(err.response?.data);
     }
   }
 }
