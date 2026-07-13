@@ -42,7 +42,9 @@ function QuestionDetail() {
       const res = await api.get(`/question/${boardNo}`);
       setBoard(res.data.data);
     } catch (err) {
-      console.error(err);
+      if (err.response?.data.code === 400) {
+        navigate("/badRequest");
+      }
     }
   };
 

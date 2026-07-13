@@ -35,6 +35,7 @@ import ProofForm from "./features/Boards/Proof/ProofForm";
 import JoinForm from "./features/Boards/Join/JoinForm";
 import JoinReform from "./features/Boards/Join/JoinReform";
 import MyRequest from "./features/User/mypage/MyRequest";
+import BadRequest from "./features/Commons/BadRequest";
 
 const AppLayout = styled.div`
   display: flex;
@@ -93,6 +94,7 @@ function App() {
             <Route path="/proofs/write" element={<ProofForm />} />
             <Route path="/proofs/:proofNo/edit" element={<ProofForm />} />
             <Route path="/proofs/:proofNo" element={<ProofDetail />} />
+            <Route path="/badRequest" element={<BadRequest />} />
           </Routes>
         </Main>
         <Footer />
