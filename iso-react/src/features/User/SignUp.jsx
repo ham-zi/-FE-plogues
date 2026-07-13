@@ -16,6 +16,7 @@ import {
   ErrorText,
 } from "./SignUp.styles";
 import Card from "../../assets/Card.svg";
+import { customAlert } from "../Commons/Alert";
 
 const SignUp = () => {
   const [userId, setUserId] = useState("");
@@ -118,7 +119,7 @@ const SignUp = () => {
       })
       .then((result) => {
         if (result.status === 201) {
-          setStatus("회원가입 성공");
+          customAlert.success("회원가입 성공");
           setTimeout(() => {
             navi("/");
           }, 2000);

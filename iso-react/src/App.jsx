@@ -16,10 +16,10 @@ import ScrollToTop from "./components/ScrollToTop";
 import "./App.css";
 import Login from "./features/User/Login";
 import SignUp from "./features/User/SignUp";
+import Delete from "./features/User/Delete";
 import MyPage from "./features/User/mypage/MyPage";
 import MyJoin from "./features/User/mypage/MyJoin";
 import MyChat from "./features/User/chat/MyChat";
-import MyRequest from "./features/User/mypage/MyRequest";
 import MyGroup from "./features/User/mypage/MyGroup";
 import MyReview from "./features/User/mypage/MyReview";
 import QuestionForm from "./features/Boards/Question/QuestionForm";
@@ -31,11 +31,13 @@ import ReportList from "./features/Boards/Report/ReportList";
 import JoinDetail from "./features/Boards/Join/JoinDetail";
 import Report from "./features/Commons/Report";
 import ProofDetail from "./features/Boards/Proof/ProofDetail";
+import ProofForm from "./features/Boards/Proof/ProofForm";
 import JoinForm from "./features/Boards/Join/JoinForm";
-import ClimateChart from "./features/Welcome/components/ClimateChart";
+import JoinReform from "./features/Boards/Join/JoinReform";
+import MyRequest from "./features/User/mypage/MyRequest";
+import BadRequest from "./features/Commons/BadRequest";
 
 const AppLayout = styled.div`
-  min-height: 100vh;
   display: flex;
   flex-direction: column;
 `;
@@ -56,20 +58,27 @@ function App() {
             <Route path="/" element={<WelcomePage />} />
             <Route path="/signup" element={<SignUp />} />
             <Route path="/login" element={<Login />} />
+            <Route path="/delete" element={<Delete />} />
             <Route path="/mypage" element={<MyPage />} />
             <Route path="/mypage/joins" element={<MyJoin />} />
+            <Route path="/mypage/groups" element={<MyGroup />} />
+            <Route path="/mypage/reviews" element={<MyReview />} />
+            <Route path="/mypage/requests" element={<MyRequest />} />
             <Route path="/chats/:joinNo" element={<MyChat />} />
-            <Route path="mypage/requests" element={<MyRequest />} />
-            <Route path="mypage/groups" element={<MyGroup />} />
-            <Route path="mypage/reviews" element={<MyReview />} />
             <Route path="/boards" element={<BoardList />} />
             <Route path="/boards/:boardNo" element={<BoardDetail />} />
             <Route path="/boards/write" element={<BoardForm />} />
             <Route path="/boards/:boardNo/edit" element={<BoardForm />} />
+            <Route path="/reviews" element={<BoardList />} />
+            <Route path="/reviews/:boardNo" element={<BoardDetail />} />
+            <Route path="/reviews/write" element={<BoardForm />} />
+            <Route path="/reviews/:boardNo/edit" element={<BoardForm />} />
             <Route path="/joins/plogging" element={<PlogList />} />
             <Route path="/joins/plant" element={<PlantList />} />
             <Route path="/joins/:joinNo" element={<JoinDetail />} />
+            <Route path="/joins/write" element={<JoinForm />} />
             <Route path="/joins/:joinNo/edit" element={<JoinForm />} />
+            <Route path="/joins/:joinNo/reform" element={<JoinReform />} />
             <Route path="/notices" element={<NoticeList />} />
             <Route path="/notices/:noticeNo" element={<NoticeDetail />} />
             <Route path="/notices/write" element={<NoticeForm />} />
@@ -82,7 +91,11 @@ function App() {
             <Route path="/reports" element={<ReportList />} />
             <Route path="/reports/form" element={<Report />} />
             <Route path="/proofs" element={<ProofList />} />
+            <Route path="/proofs/write" element={<ProofForm />} />
+            <Route path="/proofs/:proofNo/edit" element={<ProofForm />} />
             <Route path="/proofs/:proofNo" element={<ProofDetail />} />
+            <Route path="/badRequest" element={<BadRequest />} />
+            <Route path="/*" element={<BadRequest />} />
           </Routes>
         </Main>
         <Footer />

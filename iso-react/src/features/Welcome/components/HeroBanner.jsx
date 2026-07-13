@@ -1,39 +1,15 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
+import { useNavigate } from "react-router-dom";
 import { FiChevronLeft, FiChevronRight } from "react-icons/fi";
+import { getNoticeList } from "../../../api/welcomeApi";
 
-// ⚠️ 실제 파일 위치가 다르면 이 3줄의 상대경로(../../../)만 맞게 조정해줘
-// HeroBanner.jsx 위치: src/features/welcome/components/HeroBanner.jsx
-// 이미지 위치: src/assets/banners/*.jpg
-import banner1 from "../../../assets/banners/1.jpg";
-import banner2 from "../../../assets/banners/3.jpg";
-import banner3 from "../../../assets/banners/4.jpg";
-
-const SLIDES = [
-  {
-    id: 1,
-    img: banner1,
-    alt: "2050 탄소중립을 향해서, 탄소중립 우리가 실천해요",
-  },
-  {
-    id: 2,
-    img: banner2,
-    alt: "ESG 경영",
-  },
-  {
-    id: 3,
-    img: banner3,
-    alt: "2050 탄소중립, 지구가 위험하다",
-  },
-];
-
-// 슬라이드 사이 간격(%) - 값이 클수록 옆 슬라이드가 더 멀리, 작을수록 더 붙어 보임
 const GAP_PERCENT = 58;
 
 const BannerWrapper = styled.div`
   position: relative;
   width: 680px;
-  height: 450px;       /* 기존 300 */
+  height: 400px;
   border-radius: 12px;
   overflow: hidden;
   background: transparent;
@@ -45,7 +21,6 @@ const Track = styled.div`
   height: 100%;
 `;
 
-// 원형(순환) 캐러셀을 위해, 현재 인덱스 기준 최단 거리(offset)를 계산
 const getOffset = (slideIndex, activeIndex, total) => {
   let offset = slideIndex - activeIndex;
   if (offset > total / 2) offset -= total;
@@ -61,42 +36,61 @@ const SlideItem = styled.div`
   width: 66%;
   height: 100%;
 
-  cursor: ${(props) => (props.$offset === 0 ? "default" : "pointer")};
+  cursor: pointer;
 
-  transition: all .45s ease;
+  transition: all 0.45s ease;
 
   transform: translate(
-      calc(-50% + ${(props) => props.$offset * 58}%),
+      calc(-50% + ${(props) => props.$offset * GAP_PERCENT}%),
       -50%
     )
     scale(${(props) => (props.$offset === 0 ? 1.12 : 0.82)});
 
   opacity: ${(props) =>
-    Math.abs(props.$offset) >= 2
-      ? 0
-      : props.$offset === 0
-      ? 1
-      : 0.4};
+    Math.abs(props.$offset) >= 2 ? 0 : props.$offset === 0 ? 1 : 0.4};
 
   filter: ${(props) =>
-    props.$offset === 0
-      ? "none"
-      : "blur(2px) brightness(.9)"};
+    props.$offset === 0 ? "none" : "blur(2px) brightness(.9)"};
 
-  z-index: ${(props) =>
-    props.$offset === 0 ? 5 : 1};
+  z-index: ${(props) => (props.$offset === 0 ? 5 : 1)};
 
   pointer-events: ${(props) =>
-    Math.abs(props.$offset) >= 2
-      ? "none"
-      : "auto"};
+    Math.abs(props.$offset) >= 2 ? "none" : "auto"};
 `;
 
 const SlideImage = styled.img`
   width: 100%;
   height: 100%;
-  object-fit: contain;
+  object-fit: cover;
+  object-position: center 30%; /* 상단 쪽 우선 노출, 필요시 %값 조정 */
   border-radius: 12px;
+  background-color: #eef6f6;
+`;
+
+const SlideOverlay = styled.div`
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  padding: 30px 18px 22px; /* 하단 패딩 16px → 22px로 늘림 */
+  box-sizing: border-box;
+  background: linear-gradient(transparent, rgba(0, 0, 0, 0.7));
+  border-radius: 0 0 12px 12px;
+  opacity: ${(props) => (props.$offset === 0 ? 1 : 0)};
+  transition: opacity 0.3s ease;
+`;
+
+const SlideTitle = styled.p`
+  color: #fff;
+  font-size: 16px;
+  font-weight: 700;
+  margin: 0;
+  line-height: 1.5; /* 1.4 → 1.5로 살짝 늘려서 글자 아래쪽도 여유있게 */
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
 `;
 
 const ArrowButton = styled.button`
@@ -140,38 +134,97 @@ const Dot = styled.span`
   cursor: pointer;
 `;
 
-const HeroBanner = () => {
-  const [index, setIndex] = useState(0);
-  const total = SLIDES.length;
+const EmptyWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  color: #999;
+  font-size: 14px;
+`;
 
-  const prevSlide = () => setIndex((prev) => (prev === 0 ? total - 1 : prev - 1));
-  const nextSlide = () => setIndex((prev) => (prev === total - 1 ? 0 : prev + 1));
+const HeroBanner = () => {
+  const [notices, setNotices] = useState([]);
+  const [index, setIndex] = useState(0);
+  const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const fetchNotices = async () => {
+      try {
+        const board = await getNoticeList(1);
+        setNotices(board.slice(0, 5));
+      } catch (err) {
+        console.error("공지사항 배너 조회 실패:", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchNotices();
+  }, []);
+
+  const total = notices.length;
+
+  const prevSlide = () =>
+    setIndex((prev) => (prev === 0 ? total - 1 : prev - 1));
+  const nextSlide = () =>
+    setIndex((prev) => (prev === total - 1 ? 0 : prev + 1));
+
+  if (loading) {
+    return (
+      <BannerWrapper>
+        <EmptyWrapper>불러오는 중...</EmptyWrapper>
+      </BannerWrapper>
+    );
+  }
+
+  if (total === 0) {
+    return (
+      <BannerWrapper>
+        <EmptyWrapper>등록된 공지사항이 없습니다.</EmptyWrapper>
+      </BannerWrapper>
+    );
+  }
 
   return (
     <BannerWrapper>
       <Track>
-        {SLIDES.map((slide, i) => {
+        {notices.map((notice, i) => {
           const offset = getOffset(i, index, total);
           return (
             <SlideItem
-              key={slide.id}
+              key={notice.noticeNo}
               $offset={offset}
-              onClick={() => offset !== 0 && setIndex(i)}
+              onClick={() =>
+                offset === 0
+                  ? navigate(`/notices/${notice.noticeNo}`)
+                  : setIndex(i)
+              }
             >
-              <SlideImage src={slide.img} alt={slide.alt} />
+              <SlideImage
+                src={notice.thumbnailPath || "/default-notice.jpg"}
+                alt={notice.title}
+              />
+              <SlideOverlay $offset={offset}>
+                <SlideTitle>{notice.title}</SlideTitle>
+              </SlideOverlay>
             </SlideItem>
           );
         })}
       </Track>
-      <ArrowButton $dir="left" onClick={prevSlide} aria-label="이전 배너">
+      <ArrowButton $dir="left" onClick={prevSlide} aria-label="이전 공지">
         <FiChevronLeft />
       </ArrowButton>
-      <ArrowButton $dir="right" onClick={nextSlide} aria-label="다음 배너">
+      <ArrowButton $dir="right" onClick={nextSlide} aria-label="다음 공지">
         <FiChevronRight />
       </ArrowButton>
       <Dots>
-        {SLIDES.map((slide, i) => (
-          <Dot key={slide.id} $active={i === index} onClick={() => setIndex(i)} />
+        {notices.map((notice, i) => (
+          <Dot
+            key={notice.noticeNo}
+            $active={i === index}
+            onClick={() => setIndex(i)}
+          />
         ))}
       </Dots>
     </BannerWrapper>
@@ -179,4 +232,3 @@ const HeroBanner = () => {
 };
 
 export default HeroBanner;
-

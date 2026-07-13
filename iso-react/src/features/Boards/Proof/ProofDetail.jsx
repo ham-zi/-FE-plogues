@@ -18,17 +18,22 @@ import {
   DetailImage,
   ButtonArea,
   ListButton,
-  ActivityLink,
   ReportButton,
   HeaderLeft,
   DetailTitle,
+  EditButton,
 } from "./ProofDetail.styles";
 
 function ProofDetail() {
   const { proofNo } = useParams();
   const navigate = useNavigate();
 
+  console.log("localStorage:", localStorage);
+  console.log("accessToken:", localStorage.getItem("accessToken"));
+  console.log("user:", localStorage.getItem("user"));
+
   const [proof, setProof] = useState(null);
+  const [myUserId, setMyUserId] = useState(null);
   const handleReport = () => {
     const report = {
       boardType: "PROOF",
@@ -44,8 +49,15 @@ function ProofDetail() {
     const fetchProof = async () => {
       try {
         const res = await api.get(`/proof/${proofNo}`);
+
         setProof(res.data.data);
-        console.log(res.data.data);
+
+        // 현재 로그인 사용자
+        const userId = localStorage.getItem("userId");
+        setMyUserId(userId);
+
+        console.log("내 ID:", userId);
+        console.log("작성자 ID:", res.data.data.userId);
       } catch (err) {
         console.log("상태코드:", err.response?.status);
         console.log("서버 응답:", err.response?.data);
@@ -64,14 +76,13 @@ function ProofDetail() {
       <Container>
         <Header>
           <HeaderLeft>
-            <HeaderIcon>▣</HeaderIcon>
-            <Title>인증 상세 보기</Title>
+            <Title>인증게시판</Title>
           </HeaderLeft>
-        <DetailTitle>
-          <ReportButton onClick={handleReport}>
-            <PiSirenFill />
-          </ReportButton>
-        </DetailTitle>
+          <DetailTitle>
+            <ReportButton onClick={handleReport}>
+              <PiSirenFill />
+            </ReportButton>
+          </DetailTitle>
         </Header>
 
         <FormArea>
@@ -98,30 +109,35 @@ function ProofDetail() {
             <ImageColumn>
               <Label>활동 사진</Label>
               <ImageBox>
-                <DetailImage
-                  src={proof.files[0].filePath + proof.files[0].changeName}
-                  alt="활동 사진"
-                />
+                {proof.files?.[0] && (
+                  <DetailImage
+                    src={`${proof.files[0].filePath}${proof.files[0].changeName}`}
+                    alt="활동 사진"
+                  />
+                )}
               </ImageBox>
             </ImageColumn>
 
             <ImageColumn>
               <Label>쓰레기 무게</Label>
               <ImageBox>
-                <DetailImage
-                  src={proof.files[1].filePath + proof.files[1].changeName}
-                  alt="쓰레기 무게 사진"
-                />
+                {proof.files?.[1] && (
+                  <DetailImage
+                    src={`${proof.files[1].filePath}${proof.files[1].changeName}`}
+                    alt="쓰레기 무게 사진"
+                  />
+                )}
               </ImageBox>
             </ImageColumn>
           </ImageRow>
           <ButtonArea>
-            <ActivityLink to={`/join/${proof.joinNo}`}>
-              🔗 참여 활동 보러가기
-            </ActivityLink>
-            <ListButton onClick={() => navigate("/proofs")}>
-              목록으로
-            </ListButton>
+            {String(myUserId) === String(proof.userId) && (
+              <EditButton onClick={() => navigate(`/proofs/${proofNo}/edit`)}>
+                수정
+              </EditButton>
+            )}
+
+            <ListButton onClick={() => navigate("/proofs")}>목록</ListButton>
           </ButtonArea>
         </FormArea>
       </Container>

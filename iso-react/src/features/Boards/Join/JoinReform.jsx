@@ -26,10 +26,9 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { customAlert } from "../../Commons/Alert";
 
-const JoinForm = () => {
+const JoinReform = () => {
   const navi = useNavigate();
   const { joinNo } = useParams();
-  const isEdit = joinNo != null;
   const [loading, isLoading] = useState(false);
   const location = useLocation();
   const [join, setJoin] = useState({
@@ -53,29 +52,6 @@ const JoinForm = () => {
 
     return `${year}-${month}-${day} ${hour}:${minute}`;
   };
-
-  const normalizeDate = (date) => {
-    if (!date) return "";
-
-    return date.replace("T", " ").substring(0, 16);
-  };
-
-  const startDate = join.startDate
-    ? new Date(join.startDate.replace(" ", "T"))
-    : null;
-
-  const endDate = join.endDate
-    ? new Date(join.endDate.replace(" ", "T"))
-    : null;
-
-  const today = new Date();
-
-  const minTime = new Date();
-  minTime.setHours(0, 0, 0, 0);
-
-  const maxTime = new Date();
-  maxTime.setHours(23, 59, 59, 999);
-
   const onSubmit = async () => {
     if (
       !join.title.trim() ||
@@ -90,16 +66,6 @@ const JoinForm = () => {
       customAlert.error("필수 내용을 전부 입력해주세요");
       return;
     }
-    if (startDate < today) {
-      customAlert.error("시작 시간은 현재 시간 이후여야 합니다.");
-      return;
-    }
-
-    if (startDate >= endDate) {
-      customAlert.error("종료 시간은 시작 시간보다 이후여야 합니다.");
-      return;
-    }
-
     isLoading(true);
     const fd = new FormData();
     fd.append("category", join.category);
@@ -112,22 +78,14 @@ const JoinForm = () => {
     if (file) fd.append("file", file);
 
     try {
-      if (isEdit) {
-        await api.patch(`/joins/${joinNo}`, fd, {
-          headers: { "Content-Type": "multipart/form-data" },
-        });
-        customAlert.success("게시글 수정 성공");
-        navi(`/joins/${joinNo}`);
+      await api.post("/joins/reform", fd, {
+        headers: { "Content-Type": "multipart/form-data" },
+      });
+      customAlert.success("게시글 작성 성공");
+      if (join.category === "PLOG") {
+        navi("/joins/plogging");
       } else {
-        await api.post("/joins", fd, {
-          headers: { "Content-Type": "multipart/form-data" },
-        });
-        customAlert.success("게시글 작성 성공");
-        if (join.category === "PLOG") {
-          navi("/joins/plogging");
-        } else {
-          navi("/joins/plant");
-        }
+        navi("/joins/plant");
       }
     } catch (err) {
       customAlert.error("잠시후에 다시 시도해주세요");
@@ -158,31 +116,21 @@ const JoinForm = () => {
   };
 
   useEffect(() => {
-    if (!isEdit && location.state?.category) {
-      setJoin((prev) => ({
-        ...prev,
-        category: location.state.category,
-      }));
-    }
-  }, [location.state, isEdit]);
-
-  useEffect(() => {
-    if (!isEdit) return;
     api.get(`/joins/${joinNo}`).then((result) => {
       const data = result.data.data;
       if (data) {
         setJoin({
           category: data.category,
           content: data.content,
-          endDate: normalizeDate(data.endDate),
+          endDate: "",
           participants: data.participants,
           region: data.region,
-          startDate: normalizeDate(data.startDate),
+          startDate: "",
           title: data.title,
         });
       }
     });
-  }, [joinNo, isEdit]);
+  }, [joinNo]);
 
   return (
     <>
@@ -191,7 +139,7 @@ const JoinForm = () => {
           <IconWrapper>
             <IoPencilSharp />
           </IconWrapper>
-          참여 게시판 {isEdit ? "수정" : "작성"}
+          참여 게시판 재모집
         </FormHeader>
 
         <InputGroup>
@@ -210,24 +158,11 @@ const JoinForm = () => {
             <Label>
               카테고리<span>*</span>
             </Label>
-            {isEdit ? (
-              <Input
-                value={join.category}
-                readOnly
-                style={{ backgroundColor: "#e7e7e7" }}
-              />
-            ) : (
-              <Input
-                as="select"
-                value={join.category}
-                onChange={(e) => {
-                  setJoin({ ...join, category: e.target.value });
-                }}
-              >
-                <option value="PLOG">플로깅</option>
-                <option value="PLANT">식목</option>
-              </Input>
-            )}
+            <Input
+              value={join.category}
+              readOnly
+              style={{ backgroundColor: "#e7e7e7" }}
+            />
           </InputGroup>
           <InputGroup style={{ gridColumn: "span 1" }}>
             <Label>
@@ -259,30 +194,27 @@ const JoinForm = () => {
             </Label>
             <TimeInputWrapper>
               <DatePicker
-                selected={startDate}
+                selected={
+                  join.startDate
+                    ? new Date(join.startDate.replace(" ", "T"))
+                    : null
+                }
                 onChange={(date) =>
                   setJoin({
                     ...join,
                     startDate: formatDateTime(date),
-                    endDate:
-                      endDate && date && endDate <= date ? "" : join.endDate,
                   })
                 }
                 showTimeSelect
                 timeFormat="HH:mm"
                 timeIntervals={5}
                 dateFormat="yyyy-MM-dd HH:mm"
-                minDate={today}
-                minTime={
-                  startDate && startDate.toDateString() === today.toDateString()
-                    ? today
-                    : minTime
-                }
-                maxTime={maxTime}
               />
               <span style={{ fontWeight: "bold" }}>~</span>
               <DatePicker
-                selected={endDate}
+                selected={
+                  join.endDate ? new Date(join.endDate.replace(" ", "T")) : null
+                }
                 onChange={(date) =>
                   setJoin({
                     ...join,
@@ -293,16 +225,6 @@ const JoinForm = () => {
                 timeFormat="HH:mm"
                 timeIntervals={5}
                 dateFormat="yyyy-MM-dd HH:mm"
-                minDate={startDate || today}
-                minTime={
-                  startDate &&
-                  endDate &&
-                  endDate.toDateString() === startDate.toDateString()
-                    ? startDate
-                    : minTime
-                }
-                maxTime={maxTime}
-                disabled={!startDate}
               />
             </TimeInputWrapper>
           </InputGroup>
@@ -363,4 +285,4 @@ const JoinForm = () => {
   );
 };
 
-export default JoinForm;
+export default JoinReform;

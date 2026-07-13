@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 
 export const Page = styled.div`
   min-height: 100vh;
-  background: #fbfae8;
+  background: #fff;
   padding: 40px 0;
 `;
 
@@ -31,6 +31,7 @@ export const Title = styled.h2`
   font-size: 26px;
   font-weight: 700;
   color: ${theme.color.text};
+  white-space: nowrap;
 `;
 
 export const FormArea = styled.div`
@@ -100,23 +101,39 @@ export const DetailImage = styled.img`
 export const ButtonArea = styled.div`
   display: flex;
   justify-content: center;
+  gap: 12px;
   margin-top: 50px;
 `;
 
-export const ListButton = styled.button`
-  width: 170px;
-  height: 45px;
-  border-radius: 10px;
-  border: 1px solid ${theme.color.main};
-  background: white;
-  color: ${theme.color.main};
-  font-size: 17px;
+export const EditButton = styled.button`
+  width: 120px;
+  height: 40px;
+  border-radius: 20px;
+  border: none;
+  background: #3f8f72;
+  color: white;
+  font-size: 14px;
   font-weight: 700;
   cursor: pointer;
-  box-shadow: 0 3px 4px rgba(0, 0, 0, 0.18);
 
   &:hover {
-    background: ${theme.color.point};
+    background: #34775f;
+  }
+`;
+
+export const ListButton = styled.button`
+  width: 120px;
+  height: 40px;
+  border-radius: 20px;
+  border: 1px solid #3f8f72;
+  background: white;
+  color: #3f8f72;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+
+  &:hover {
+    background: #f5ffff;
   }
 `;
 
@@ -127,13 +144,13 @@ export const ActivityLink = styled(Link)`
 
   width: fit-content;
 
-  color: ${theme.color.main};
+  color: ${theme.color.background};
   font-size: 15px;
   font-weight: 600;
   text-decoration: none;
   margin-right: 10px;
   padding: 8px 14px;
-  border: 1px solid ${theme.color.main};
+  border: 1px solid ${theme.color.background};
   border-radius: 8px;
   background: white;
   transition: 0.2s;

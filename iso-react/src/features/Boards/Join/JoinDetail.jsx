@@ -36,6 +36,8 @@ import api from "../../../api/axios";
 import { useNavigate, useParams } from "react-router-dom";
 import { useContext, useEffect, useState } from "react";
 import { useAuth } from "../../../context/AuthContext";
+import RequestModal from "./RequestModal";
+import { customAlert } from "../../Commons/Alert";
 
 const JoinDetail = () => {
   const { joinNo } = useParams();
@@ -56,6 +58,10 @@ const JoinDetail = () => {
   const [files, setFiles] = useState([]);
   const { isLogin } = useAuth();
   const navi = useNavigate();
+  const [isOpen, setIsOpen] = useState(false);
+  const isOver3Days =
+    new Date(join.endDate) <= new Date(Date.now() - 3 * 24 * 60 * 60 * 1000);
+  const isEnded = new Date(join.endDate) < new Date();
 
   useEffect(() => {
     api.get(`/joins/${joinNo}`).then((result) => {
@@ -99,14 +105,40 @@ const JoinDetail = () => {
   const handleDelete = async () => {
     try {
       await api.delete(`/joins/${joinNo}`);
+      customAlert.success("삭제 성공");
       if (join.category === "PLOG") {
         navi("/joins/plogging");
       } else {
         navi("/joins/plant");
       }
     } catch (err) {
-      customAlert.error("삭제 실패");
+      customAlert.error("잠시후에 다시 시도해주세요");
+      if (join.category === "PLOG") {
+        navi("/joins/plogging");
+      } else {
+        navi("/joins/plant");
+      }
     }
+  };
+
+  const handleReport = () => {
+    const report = {
+      boardType: "JOIN",
+      title: join.title,
+      targetNo: join.joinNo,
+    };
+    navi("/reports/form", {
+      state: report,
+    });
+  };
+
+  const handleProof = () => {
+    const proof = {
+      joinNo: join.joinNo,
+      category: join.category,
+      title: join.title,
+    };
+    navi("/proofs/write", { state: proof });
   };
 
   return (
@@ -124,21 +156,26 @@ const JoinDetail = () => {
                 {join.userName}
               </Writer>
 
-              {isLogin && localStorage.getItem("userId") === join.userId ? (
-                <ButtonGroupHeader>
-                  <EditButton
-                    onClick={() => {
-                      navi(`/joins/${joinNo}/edit`);
-                    }}
-                  >
-                    <IoPencilOutline /> 수정하기
-                  </EditButton>
-                  <DeleteButton onClick={handleDelete}>
-                    <IoTrashOutline />
-                    삭제하기
-                  </DeleteButton>
-                </ButtonGroupHeader>
-              ) : null}
+              {isLogin &&
+                (localStorage.getItem("userId") === join.userId ? (
+                  <ButtonGroupHeader>
+                    <EditButton
+                      onClick={() => {
+                        navi(`/joins/${joinNo}/edit`);
+                      }}
+                    >
+                      <IoPencilOutline /> 수정하기
+                    </EditButton>
+                    <DeleteButton onClick={handleDelete}>
+                      <IoTrashOutline />
+                      삭제하기
+                    </DeleteButton>
+                  </ButtonGroupHeader>
+                ) : (
+                  <AlarmButton onClick={handleReport}>
+                    <PiSirenFill />
+                  </AlarmButton>
+                ))}
             </TitleContent>
           </TitleBox>
 
@@ -175,10 +212,6 @@ const JoinDetail = () => {
             </InfoRight>
           </InfoWrapper>
         </LeftSection>
-
-        <AlarmButton onClick={() => navi("/report")}>
-          <PiSirenFill />
-        </AlarmButton>
       </DetailHeader>
 
       <ContentBox>
@@ -193,10 +226,33 @@ const JoinDetail = () => {
       <ButtonGroup>
         {isLogin &&
           (localStorage.getItem("userId") === join.userId ? (
-            <JoinButton>인증하기</JoinButton>
-          ) : progressPercent === "100%" ? null : (
-            <JoinButton>참여하기</JoinButton>
+            isOver3Days ? (
+              <JoinButton
+                onClick={() => {
+                  navi(`/joins/${joinNo}/reform`);
+                }}
+              >
+                재모집하기
+              </JoinButton>
+            ) : (
+              <JoinButton onClick={handleProof}>인증하기</JoinButton>
+            )
+          ) : progressPercent === "100%" ? null : isEnded ? null : (
+            <JoinButton
+              onClick={() => {
+                setIsOpen(true);
+              }}
+            >
+              참여하기
+            </JoinButton>
           ))}
+        {isOpen && (
+          <RequestModal
+            onClose={() => setIsOpen(false)}
+            joinNo={joinNo}
+            category={join.category}
+          />
+        )}
         {join.category === "PLOG" ? (
           <ListButton onClick={() => navi("/joins/plogging")}>
             목록으로
