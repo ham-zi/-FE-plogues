@@ -144,13 +144,13 @@ export const ActivityLink = styled(Link)`
 
   width: fit-content;
 
-  color: ${theme.color.main};
+  color: ${theme.color.background};
   font-size: 15px;
   font-weight: 600;
   text-decoration: none;
   margin-right: 10px;
   padding: 8px 14px;
-  border: 1px solid ${theme.color.main};
+  border: 1px solid ${theme.color.background};
   border-radius: 8px;
   background: white;
   transition: 0.2s;
