@@ -42,12 +42,13 @@ export const JoinTop = styled.div`
 
 export const CardGrid = styled.div`
   display: grid;
-  grid-template-columns: repeat(5, 230px);
-  justify-content: center;
-  column-gap: 15px;
+  grid-template-columns: repeat(4, 260px);
+  justify-content: start;
+  column-gap: 30px;
   row-gap: 40px;
+  position: relative;
+  left: -7px;
 `;
-
 export const CardBottom = styled.div`
   position: absolute;
   left: 18px;
@@ -61,15 +62,15 @@ export const CardBottom = styled.div`
 export const Card = styled.div`
   box-sizing: border-box;
   position: relative;
-  width: 230px;
-  height: 220px;
+  width: 260px;
+  height: 280px;
   border-radius: 14px;
-  padding: 20px;
+  padding: 30px 20px 20px;
   background-color: ${(props) => props.$bg};
   box-shadow: 0 8px 18px rgba(0, 0, 0, 0.15);
   display: flex;
   flex-direction: column;
-  margin: 50px;
+  margin: 30px;
   font-family:
     -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu,
     Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
@@ -93,7 +94,7 @@ export const Badge = styled.div`
 
 export const CardTitle = styled.h4`
   margin: 15px 0 0 0;
-  font-size: 16px;
+  font-size: 18px;
   text-align: center;
   color: #2c3e50;
   font-weight: 800;
@@ -106,7 +107,7 @@ export const CardTitle = styled.h4`
 export const LeaderText = styled.p`
   margin: 6px 0 0 0;
   text-align: center;
-  font-size: 12px;
+  font-size: 15px;
   color: ${(props) => props.$textColor || "white"};
   opacity: 0.9;
 `;
@@ -115,12 +116,12 @@ export const MemberRow = styled.div`
   display: flex;
   justify-content: center;
   flex-direction: row-reverse;
-  margin-top: 14px;
+  margin-top: 30px;
 `;
 
 export const Avatar = styled.span`
-  width: 42px;
-  height: 42px;
+  width: 57px;
+  height: 57px;
   border-radius: 50%;
   overflow: hidden;
   border: 2px solid white;
@@ -139,8 +140,8 @@ export const Avatar = styled.span`
 `;
 
 export const MoreAvatar = styled.span`
-  width: 42px;
-  height: 42px;
+  width: 57px;
+  height: 57px;
   border-radius: 50%;
   background-color: rgba(255, 255, 255, 0.8);
   color: #555;

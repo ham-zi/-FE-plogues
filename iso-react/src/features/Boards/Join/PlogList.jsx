@@ -9,6 +9,7 @@ import {
   SearchInput,
   SearchButton,
 } from "./searchForm.styles";
+import { useNavigate } from "react-router-dom";
 
 const PlogList = () => {
   const [plog, setPlog] = useState([]);
@@ -24,6 +25,7 @@ const PlogList = () => {
     offset: "",
   });
   const [loading, isLoading] = useState(true);
+  const navi = useNavigate();
   const [keyword, setKeyword] = useState("");
   const [searchKeyword, setSearchKeyword] = useState("");
   const handleSearch = (e) => {
@@ -53,6 +55,7 @@ const PlogList = () => {
       })
       .catch(() => {
         setPlog([]);
+        navi("/badRequest");
       })
       .finally(() => {
         isLoading(false);
@@ -69,31 +72,37 @@ const PlogList = () => {
       />
 
       <CardGrid>
-        {plog.map((join, index) => {
-          const row = Math.floor(index / 5);
+        {loading ? (
+          <div>로딩중...</div>
+        ) : plog.length === 0 ? (
+          <div>게시글이 존재하지 않습니다.</div>
+        ) : (
+          plog.map((join, index) => {
+            const row = Math.floor(index / 4);
 
-          let pureLightColor;
-          let textColor;
+            let pureLightColor;
+            let textColor;
 
-          if (row === 1) {
-            const lightness = 85 + (index % 5) * 3;
-            pureLightColor = `hsl(51, 92%, ${lightness}%)`;
-            textColor = "#555";
-          } else {
-            const lightness = Math.min(85, 38 + index * 8);
-            pureLightColor = `hsl(177, 47%, ${lightness}%)`;
-            textColor = "white";
-          }
+            if (row === 1) {
+              const lightness = 85 + (index % 4) * 3;
+              pureLightColor = `hsl(51, 92%, ${lightness}%)`;
+              textColor = "#555";
+            } else {
+              const lightness = Math.min(85, 38 + index * 8);
+              pureLightColor = `hsl(177, 47%, ${lightness}%)`;
+              textColor = "white";
+            }
 
-          return (
-            <JoinCard
-              key={join.joinNo}
-              join={join}
-              $bg={pureLightColor}
-              $textColor={textColor}
-            />
-          );
-        })}
+            return (
+              <JoinCard
+                key={join.joinNo}
+                join={join}
+                $bg={pureLightColor}
+                $textColor={textColor}
+              />
+            );
+          })
+        )}
       </CardGrid>
       <SearchSection>
         <SearchForm onSubmit={handleSearch}>
