@@ -130,11 +130,21 @@ export const Table = styled.table`
 `;
 
 export const StateBadge = styled.span`
-  padding: 5px 14px;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+
+  min-width: 56px;
+  height: 24px;
+
+  padding: 0 8px;
   border-radius: 20px;
+
   color: white;
-  font-size: 12px;
+  font-size: 11px;
   font-weight: 600;
+
+  white-space: nowrap;
 
   cursor: ${({ state }) => (state === "참여" ? "pointer" : "default")};
 
@@ -142,19 +152,14 @@ export const StateBadge = styled.span`
     switch (state) {
       case "ACCEPTED":
         return theme.color.sub;
-
       case "DENIED":
         return theme.color.delete;
-
       case "CANCELED":
         return "#888888";
-
       case "참여":
         return theme.color.main;
-
       case "참여불가":
         return "#d9534f";
-
       default:
         return "#888";
     }
@@ -180,13 +185,31 @@ export const StateBadge2 = styled.span`
   }};
 `;
 export const CancelBtn = styled.button`
-  padding: 5px 14px;
+  width: 50px;
+  height: 26px;
+
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+
   border: none;
   border-radius: 20px;
+
   color: white;
   background-color: ${theme.color.sub};
+
   font-size: 12px;
+  font-weight: 600;
+
   cursor: pointer;
+
+  &:hover {
+    opacity: 0.85;
+  }
+
+  &:active {
+    transform: scale(0.95);
+  }
 `;
 
 export const Select = styled.select`
@@ -378,5 +401,86 @@ export const Tab = styled.button`
 
   &:hover {
     color: ${theme.color.main};
+  }
+`;
+
+export const MoreButton = styled.button`
+  margin-left: 8px;
+  border: none;
+  background: none;
+  color: ${theme.color.main};
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+
+  &:hover {
+    text-decoration: underline;
+  }
+`;
+
+export const ModalBackground = styled.div`
+  position: fixed;
+  inset: 0;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  background: rgba(0, 0, 0, 0.4);
+
+  z-index: 100;
+`;
+
+export const ModalBox = styled.div`
+  width: 420px;
+  max-height: 400px;
+
+  padding: 25px;
+
+  background: white;
+  border-radius: 12px;
+
+  overflow-y: auto;
+
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+
+  h3 {
+    margin-bottom: 20px;
+  }
+
+  p {
+    line-height: 1.6;
+    white-space: pre-wrap;
+    color: #555;
+  }
+`;
+
+export const ModalCloseButton = styled.button`
+  margin-top: 20px;
+
+  width: 100%;
+  height: 36px;
+
+  border: none;
+  border-radius: 8px;
+
+  background: ${theme.color.sub};
+  color: white;
+
+  font-weight: 600;
+
+  cursor: pointer;
+
+  &:hover {
+    opacity: 0.85;
+  }
+`;
+
+export const TitleLink = styled.td`
+  cursor: pointer;
+
+  &:hover {
+    color: ${theme.color.main};
+    text-decoration: underline;
   }
 `;

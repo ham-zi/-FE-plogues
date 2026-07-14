@@ -59,33 +59,31 @@ const MyJoin = () => {
     { value: "PLANT", label: "식목" },
   ];
 
-  const filteredList =
-    selectedCategory === "ALL"
-      ? joinList
-      : joinList.filter((item) => item.category === selectedCategory);
-
-  const getJoinList = async () => {
+  const getJoinList = async (
+    requestPage = page,
+    category = selectedCategory,
+  ) => {
     try {
       const response = await api.get("/users/joins", {
         params: {
-          page: page,
+          page: requestPage,
+          category,
           status: "ALL",
         },
       });
-
       const data = response.data.data;
 
       setJoinList(data.list);
       setPageInfo(data.pageInfo);
       setMyInfo(data.myInfo);
+      setPage(requestPage);
     } catch (error) {
       console.log(error);
     }
   };
-
   useEffect(() => {
-    getJoinList();
-  }, [page]);
+    getJoinList(page, selectedCategory);
+  }, [page, selectedCategory]);
 
   const prevPage = () => {
     if (pageInfo.currentPage > 1) {
@@ -120,8 +118,8 @@ const MyJoin = () => {
 
   const cancelRequest = async (joinRequestNo) => {
     const isConfirmed = await customAlert.confirm(
-    "참여를 취소하시겠습니까?",
-    "취소 후에는 다시 신청해야 합니다."
+      "참여를 취소하시겠습니까?",
+      "취소 후에는 다시 신청해야 합니다.",
     );
 
     if (!isConfirmed) return;
@@ -132,7 +130,8 @@ const MyJoin = () => {
       getJoinList();
     } catch (error) {
       console.log(error);
-      const msg = error.response?.data?.message || "취소 처리 중 오류가 발생했습니다.";
+      const msg =
+        error.response?.data?.message || "취소 처리 중 오류가 발생했습니다.";
       customAlert.error(msg);
     }
   };
@@ -203,7 +202,10 @@ const MyJoin = () => {
             <Tab
               key={item.value}
               $active={selectedCategory === item.value}
-              onClick={() => setSelectedCategory(item.value)}
+              onClick={() => {
+                setSelectedCategory(item.value);
+                setPage(1);
+              }}
             >
               {item.label}
             </Tab>
@@ -224,12 +226,17 @@ const MyJoin = () => {
             </thead>
 
             <tbody>
-              {filteredList.length > 0 ? (
-                filteredList.map((item) => (
+              {joinList.length > 0 ? (
+                joinList.map((item) => (
                   <tr key={item.joinRequestNo}>
                     <td>{item.category}</td>
 
-                    <td>{item.title}</td>
+                    <td
+                      onClick={() => navi(`/joins/${item.joinNo}`)}
+                      style={{ cursor: "pointer" }}
+                    >
+                      {item.title}
+                    </td>
 
                     <td>{getStatusText(item.status)}</td>
 

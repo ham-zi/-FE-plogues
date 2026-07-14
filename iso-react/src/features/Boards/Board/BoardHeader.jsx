@@ -10,9 +10,7 @@ function BoardHeader() {
     <BoardTop>
       <h2>후기게시판</h2>
       {isLogin && (
-        <button onClick={() => navigate("/reviews/write")}>
-          ✏️ 작성하기
-        </button>
+        <button onClick={() => navigate("/reviews/write")}>✏️ 작성하기</button>
       )}
     </BoardTop>
   );

@@ -56,10 +56,11 @@ const MyReview = () => {
       try {
         const response = await api.get("/users/boards");
 
-        const { list, myInfo } = response.data.data;
+        const { list, myInfo, pageInfo } = response.data.data;
 
         setReviewList(list);
         setMyInfo(myInfo);
+        setPageInfo(pageInfo);
       } catch (error) {
         console.log("후기 목록 조회 실패", error);
       }

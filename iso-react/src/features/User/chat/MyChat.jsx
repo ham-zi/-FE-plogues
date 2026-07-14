@@ -227,8 +227,6 @@ function MyChat() {
                       <FiTrash2 onClick={() => handleDelete(item.chatNo)} />
                     </>
                   )}
-
-                  <FiAlertCircle />
                 </>
               )}
             </ActionIcons>

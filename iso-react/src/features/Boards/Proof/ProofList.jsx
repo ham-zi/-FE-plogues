@@ -8,7 +8,6 @@ function ProofList() {
   const [proofs, setProofs] = useState([]);
   const [pageInfo, setPageInfo] = useState({});
   const [page, setPage] = useState(1);
-
   useEffect(() => {
     const handleProofs = async () => {
       try {
@@ -38,7 +37,6 @@ function ProofList() {
 
     handleProofs();
   }, [page]);
-
   return (
     <ProofWrap>
       <ProofHeader pageInfo={pageInfo} setPage={setPage} />
