@@ -34,13 +34,15 @@ const JoinReform = () => {
   const [join, setJoin] = useState({
     category: "",
     content: "",
-    endDate: "",
+    endDate: null,
     participants: "",
     region: "",
-    startDate: "",
+    startDate: null,
     title: "",
   });
   const [file, setFile] = useState(null);
+  const [originFile, setOriginFile] = useState(null);
+
   const formatDateTime = (date) => {
     if (!date) return null;
 
@@ -52,6 +54,22 @@ const JoinReform = () => {
 
     return `${year}-${month}-${day} ${hour}:${minute}`;
   };
+  const startDate = join.startDate
+    ? new Date(join.startDate.replace(" ", "T"))
+    : null;
+
+  const endDate = join.endDate
+    ? new Date(join.endDate.replace(" ", "T"))
+    : null;
+
+  const today = new Date();
+
+  const minTime = new Date();
+  minTime.setHours(0, 0, 0, 0);
+
+  const maxTime = new Date();
+  maxTime.setHours(23, 59, 59, 999);
+
   const onSubmit = async () => {
     if (
       !join.title.trim() ||
@@ -75,7 +93,11 @@ const JoinReform = () => {
     fd.append("endDate", join.endDate);
     fd.append("title", join.title);
     fd.append("content", join.content);
-    if (file) fd.append("file", file);
+    if (file) {
+      fd.append("file", file);
+    } else if (originFile) {
+      fd.append("file", originFile);
+    }
 
     try {
       await api.post("/joins/reform", fd, {
@@ -111,23 +133,38 @@ const JoinReform = () => {
 
     if (selectedFile) {
       setFile(selectedFile);
+      setOriginFile(null);
       setPreview(URL.createObjectURL(selectedFile));
     }
   };
 
   useEffect(() => {
-    api.get(`/joins/${joinNo}`).then((result) => {
+    api.get(`/joins/${joinNo}`).then(async (result) => {
       const data = result.data.data;
+
       if (data) {
         setJoin({
           category: data.category,
           content: data.content,
-          endDate: "",
+          endDate: null,
           participants: data.participants,
           region: data.region,
-          startDate: "",
+          startDate: null,
           title: data.title,
         });
+
+        if (data.files && data.files.length > 0) {
+          const fileInfo = data.files[0];
+
+          const response = await fetch(fileInfo.filePath);
+          const blob = await response.blob();
+
+          const file = new File([blob], fileInfo.originName, {
+            type: blob.type,
+          });
+
+          setOriginFile(file);
+        }
       }
     });
   }, [joinNo]);
@@ -194,27 +231,30 @@ const JoinReform = () => {
             </Label>
             <TimeInputWrapper>
               <DatePicker
-                selected={
-                  join.startDate
-                    ? new Date(join.startDate.replace(" ", "T"))
-                    : null
-                }
+                selected={startDate}
                 onChange={(date) =>
                   setJoin({
                     ...join,
                     startDate: formatDateTime(date),
+                    endDate:
+                      endDate && date && endDate <= date ? "" : join.endDate,
                   })
                 }
                 showTimeSelect
                 timeFormat="HH:mm"
                 timeIntervals={5}
                 dateFormat="yyyy-MM-dd HH:mm"
+                minDate={today}
+                minTime={
+                  startDate && startDate.toDateString() === today.toDateString()
+                    ? today
+                    : minTime
+                }
+                maxTime={maxTime}
               />
               <span style={{ fontWeight: "bold" }}>~</span>
               <DatePicker
-                selected={
-                  join.endDate ? new Date(join.endDate.replace(" ", "T")) : null
-                }
+                selected={endDate}
                 onChange={(date) =>
                   setJoin({
                     ...join,
@@ -225,6 +265,16 @@ const JoinReform = () => {
                 timeFormat="HH:mm"
                 timeIntervals={5}
                 dateFormat="yyyy-MM-dd HH:mm"
+                minDate={startDate || today}
+                minTime={
+                  startDate &&
+                  endDate &&
+                  endDate.toDateString() === startDate.toDateString()
+                    ? startDate
+                    : minTime
+                }
+                maxTime={maxTime}
+                disabled={!startDate}
               />
             </TimeInputWrapper>
           </InputGroup>
