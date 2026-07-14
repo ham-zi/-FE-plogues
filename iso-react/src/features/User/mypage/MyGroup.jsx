@@ -38,10 +38,7 @@ const MyGroup = () => {
     { value: "PLANT", label: "식목" },
   ];
 
-  const filteredList =
-    selectedCategory === "ALL"
-      ? list
-      : list.filter((item) => item.category === selectedCategory);
+  const [page, setPage] = useState(1);
 
   const [pageInfo, setPageInfo] = useState({
     currentPage: 1,
@@ -49,17 +46,34 @@ const MyGroup = () => {
   });
 
   const prevPage = () => {
-    setPageInfo((prev) => ({
-      ...prev,
-      currentPage: prev.currentPage - 1,
-    }));
+    if (page > 1) {
+      setPage(page - 1);
+    }
   };
 
   const nextPage = () => {
-    setPageInfo((prev) => ({
-      ...prev,
-      currentPage: prev.currentPage + 1,
-    }));
+    if (page < pageInfo.maxPage) {
+      setPage(page + 1);
+    }
+  };
+
+  const getGroupList = async () => {
+    try {
+      const response = await api.get("/users/groups", {
+        params: {
+          page,
+          category: selectedCategory,
+        },
+      });
+
+      const { list, myInfo, pageInfo } = response.data.data;
+
+      setList(list);
+      setMyInfo(myInfo);
+      setPageInfo(pageInfo);
+    } catch (error) {
+      console.error("모집 목록 조회 실패", error);
+    }
   };
 
   const categories = [
@@ -86,23 +100,9 @@ const MyGroup = () => {
     return "진행 중";
   };
 
-  const getGroupList = async () => {
-    try {
-      const response = await api.get("/users/groups");
-
-      const { list, myInfo, pageInfo } = response.data.data;
-
-      setList(list);
-      setMyInfo(myInfo);
-      setPageInfo(pageInfo);
-    } catch (error) {
-      console.error("모집 목록 조회 실패", error);
-    }
-  };
-
   useEffect(() => {
     getGroupList();
-  }, []);
+  }, [page, selectedCategory]);
 
   return (
     <Container>
@@ -175,7 +175,10 @@ const MyGroup = () => {
             <Tab
               key={item.value}
               $active={selectedCategory === item.value}
-              onClick={() => setSelectedCategory(item.value)}
+              onClick={() => {
+                setSelectedCategory(item.value);
+                setPage(1);
+              }}
             >
               {item.label}
             </Tab>
@@ -196,15 +199,20 @@ const MyGroup = () => {
             </thead>
 
             <tbody>
-              {filteredList.length > 0 ? (
-                filteredList.map((item) => {
+              {list.length > 0 ? (
+                list.map((item) => {
                   const status = getStatus(item);
 
                   return (
                     <tr key={item.joinNo}>
                       <td>{item.category}</td>
 
-                      <td>{item.title}</td>
+                      <td
+                        onClick={() => navi(`/joins/${item.joinNo}`)}
+                        style={{ cursor: "pointer" }}
+                      >
+                        {item.title}
+                      </td>
 
                       <td>
                         {item.currentCount}/{item.participants}
