@@ -9,6 +9,7 @@ import {
   SearchInput,
   SearchButton,
 } from "./searchForm.styles";
+import { useNavigate } from "react-router-dom";
 
 const PlantList = () => {
   const [plant, setPlant] = useState([]);
@@ -23,7 +24,7 @@ const PlantList = () => {
     endPage: "",
     offset: "",
   });
-
+  const navi = useNavigate();
   const [loading, isLoading] = useState(true);
 
   const [keyword, setKeyword] = useState("");
@@ -55,6 +56,7 @@ const PlantList = () => {
       })
       .catch(() => {
         setPlant([]);
+        navi("/badRequest");
       })
       .finally(() => {
         isLoading(false);
@@ -72,13 +74,13 @@ const PlantList = () => {
 
       <CardGrid>
         {plant.map((join, index) => {
-          const row = Math.floor(index / 5);
+          const row = Math.floor(index / 4);
 
           let pureLightColor;
           let textColor;
 
           if (row === 1) {
-            const lightness = 85 + (index % 5) * 3;
+            const lightness = 85 + (index % 4) * 3;
             pureLightColor = `hsl(51, 92%, ${lightness}%)`;
             textColor = "#555";
           } else {

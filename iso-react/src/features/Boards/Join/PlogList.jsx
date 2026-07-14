@@ -9,6 +9,7 @@ import {
   SearchInput,
   SearchButton,
 } from "./searchForm.styles";
+import { useNavigate } from "react-router-dom";
 
 const PlogList = () => {
   const [plog, setPlog] = useState([]);
@@ -24,6 +25,7 @@ const PlogList = () => {
     offset: "",
   });
   const [loading, isLoading] = useState(true);
+  const navi = useNavigate();
   const [keyword, setKeyword] = useState("");
   const [searchKeyword, setSearchKeyword] = useState("");
   const handleSearch = (e) => {
@@ -53,6 +55,7 @@ const PlogList = () => {
       })
       .catch(() => {
         setPlog([]);
+        navi("/badRequest");
       })
       .finally(() => {
         isLoading(false);
@@ -70,13 +73,13 @@ const PlogList = () => {
 
       <CardGrid>
         {plog.map((join, index) => {
-          const row = Math.floor(index / 5);
+          const row = Math.floor(index / 4);
 
           let pureLightColor;
           let textColor;
 
           if (row === 1) {
-            const lightness = 85 + (index % 5) * 3;
+            const lightness = 85 + (index % 4) * 3;
             pureLightColor = `hsl(51, 92%, ${lightness}%)`;
             textColor = "#555";
           } else {
