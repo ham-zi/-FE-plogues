@@ -86,7 +86,6 @@ function QuestionDetail() {
       fetchDetail(); // 댓글 목록 다시 불러오기
     } catch (err) {
       console.error(err);
-
       customAlert.error("댓글 삭제에 실패했습니다.");
     }
   };

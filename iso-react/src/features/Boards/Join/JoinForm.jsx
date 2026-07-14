@@ -42,7 +42,6 @@ const JoinForm = () => {
     title: "",
   });
   const [file, setFile] = useState(null);
-
   const formatDateTime = (date) => {
     if (!date) return null;
 

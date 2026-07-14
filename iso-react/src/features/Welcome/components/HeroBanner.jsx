@@ -46,13 +46,16 @@ const SlideItem = styled.div`
     )
     scale(${(props) => (props.$offset === 0 ? 1.12 : 0.82)});
 
-  opacity: ${(props) => (Math.abs(props.$offset) >= 2 ? 0 : props.$offset === 0 ? 1 : 0.4)};
+  opacity: ${(props) =>
+    Math.abs(props.$offset) >= 2 ? 0 : props.$offset === 0 ? 1 : 0.4};
 
-  filter: ${(props) => (props.$offset === 0 ? "none" : "blur(2px) brightness(.9)")};
+  filter: ${(props) =>
+    props.$offset === 0 ? "none" : "blur(2px) brightness(.9)"};
 
   z-index: ${(props) => (props.$offset === 0 ? 5 : 1)};
 
-  pointer-events: ${(props) => (Math.abs(props.$offset) >= 2 ? "none" : "auto")};
+  pointer-events: ${(props) =>
+    Math.abs(props.$offset) >= 2 ? "none" : "auto"};
 `;
 
 const SlideImage = styled.img`
@@ -162,8 +165,10 @@ const HeroBanner = () => {
 
   const total = notices.length;
 
-  const prevSlide = () => setIndex((prev) => (prev === 0 ? total - 1 : prev - 1));
-  const nextSlide = () => setIndex((prev) => (prev === total - 1 ? 0 : prev + 1));
+  const prevSlide = () =>
+    setIndex((prev) => (prev === 0 ? total - 1 : prev - 1));
+  const nextSlide = () =>
+    setIndex((prev) => (prev === total - 1 ? 0 : prev + 1));
 
   if (loading) {
     return (
@@ -215,7 +220,11 @@ const HeroBanner = () => {
       </ArrowButton>
       <Dots>
         {notices.map((notice, i) => (
-          <Dot key={notice.noticeNo} $active={i === index} onClick={() => setIndex(i)} />
+          <Dot
+            key={notice.noticeNo}
+            $active={i === index}
+            onClick={() => setIndex(i)}
+          />
         ))}
       </Dots>
     </BannerWrapper>
@@ -223,4 +232,3 @@ const HeroBanner = () => {
 };
 
 export default HeroBanner;
-

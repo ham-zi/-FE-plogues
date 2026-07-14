@@ -24,6 +24,10 @@ import {
   Pagination,
   Tab,
   TabContainer,
+  MoreButton,
+  ModalBackground,
+  ModalBox,
+  ModalCloseButton,
 } from "./styles/MyList.styles";
 
 const MyRequest = () => {
@@ -31,16 +35,19 @@ const MyRequest = () => {
 
   const [requestList, setRequestList] = useState([]);
   const [myInfo, setMyInfo] = useState({});
+  const [expandedId, setExpandedId] = useState(null);
 
   const [pageInfo, setPageInfo] = useState({
     currentPage: 1,
     maxPage: 0,
   });
+  const [page, setPage] = useState(1);
 
   const [isOpen, setIsOpen] = useState(false);
   const [category, setCategory] = useState("참여 요청 내역");
   const [selectedCategory, setSelectedCategory] = useState("ALL");
   const [selectedStatus, setSelectedStatus] = useState("ALL");
+  const [selectedAspiration, setSelectedAspiration] = useState(null);
 
   const categories = [
     {
@@ -76,27 +83,18 @@ const MyRequest = () => {
     },
   ];
 
-  const validStatuses = ["WAITING", "ACCEPTED", "DENIED", "CANCELED"];
-
-  const filteredList = requestList
-    .filter((item) => item.status && validStatuses.includes(item.status))
-    .filter(
-      (item) =>
-        selectedCategory === "ALL" || item.category === selectedCategory,
-    )
-    .filter(
-      (item) => selectedStatus === "ALL" || item.status === selectedStatus,
-    );
-
-  const getRequestList = async () => {
+  const getRequestList = async (
+    requestPage = page,
+    category = selectedCategory,
+  ) => {
     try {
       const response = await api.get("/users/requests", {
         params: {
-          page: 1,
+          page: requestPage,
+          category,
           status: "ALL",
         },
       });
-
       const data = response.data.data;
 
       setRequestList(data.list);
@@ -134,7 +132,7 @@ const MyRequest = () => {
         );
       }
 
-      getRequestList(pageInfo.currentPage);
+      getRequestList(page, selectedCategory);
     } catch (error) {
       console.error("요청 처리 실패:", error);
 
@@ -143,18 +141,18 @@ const MyRequest = () => {
   };
 
   useEffect(() => {
-    getRequestList();
-  }, []);
+    getRequestList(page, selectedCategory);
+  }, [page, selectedCategory]);
 
   const prevPage = () => {
-    if (pageInfo.currentPage > 1) {
-      getRequestList(pageInfo.currentPage - 1);
+    if (page > 1) {
+      setPage(page - 1);
     }
   };
 
   const nextPage = () => {
-    if (pageInfo.currentPage < pageInfo.maxPage) {
-      getRequestList(pageInfo.currentPage + 1);
+    if (page < pageInfo.maxPage) {
+      setPage(page + 1);
     }
   };
 
@@ -230,7 +228,7 @@ const MyRequest = () => {
               $active={selectedCategory === item.value}
               onClick={() => {
                 setSelectedCategory(item.value);
-                getRequestList(1, item.value);
+                setPage(1);
               }}
             >
               {item.label}
@@ -251,17 +249,36 @@ const MyRequest = () => {
             </thead>
 
             <tbody>
-              {filteredList.length > 0 ? (
-                filteredList.map((item) => (
+              {requestList.length > 0 ? (
+                requestList.map((item) => (
                   <tr key={item.joinRequestNo}>
                     <td>{item.category}</td>
 
                     <td>{item.userId}</td>
 
-                    <td>{item.title}</td>
+                    <td
+                      onClick={() => navigate(`/joins/${item.joinNo}`)}
+                      style={{ cursor: "pointer" }}
+                    >
+                      {item.title}
+                    </td>
 
-                    <td className="portfolio-cell">{item.aspiration}</td>
-
+                    <td>
+                      {item.aspiration?.length > 20 ? (
+                        <>
+                          {item.aspiration.substring(0, 20)}...
+                          <MoreButton
+                            onClick={() =>
+                              setSelectedAspiration(item.aspiration)
+                            }
+                          >
+                            더보기
+                          </MoreButton>
+                        </>
+                      ) : (
+                        item.aspiration
+                      )}
+                    </td>
                     <td>
                       {item.status === "WAITING" ? (
                         <ActionButtons>
@@ -293,15 +310,29 @@ const MyRequest = () => {
                 ))
               ) : (
                 <tr>
-                  <td colSpan="4">참여 요청 내역이 없습니다.</td>
+                  <td colSpan="5">참여 요청 내역이 없습니다.</td>
                 </tr>
               )}
             </tbody>
           </Table>
         </TableWrapper>
 
+        {selectedAspiration && (
+          <ModalBackground onClick={() => setSelectedAspiration(null)}>
+            <ModalBox onClick={(e) => e.stopPropagation()}>
+              <h3>참여 포부</h3>
+
+              <p>{selectedAspiration}</p>
+
+              <ModalCloseButton onClick={() => setSelectedAspiration(null)}>
+                닫기
+              </ModalCloseButton>
+            </ModalBox>
+          </ModalBackground>
+        )}
+
         <Pagination>
-          <button onClick={prevPage} disabled={pageInfo.currentPage === 1}>
+          <button onClick={prevPage} disabled={page === 1}>
             &lt;
           </button>
 
@@ -313,10 +344,7 @@ const MyRequest = () => {
 
           <button
             onClick={nextPage}
-            disabled={
-              pageInfo.currentPage === pageInfo.maxPage ||
-              pageInfo.maxPage === 0
-            }
+            disabled={page === pageInfo.maxPage || pageInfo.maxPage === 0}
           >
             &gt;
           </button>
