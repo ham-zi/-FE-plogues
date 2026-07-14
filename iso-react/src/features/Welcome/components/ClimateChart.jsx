@@ -84,7 +84,7 @@ const ClimateChart = () => {
   return (
     <ChartCard>
       <Title>식목지 환경 변화 추이</Title>
-      <Subtitle>현재 기준 8시간 동안의 온도, 습도, 토양습도 변화</Subtitle>
+      <Subtitle>현재 기준 24시간 동안의 온도, 습도, 토양습도 변화</Subtitle>
 
       <ResponsiveContainer width="100%" height={200}>
         <LineChart
