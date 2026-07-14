@@ -64,24 +64,29 @@ const JoinDetail = () => {
   const isEnded = new Date(join.endDate) < new Date();
 
   useEffect(() => {
-    api.get(`/joins/${joinNo}`).then((result) => {
-      const data = result.data.data;
-      setJoin({
-        category: data.category,
-        content: data.content,
-        createDate: data.createDate,
-        currentCount: data.currentCount,
-        endDate: data.endDate,
-        joinNo: data.joinNo,
-        participants: data.participants,
-        region: data.region,
-        startDate: data.startDate,
-        title: data.title,
-        userId: data.userId,
-        userName: data.userName,
+    api
+      .get(`/joins/${joinNo}`)
+      .then((result) => {
+        const data = result.data.data;
+        setJoin({
+          category: data.category,
+          content: data.content,
+          createDate: data.createDate,
+          currentCount: data.currentCount,
+          endDate: data.endDate,
+          joinNo: data.joinNo,
+          participants: data.participants,
+          region: data.region,
+          startDate: data.startDate,
+          title: data.title,
+          userId: data.userId,
+          userName: data.userName,
+        });
+        setFiles(data.files);
+      })
+      .catch(() => {
+        navi("/badRequest");
       });
-      setFiles(data.files);
-    });
   }, []);
 
   const safeParticipants = join.currentCount;
