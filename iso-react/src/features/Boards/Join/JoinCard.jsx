@@ -62,7 +62,11 @@ const JoinCard = ({ join, $bg, $textColor }) => {
 
   return (
     <Card $bg={$bg} onClick={() => navi(`/joins/${join.joinNo}`)}>
-      <Badge>{safeParticipants === safeMax ? "모집완료" : "모집중"}</Badge>
+      <Badge>
+        {safeParticipants === safeMax || new Date(join.endDate) < new Date()
+          ? "모집완료"
+          : "모집중"}
+      </Badge>
 
       <CardTitle>{join.title}</CardTitle>
       <LeaderText $textColor={$textColor}>모임장 : {join.userId}</LeaderText>
