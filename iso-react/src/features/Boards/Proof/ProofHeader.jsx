@@ -39,12 +39,12 @@ const ProofHeader = ({ pageInfo, setPage, loading }) => {
       <TitleSection>
         <Title>인증게시판</Title>
 
-        {/* isLogin && (
+        {isLogin && (
           <WriteButton onClick={() => navigate("/proofs/write")}>
             <PencilIcon />
             작성하기
           </WriteButton>
-        )*/}
+        )}
       </TitleSection>
 
       <PageInfo>
