@@ -110,28 +110,43 @@ function BoardForm() {
     }
 
     try {
-  if (isEdit) {
-    await api.patch(`/boards/${boardNo}`, formData, {
-      headers: { "Content-Type": "multipart/form-data" },
-    });
+      if (isEdit) {
+        await api.patch(`/boards/${boardNo}`, formData, {
+          headers: { "Content-Type": "multipart/form-data" },
+        });
 
-    customAlert.success("게시글이 수정되었습니다.");
-    navigate(`/reviews/${boardNo}`);
-  } else {
-    await api.post("/boards", formData, {
-      headers: { "Content-Type": "multipart/form-data" },
-    });
+        customAlert.success("게시글이 수정되었습니다.");
+        navigate(`/reviews/${boardNo}`);
+      } else {
+        await api.post("/boards", formData, {
+          headers: { "Content-Type": "multipart/form-data" },
+        });
 
-    customAlert.success("게시글이 등록되었습니다.");
-    navigate("/reviews");
-  }
-} catch (err) {
-  console.error(err);
-  const message =
-    err.response?.data?.message ||
-    (isEdit ? "게시글 수정에 실패했습니다." : "게시글 등록에 실패했습니다.");
-  customAlert.error(message);
-}
+        customAlert.success("게시글이 등록되었습니다.");
+        navigate("/reviews");
+      }
+    } catch (err) {
+      console.error(err);
+      const message =
+        err.response?.data?.message ||
+        (isEdit
+          ? "게시글 수정에 실패했습니다."
+          : "게시글 등록에 실패했습니다.");
+      customAlert.error(message);
+    }
+  };
+
+  const recommend = () => {
+    api
+      .post("/ai/title", content)
+      .then((res) => {
+        console.log(res);
+        // setTitle(res.data.data);
+      })
+      .catch((err) => {
+        console.error(err);
+        customAlert.error("제목 추천에 실패했습니다.");
+      });
   };
 
   return (
@@ -144,6 +159,9 @@ function BoardForm() {
         <label>
           제목<span className="required">*</span>
         </label>
+        <button type="button" className="reset-btn" onClick={recommend}>
+          제목 추천받기
+        </button>
         <input
           type="text"
           value={title}
