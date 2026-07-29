@@ -1,11 +1,7 @@
 import axios from "axios";
 import { data } from "react-router-dom";
 
-<<<<<<< Updated upstream
-const BASE_URL = `http://54.180.107.6:7777/api`;
-=======
 const BASE_URL = "http://15.165.160.196:8008/api";
->>>>>>> Stashed changes
 
 const api = axios.create({
   baseURL: BASE_URL,
