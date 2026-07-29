@@ -36,6 +36,7 @@ import JoinForm from "./features/Boards/Join/JoinForm";
 import JoinReform from "./features/Boards/Join/JoinReform";
 import MyRequest from "./features/User/mypage/MyRequest";
 import BadRequest from "./features/Commons/BadRequest";
+import Admin from "./features/Admin/Admin";
 import MailSender from "./features/Mail/MailSender";
 
 const AppLayout = styled.div`
@@ -97,6 +98,7 @@ function App() {
             <Route path="/proofs/:proofNo" element={<ProofDetail />} />
             <Route path="/badRequest" element={<BadRequest />} />
             <Route path="/*" element={<BadRequest />} />
+            <Route path="/admin" element={<Admin />} />
             <Route path="/mail" element={<MailSender />} />
           </Routes>
         </Main>

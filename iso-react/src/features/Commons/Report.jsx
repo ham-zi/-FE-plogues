@@ -48,6 +48,7 @@ const Report = () => {
       isLoading(false);
       customAlert.success("게시글이 신고되었습니다.");
     } catch (err) {
+      console.log(err.response?.data);
       if (err.response?.data.code === 409) {
         customAlert.error("이미 신고한 게시글입니다.");
       }

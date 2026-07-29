@@ -43,9 +43,16 @@ function ProofList() {
 
       <ProofBox>
         <ProofGrid>
-          {proofs.map((proof) => (
-            <ProofCard key={proof.proofNo} proof={proof} />
-          ))}
+          {proofs.map((proof) => {
+            console.log(
+              "proofNo:",
+              proof.proofNo,
+              "boardProfile:",
+              proof.boardProfile,
+            );
+
+            return <ProofCard key={proof.proofNo} proof={proof} />;
+          })}
         </ProofGrid>
       </ProofBox>
     </ProofWrap>

@@ -26,7 +26,6 @@ function NoticeDetail() {
   const myUserId = localStorage.getItem("userId");
 
   useEffect(() => {
-    console.log("isAdmin:", isAdmin);
     const fetchDetail = async () => {
       try {
         const res = await api.get(`/notices/${noticeNo}`);
@@ -56,18 +55,18 @@ function NoticeDetail() {
 
       <DetailContent>{notice.content}</DetailContent>
 
-{notice.fileList && notice.fileList.length > 0 && (
-  <ImageGrid $count={notice.fileList.length}>
-    {notice.fileList.map((file) => (
-      <DetailImage
-        key={file.fileNo}
-        $count={notice.fileList.length}
-        src={`${file.filePath}${file.changeName}`}
-        alt={file.originName}
-      />
-    ))}
-  </ImageGrid>
-)}
+      {notice.fileList && notice.fileList.length > 0 && (
+        <ImageGrid $count={notice.fileList.length}>
+          {notice.fileList.map((file) => (
+            <DetailImage
+              key={file.fileNo}
+              $count={notice.fileList.length}
+              src={`${file.filePath}${file.changeName}`}
+              alt={file.originName}
+            />
+          ))}
+        </ImageGrid>
+      )}
 
       <DetailButtons>
         <button onClick={() => navigate("/notices")}>목록</button>
