@@ -37,7 +37,6 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useContext, useEffect, useState } from "react";
 import { useAuth } from "../../../context/AuthContext";
 import RequestModal from "./RequestModal";
-import { customAlert } from "../../Commons/Alert";
 
 const JoinDetail = () => {
   const { joinNo } = useParams();
@@ -61,32 +60,26 @@ const JoinDetail = () => {
   const [isOpen, setIsOpen] = useState(false);
   const isOver3Days =
     new Date(join.endDate) <= new Date(Date.now() - 3 * 24 * 60 * 60 * 1000);
-  const isEnded = new Date(join.endDate) < new Date();
 
   useEffect(() => {
-    api
-      .get(`/joins/${joinNo}`)
-      .then((result) => {
-        const data = result.data.data;
-        setJoin({
-          category: data.category,
-          content: data.content,
-          createDate: data.createDate,
-          currentCount: data.currentCount,
-          endDate: data.endDate,
-          joinNo: data.joinNo,
-          participants: data.participants,
-          region: data.region,
-          startDate: data.startDate,
-          title: data.title,
-          userId: data.userId,
-          userName: data.userName,
-        });
-        setFiles(data.files);
-      })
-      .catch(() => {
-        navi("/badRequest");
+    api.get(`/joins/${joinNo}`).then((result) => {
+      const data = result.data.data;
+      setJoin({
+        category: data.category,
+        content: data.content,
+        createDate: data.createDate,
+        currentCount: data.currentCount,
+        endDate: data.endDate,
+        joinNo: data.joinNo,
+        participants: data.participants,
+        region: data.region,
+        startDate: data.startDate,
+        title: data.title,
+        userId: data.userId,
+        userName: data.userName,
       });
+      setFiles(data.files);
+    });
   }, []);
 
   const safeParticipants = join.currentCount;
@@ -110,19 +103,13 @@ const JoinDetail = () => {
   const handleDelete = async () => {
     try {
       await api.delete(`/joins/${joinNo}`);
-      customAlert.success("삭제 성공");
       if (join.category === "PLOG") {
         navi("/joins/plogging");
       } else {
         navi("/joins/plant");
       }
     } catch (err) {
-      customAlert.error("잠시후에 다시 시도해주세요");
-      if (join.category === "PLOG") {
-        navi("/joins/plogging");
-      } else {
-        navi("/joins/plant");
-      }
+      customAlert.error("삭제 실패");
     }
   };
 
@@ -138,12 +125,7 @@ const JoinDetail = () => {
   };
 
   const handleProof = () => {
-    const proof = {
-      joinNo: join.joinNo,
-      category: join.category,
-      title: join.title,
-    };
-    navi("/proofs/write", { state: proof });
+    navi("/proofs/write", { state: join.category });
   };
 
   return (
@@ -240,9 +222,9 @@ const JoinDetail = () => {
                 재모집하기
               </JoinButton>
             ) : (
-              <JoinButton onClick={handleProof}>인증하기</JoinButton>
+              <JoinButton>인증하기</JoinButton>
             )
-          ) : progressPercent === "100%" ? null : isEnded ? null : (
+          ) : progressPercent === "100%" ? null : (
             <JoinButton
               onClick={() => {
                 setIsOpen(true);

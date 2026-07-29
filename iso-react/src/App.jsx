@@ -36,6 +36,7 @@ import JoinForm from "./features/Boards/Join/JoinForm";
 import JoinReform from "./features/Boards/Join/JoinReform";
 import MyRequest from "./features/User/mypage/MyRequest";
 import BadRequest from "./features/Commons/BadRequest";
+import Admin from "./features/Admin/Admin";
 
 const AppLayout = styled.div`
   display: flex;
@@ -96,6 +97,7 @@ function App() {
             <Route path="/proofs/:proofNo" element={<ProofDetail />} />
             <Route path="/badRequest" element={<BadRequest />} />
             <Route path="/*" element={<BadRequest />} />
+            <Route path="/admin" element={<Admin />} />
           </Routes>
         </Main>
         <Footer />
