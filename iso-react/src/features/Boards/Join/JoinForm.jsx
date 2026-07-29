@@ -130,7 +130,13 @@ const JoinForm = () => {
         }
       }
     } catch (err) {
-      customAlert.error("잠시후에 다시 시도해주세요");
+      console.log(err);
+      const message =
+        err.response?.data?.message ||
+        (isEdit
+          ? "게시글 수정에 실패했습니다."
+          : "게시글 등록에 실패했습니다.");
+      customAlert.error(message);
       if (join.category === "PLOG") {
         navi("/joins/plogging");
       } else {
@@ -270,7 +276,7 @@ const JoinForm = () => {
                 }
                 showTimeSelect
                 timeFormat="HH:mm"
-                timeIntervals={5}
+                timeIntervals={1}
                 dateFormat="yyyy-MM-dd HH:mm"
                 minDate={today}
                 minTime={
@@ -291,7 +297,7 @@ const JoinForm = () => {
                 }
                 showTimeSelect
                 timeFormat="HH:mm"
-                timeIntervals={5}
+                timeIntervals={1}
                 dateFormat="yyyy-MM-dd HH:mm"
                 minDate={startDate || today}
                 minTime={

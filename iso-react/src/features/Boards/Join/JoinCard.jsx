@@ -13,7 +13,7 @@ import {
   Avatar,
   MoreAvatar,
 } from "./Join.styles";
-import defaultProfile from "../../User/image/default.jpg";
+import defaultProfile from "../../../assets/iso_20260707110842681476.jpg";
 import { useNavigate } from "react-router-dom";
 
 const JoinCard = ({ join, $bg, $textColor }) => {
