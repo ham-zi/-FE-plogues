@@ -44,6 +44,7 @@ const Report = () => {
 
     isLoading(true);
     try {
+      console.log("이거 진짜 에요?");
       const res = await api.post("/report", reportInfo);
       isLoading(false);
       customAlert.success("게시글이 신고되었습니다.");
