@@ -3,7 +3,7 @@
 export const theme = {
   color: {
     main: "#34908B", // 포인트(메인) 컬러
-    background: "#615a30",
+    background: "#fffdf2",
     sub: "#6FBEB2", // 포인트 2
     point: "#A5E9DD",
     logo: "#4B7E41",
